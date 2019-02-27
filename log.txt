@@ -1,14 +1,15 @@
-commit 61eb2ccfee53ff5a2bec3e9b1a048bf8e56ce4a1
-Author: Nathan <nlambert@mymail.mines.edu>
-Date:   Tue Feb 26 15:29:37 2019 -0700
+commit 3babd894e377c7dbc000bab34c4c61c91d0803c6
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 12:45:28 2019 -0700
 
-    Added BoardCell class to experiment package
+    Created skeleton JUnit testing class called 'IntBoardTests'
 
-commit eb95c01cd344a270ddecdb2b34e963795e458964
-Author: Nathan <nlambert@mymail.mines.edu>
-Date:   Tue Feb 26 15:23:08 2019 -0700
+commit 274d12b3a362fe7563cce6202ba1a89d24087823
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 12:28:41 2019 -0700
 
-    Added .gitignore and source folder
+    Created skeleton functions within class IntBoard
+
 commit 7f558e89bb314d097cc614c7705aaab6c41e0ad8
 Author: Elliott McCabe <mccabe@mines.edu>
 Date:   Wed Feb 27 12:07:28 2019 -0700
