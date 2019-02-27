@@ -21,8 +21,8 @@ public class IntBoardTests {
 	public void testAdjacency0() {
 		BoardCell cell = board.getCell(0,0);
 		Set<BoardCell> testList = board.getAdjList(cell);
-		assertTrue(testList.contains.baord.getCell(1,0));
-		assertTrue(testList.contains.baord.getCell(0,1));
+		assertTrue(testList.contains.board.getCell(1,0));
+		assertTrue(testList.contains.board.getCell(0,1));
 		assertEquals(2, testList.size());
 	}
 	//testing adjacent cells of bottom right cell are calculated correctly
@@ -30,8 +30,8 @@ public class IntBoardTests {
 	public void testAdjacency1() {
 		BoardCell cell = board.getCell(3,3);
 		Set<BoardCell> testList = board.getAdjList(cell);
-		assertTrue(testList.contains.baord.getCell(3,2));
-		assertTrue(testList.contains.baord.getCell(2,3));
+		assertTrue(testList.contains.board.getCell(3,2));
+		assertTrue(testList.contains.board.getCell(2,3));
 		assertEquals(2, testList.size());
 	}
 	//testing adjacent cells of cell (1,1) are calculated correctly
@@ -39,10 +39,10 @@ public class IntBoardTests {
 	public void testAdjacency2() {
 		BoardCell cell = board.getCell(1,1);
 		Set<BoardCell> testList = board.getAdjList(cell);
-		assertTrue(testList.contains.baord.getCell(0,1));
-		assertTrue(testList.contains.baord.getCell(1,0));
-		assertTrue(testList.contains.baord.getCell(1,2));
-		assertTrue(testList.contains.baord.getCell(2,1));
+		assertTrue(testList.contains.board.getCell(0,1));
+		assertTrue(testList.contains.board.getCell(1,0));
+		assertTrue(testList.contains.board.getCell(1,2));
+		assertTrue(testList.contains.board.getCell(2,1));
 		assertEquals(4, testList.size());
 	}
 	//testing the list is the correct size and has exactly the right elements.

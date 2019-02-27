@@ -1,3 +1,9 @@
+commit eab0c9dba54a514641138598c5b22bd4457bd4a0
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 13:01:09 2019 -0700
+
+    Created 4 total tests so far, 3 are Adjacency tests, 1 is Targets test
+
 commit 3babd894e377c7dbc000bab34c4c61c91d0803c6
 Author: Elliott McCabe <mccabe@mines.edu>
 Date:   Wed Feb 27 12:45:28 2019 -0700
