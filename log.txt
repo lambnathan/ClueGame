@@ -1,3 +1,21 @@
+commit 154eff34ad5e1de9fdcd820250acea6b438702b7
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 14:26:16 2019 -0700
+
+    created failing tests
+
+commit 4a96425ad3a33a1d62b49b0046c584ad5925835f
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 14:05:36 2019 -0700
+
+    Created recursive method findAllTargets
+
+commit b6108ac7c435793b9cdfa555c242d8d6e20fa880
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 13:48:00 2019 -0700
+
+    Filled out the calcAdjacencies method
+
 commit eab0c9dba54a514641138598c5b22bd4457bd4a0
 Author: Elliott McCabe <mccabe@mines.edu>
 Date:   Wed Feb 27 13:01:09 2019 -0700

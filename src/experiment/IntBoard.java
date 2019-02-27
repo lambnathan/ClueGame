@@ -65,7 +65,7 @@ public class IntBoard {
 					adjList.add(grid[i + 1][j]);
 				}
 				//bottom wall
-				else if (i == 0) {
+				else if (i == 3) {
 					adjList.add(grid[i][j + 1]);
 					adjList.add(grid[i][j - 1]);
 					adjList.add(grid[i - 1][j]);
@@ -103,6 +103,7 @@ public class IntBoard {
 		visited.clear();
 		targets.clear();
 		visited.add(startCell);
+		findAllTargets(startCell, pathLength);
 		
 	}
 	public void findAllTargets(BoardCell startCell, int pathLength) {
