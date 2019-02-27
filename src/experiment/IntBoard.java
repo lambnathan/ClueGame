@@ -3,13 +3,11 @@ package experiment;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class IntBoard {
-	private Map<BoardCell, HashSet<BoardCell>> adjmtx;
-	private Set<BoardCell> visited;
-	private Set<BoardCell> targets;
+	private HashMap<BoardCell, HashSet<BoardCell>> adjmtx;
+	private HashSet<BoardCell> visited;
+	private HashSet<BoardCell> targets;
 	private BoardCell[][] grid;
 	//constants for 4x4 grid
 	private final int TOTAL_COL = 4;
@@ -96,7 +94,7 @@ public class IntBoard {
 		}
 	}
 	//return set of all adjacent cells
-	public Set<BoardCell> getAdjList(BoardCell current) {
+	public HashSet<BoardCell> getAdjList(BoardCell current) {
 		return adjmtx.get(current);
 	}
 	//calculates targets that are pathLength distance from startCell, stored in a set.
@@ -127,7 +125,11 @@ public class IntBoard {
 		}
 	}
 	//returns list of targets as a set
-	public Set<BoardCell> getTargets() {
+	public HashSet<BoardCell> getTargets() {
 		return targets;
+	}
+	
+	public BoardCell getCell(int x, int y) {
+		return grid[x][y];
 	}
 }
