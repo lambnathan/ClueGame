@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class IntBoard {
-	private Map<BoardCell, Set<BoardCell>> adjmtx;
+	private Map<BoardCell, HashSet<BoardCell>> adjmtx;
 	private Set<BoardCell> visited;
 	private Set<BoardCell> targets;
 	private BoardCell[][] grid;
@@ -19,7 +19,7 @@ public class IntBoard {
 	public IntBoard() {
 		super();
 		//Declaring various maps and sets
-		adjmtx = new HashMap<BoardCell, Set<BoardCell>>();
+		adjmtx = new HashMap<BoardCell, HashSet<BoardCell>>();
 		visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
 		grid = new BoardCell[TOTAL_ROW][TOTAL_COL];
@@ -91,16 +91,40 @@ public class IntBoard {
 					adjList.add(grid[i][j - 1]);
 					adjList.add(grid[i][j + 1]);
 				}
+				adjmtx.put(grid[i][j], adjList);
 			}
 		}
 	}
 	//return set of all adjacent cells
-	public Map<BoardCell, Set<BoardCell>> getAdjList() {
-		return adjmtx;
+	public Set<BoardCell> getAdjList(BoardCell current) {
+		return adjmtx.get(current);
 	}
 	//calculates targets that are pathLength distance from startCell, stored in a set.
 	public void calcTargets(BoardCell startCell, int pathLength) {
+		//clear each list
+		visited.clear();
+		targets.clear();
+		visited.add(startCell);
 		
+	}
+	public void findAllTargets(BoardCell startCell, int pathLength) {
+		HashSet<BoardCell> adj = new HashSet<BoardCell>();
+		adj = adjmtx.get(startCell);
+		for (BoardCell bd : adj) {
+			//if already in visited list, skip
+			if(visited.contains(bd)) {
+				continue;
+			}
+			visited.add(bd);
+			//if player rolls a 1, adjacent squares are targets.
+			if(pathLength == 1) {
+				targets.add(bd);
+			}
+			else {
+				findAllTargets(bd, pathLength - 1);
+			}
+			visited.remove(bd);
+		}
 	}
 	//returns list of targets as a set
 	public Set<BoardCell> getTargets() {
