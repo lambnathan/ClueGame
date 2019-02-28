@@ -1,3 +1,9 @@
+commit 3d6eca24dcd1390acc69350b7bed7641fc0813fd
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 14:33:49 2019 -0700
+
+    created passing tests and fixed missing method call in calcTargets
+
 commit 154eff34ad5e1de9fdcd820250acea6b438702b7
 Author: Elliott McCabe <mccabe@mines.edu>
 Date:   Wed Feb 27 14:26:16 2019 -0700
