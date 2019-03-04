@@ -61,7 +61,9 @@ public class Board {
 		}
 	}
 	
+	//loads the playing board and gets the size
 	public void loadBoardConfig() {
+		//tries to open the file
 		FileReader reader = null;
 		Scanner in = null;
 		try {
@@ -74,26 +76,46 @@ public class Board {
 		int row = 0;
 		while (in.hasNext()) {
 			String line = in.nextLine();
+			//if the first char is a digit, break (catches the very last line of the boar file)
 			if(Character.isDigit(line.charAt(0))) {
 				break;
 			}
+			//splits all of the strings seperated by a common and puts in an array
 			String[] cells = line.split(",");
+			//go over length of array - 1 (don't want last char, which is a number)
 			for(int i = 0; i < cells.length - 1; i++) {
 				String cell = cells[i];
-				if(cell.length() > 1) {
-					/*
-					 * it has to be a char, so set the symbol to cell[0],
-					 * then check if the length of the cell > 1. If it is,
-					 * it has a door, so do the appropriate things
-					 */
-				}
 				char symbol = cell.charAt(0);
-				BoardCell c = new BoardCell(row, i);
-				c.setInitial(symbol);
+				BoardCell c = null;
+				if(cell.length() > 1) { //if the cell is a string of length > 1, it is a door
+					switch(symbol) {
+						case 'U':
+							c = new BoardCell(row, i, symbol, DoorDirection.UP);
+							break;
+						case 'D':
+							c = new BoardCell(row, i, symbol, DoorDirection.DOWN);
+							break;
+						case 'R':
+							c = new BoardCell(row, i, symbol, DoorDirection.RIGHT);
+							break;
+						case 'L':
+							c = new BoardCell(row, i, symbol, DoorDirection.LEFT);
+							break;
+						case 'N':
+							c = new BoardCell(row, i, symbol, DoorDirection.NONE);
+							break;
+					}
+					
+				}
+				else {
+					c = new BoardCell(row, i, symbol, DoorDirection.NONE);
+				}
+				//put the BoardCell in the gameboard array
 				board[row][i] = c;
 			}
 			row += 1;
 		}
+		//set rows and columns after complete
 		numRows = row;
 		numColumns = board[0].length;
 	}
