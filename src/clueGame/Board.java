@@ -19,13 +19,18 @@ public class Board {
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
+	
 	// constructor is private to ensure only one can be created
-	private Board() {}
+	private Board() {
+		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
+	}
+	
 	// this method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
 	}
 	
+	//loads the room config file and the board config file
 	public void initialize() {
 		loadRoomConfig();
 		loadBoardConfig();
@@ -66,25 +71,30 @@ public class Board {
 			System.out.println("Not a valid file.");
 		}
 		
-		int rows = 0;
+		int row = 0;
 		while (in.hasNext()) {
-			String line = "";
-			line = in.nextLine();
-			for(int i = 0; i < line.length(); i ++) {
-				if(Character.isDigit(line.charAt(i))) {
-					break;
-				}
-				if(line.charAt(i) == ',') {
-					continue;
-				}
-				else {
-					BoardCell cell = new BoardCell(rows, i);
-					board[rows][i] = cell;
-				}
+			String line = in.nextLine();
+			if(Character.isDigit(line.charAt(0))) {
+				break;
 			}
-			rows++;
+			String[] cells = line.split(",");
+			for(int i = 0; i < cells.length - 1; i++) {
+				String cell = cells[i];
+				if(cell.length() > 1) {
+					/*
+					 * it has to be a char, so set the symbol to cell[0],
+					 * then check if the length of the cell > 1. If it is,
+					 * it has a door, so do the appropriate things
+					 */
+				}
+				char symbol = cell.charAt(0);
+				BoardCell c = new BoardCell(row, i);
+				c.setInitial(symbol);
+				board[row][i] = c;
+			}
+			row += 1;
 		}
-		numRows = board.length;
+		numRows = row;
 		numColumns = board[0].length;
 	}
 	
@@ -120,5 +130,4 @@ public class Board {
 		return board[row][column];
 	}
 	
-	public 
 }

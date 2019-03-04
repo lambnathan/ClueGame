@@ -12,6 +12,10 @@ public class BoardCell {
 		this.column = column;
 	}
 	
+	public void setInitial(char c) {
+		initial = c;
+	}
+	
 	public boolean isWalkway() {
 		return true;
 	}
