@@ -6,6 +6,7 @@ public class BoardCell {
 	private int column;
 	private char initial;
 	private DoorDirection doorDirection;
+	private boolean isDoor;
 	
 	public static final char WALKWAY_INITIAL = 'W';
 	
@@ -35,11 +36,24 @@ public class BoardCell {
 		}
 	}
 	
+	public void setDoorwayBool(boolean doorway) {
+		if(doorway) {
+			isDoor = true;
+		}
+		else {
+			isDoor = false;
+		}
+	}
+	
 	public boolean isDoorway() {
-		if(this.initial == WALKWAY_INITIAL && this.)
+		return isDoor;
 	}
 	
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
+	}
+	
+	public char getInitial() {
+		return initial;
 	}
 }

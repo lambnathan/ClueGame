@@ -1,0 +1,11 @@
+C, Conservatory, Card
+K, Kitchen, Card
+B, Ballroom, Card
+L, Library, Card
+A, Arcade room, Card
+G, Gun room, Card
+T, Trophy room, Card
+P, Pantry, Card
+S, Sauna, Card
+X, Closet, Other
+W, Walkway, Other
