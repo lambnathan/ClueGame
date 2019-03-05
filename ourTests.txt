@@ -1,3 +1,5 @@
+All config files and the spreadsheet are in the 'data' folder
+
 To make checking the legend's symbols fail in testRooms(), we checked a room against another room's symbol.
 This should only be correct if we assign symbols wrong when reading the BoardRooms file.
 

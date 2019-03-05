@@ -1,3 +1,5 @@
+//Authors: Nathan Lambert and Elliott McCabe
+
 package clueGame;
 
 public enum DoorDirection {

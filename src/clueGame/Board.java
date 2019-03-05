@@ -1,9 +1,12 @@
+//Authors: Nathan Lambert and Elliott McCabe
+
 package clueGame;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -62,8 +65,8 @@ public class Board {
 			Character symbol = null;
 			String room = "";
 			String line = in.nextLine();
-			if(line.length() < 4) {
-				throw new BadConfigFormatException("Invalid legend, you need a symbol with a room.");
+			if(!line.contains("Card") || !line.contains("Other")) {
+				throw new BadConfigFormatException("Invalid legend, needs to be either \"Card\" or \"Other\".");
 			}
 			//symbol of room
 			symbol = new Character(line.charAt(0));
@@ -92,15 +95,17 @@ public class Board {
 		
 		int row = 0;
 		String[] cells = null;
+		ArrayList<Integer> columnNums = new ArrayList<Integer>();
 		while (in.hasNext()) {
 			String line = in.nextLine();
 			//splits all of the strings seperated by a common and puts in an array
 			cells = line.split(",");
+			columnNums.add(cells.length);
 			//go over length of array)
 			for(int i = 0; i < cells.length; i++) {
 				String cell = cells[i];
 				//blank cell
-				if(cell == "") {
+				if(cell.length() == 0) {
 					throw new BadConfigFormatException("There is a blank cell");
 				}
 				char symbol = cell.charAt(0);
@@ -114,23 +119,27 @@ public class Board {
 					switch(doorSymbol) {
 						case 'U':
 							c = new BoardCell(row, i, symbol, DoorDirection.UP);
+							c.setDoorwayBool(true);
 							break;
 						case 'D':
 							c = new BoardCell(row, i, symbol, DoorDirection.DOWN);
+							c.setDoorwayBool(true);
 							break;
 						case 'R':
 							c = new BoardCell(row, i, symbol, DoorDirection.RIGHT);
+							c.setDoorwayBool(true);
 							break;
 						case 'L':
 							c = new BoardCell(row, i, symbol, DoorDirection.LEFT);
+							c.setDoorwayBool(true);
 							break;
 						case 'N':
 							c = new BoardCell(row, i, symbol, DoorDirection.NONE);
+							c.setDoorwayBool(false);
 							break;
 						default:
 							throw new BadConfigFormatException("Invalid direction for entering a room");
 					}
-					c.setDoorwayBool(true);
 					
 				}
 				else if (cell.length() > 2){
@@ -146,6 +155,13 @@ public class Board {
 			row += 1;
 		}
 		//set rows and columns after complete
+		for(int i = 0; i < columnNums.size(); i++) {
+			for(int j = i + 1; j < columnNums.size(); j++) {
+				if(columnNums.get(i) != columnNums.get(j)) {
+					throw new BadConfigFormatException("The number of columns for each row do not match.");
+				}
+			}
+		}
 		numRows = row;
 		numColumns = cells.length;
 	}
