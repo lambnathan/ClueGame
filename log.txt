@@ -1,1 +1,1 @@
-Invalid legend, needs to be either "Card" or "Other".
+The cell symbol does not exist in the legend.
