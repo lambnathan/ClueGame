@@ -166,9 +166,6 @@ public class Board {
 		}
 		numRows = row;
 		numColumns = cells.length;
-		System.out.println("rows:" +  numRows);
-		System.out.println("columns:" +  numColumns);
-
 	}
 		
 	public void setConfigFiles(String boardConfig, String legendConfig) {
@@ -193,22 +190,22 @@ public class Board {
 	}
 	
 	public void calcAdjacencies() {
-		for( int i = 0; i < numRows - 1; i++) {
-			for(int j = 0; j <numColumns - 1; j++) {
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j <numColumns; j++) {
 				HashSet<BoardCell> adjList = new HashSet<BoardCell>();
 				BoardCell current = getCellAt(i,j);
 				if(current.isDoorway()) {
 					if(current.getDoorDirection() == DoorDirection.DOWN) {
-						adjList.add(board[i+1][j]);
+						adjList.add(getCellAt(i+1,j));
 					}
 					else if(current.getDoorDirection() == DoorDirection.RIGHT) {
-						adjList.add(board[i][j + 1]);
+						adjList.add(getCellAt(i,j + 1));
 					}
 					else if(current.getDoorDirection() == DoorDirection.LEFT) {
-						adjList.add(board[i][j - 1]);
+						adjList.add(getCellAt(i,j - 1));
 					}
 					else if(current.getDoorDirection() == DoorDirection.UP) {
-						adjList.add(board[i-1][j]);
+						adjList.add(getCellAt(i-1,j));
 					}					
 				}
 				
@@ -219,114 +216,114 @@ public class Board {
 				else if(current.isWalkway()) {
 					//(Top Left Corner) case
 					if(i == 0 && j == 0) {
-						if(board[i][j+1].isDoorway() || board[i][j+1].isWalkway()) {
-							adjList.add(board[i][j+1]);
+						if(getCellAt(i,j+1).isDoorway() || getCellAt(i,j+1).isWalkway()) {
+							adjList.add(getCellAt(i,j+1));
 						}
-						if(board[i+1][j].isDoorway() || board[i+1][j].isWalkway()) {
-							adjList.add(board[i+1][j]);
+						if(getCellAt(i+1,j).isDoorway() || getCellAt(i+1,j).isWalkway()) {
+							adjList.add(getCellAt(i+1,j));
 						}						
 					}
 					//(lower Right corner) case
 					else if(i == numRows - 1 && j == numColumns - 1) {
-						if(board[i][j - 1].isDoorway() || board[i][j - 1].isWalkway()) {
-							adjList.add(board[i][j - 1]);
+						if(getCellAt(i,j - 1).isDoorway() || getCellAt(i,j - 1).isWalkway()) {
+							adjList.add(getCellAt(i,j - 1));
 						}
-						if(board[i - 1][j].isDoorway() || board[i - 1][j].isWalkway()) {
-							adjList.add(board[i - 1][j]);
+						if(getCellAt(i - 1,j).isDoorway() || getCellAt(i - 1,j).isWalkway()) {
+							adjList.add(getCellAt(i - 1,j));
 						}						
 					}
 					//(Top right corner) case
 					else if(i == 0 && j == numColumns - 1) {
-						if(board[i][j - 1].isDoorway() || board[i][j - 1].isWalkway()) {
-							adjList.add(board[i][j - 1]);
+						if(getCellAt(i,j - 1).isDoorway() || getCellAt(i,j - 1).isWalkway()) {
+							adjList.add(getCellAt(i,j - 1));
 						}
-						if(board[i + 1][j].isDoorway() || board[i + 1][j].isWalkway()) {
-							adjList.add(board[i + 1][j]);
+						if(getCellAt(i + 1,j).isDoorway() || getCellAt(i + 1,j).isWalkway()) {
+							adjList.add(getCellAt(i + 1,j));
 						}
 					}
 					//(Bottom Left) case
 					else if(i == numRows - 1 && j == 0 ) {
-						if(board[i - 1][j].isDoorway() || board[i - 1][j].isWalkway()) {
-							adjList.add(board[i - 1][j]);
+						if(getCellAt(i - 1,j).isDoorway() || getCellAt(i - 1,j).isWalkway()) {
+							adjList.add(getCellAt(i - 1,j));
 						}
-						if(board[i][j + 1].isDoorway() || board[i][j + 1].isWalkway()) {
-							adjList.add(board[i][j + 1]);
+						if(getCellAt(i,j + 1).isDoorway() || getCellAt(i,j + 1).isWalkway()) {
+							adjList.add(getCellAt(i,j + 1));
 						}						
 					}
 					//wall cases
 					//Top wall
 					else if (i == 0) {
-						if(board[i][j - 1].isDoorway() || board[i][j - 1].isWalkway()) {
-							adjList.add(board[i][j-1]);
+						if(getCellAt(i,j - 1).isDoorway() || getCellAt(i,j - 1).isWalkway()) {
+							adjList.add(getCellAt(i,j-1));
 						}
-						if(board[i][j + 1].isDoorway() || board[i][j + 1].isWalkway()) {
-							adjList.add(board[i][j+1]);
+						if(getCellAt(i,j + 1).isDoorway() || getCellAt(i,j + 1).isWalkway()) {
+							adjList.add(getCellAt(i,j+1));
 						}
-						if(board[i + 1][j].isDoorway() || board[i + 1][j].isWalkway()) {
-							adjList.add(board[i + 1][j]);
+						if(getCellAt(i + 1,j).isDoorway() || getCellAt(i + 1,j).isWalkway()) {
+							adjList.add(getCellAt(i + 1,j));
 						}
 						
 					}
 					//bottom wall
 					else if (i == numRows - 1) {
-						if(board[i][j-1].isDoorway() || board[i][j-1].isWalkway()) {
-							adjList.add(board[i][j-1]);
+						if(getCellAt(i,j-1).isDoorway() || getCellAt(i,j-1).isWalkway()) {
+							adjList.add(getCellAt(i,j-1));
 						}
-						if(board[i][j+1].isDoorway() || board[i][j+1].isWalkway()) {
-							adjList.add(board[i][j+1]);
+						if(getCellAt(i,j+1).isDoorway() || getCellAt(i,j+1).isWalkway()) {
+							adjList.add(getCellAt(i,j+1));
 						}
-						if(board[i-1][j].isDoorway() || board[i-1][j].isWalkway()) {
-							adjList.add(board[i-1][j]);
+						if(getCellAt(i-1,j).isDoorway() || getCellAt(i-1,j).isWalkway()) {
+							adjList.add(getCellAt(i-1,j));
 						}						
 					}
 					//Leftmost wall
 					else if (j == 0) {
-						if(board[i-1][j].isDoorway() || board[i-1][j].isWalkway()) {
-							adjList.add(board[i-1][j]);
+						if(getCellAt(i-1,j).isDoorway() || getCellAt(i-1,j).isWalkway()) {
+							adjList.add(getCellAt(i-1,j));
 						}
-						if(board[i+1][j].isDoorway() || board[i+1][j].isWalkway()) {
-							adjList.add(board[i+1][j]);
+						if(getCellAt(i+1,j).isDoorway() || getCellAt(i+1,j).isWalkway()) {
+							adjList.add(getCellAt(i+1,j));
 						}
-						if(board[i][j + 1].isDoorway() || board[i][j+1].isWalkway()) {
-							adjList.add(board[i][j+1]);
+						if(getCellAt(i,j + 1).isDoorway() || getCellAt(i,j+1).isWalkway()) {
+							adjList.add(getCellAt(i,j+1));
 						}						
 					}
 					//Rightmost wall
 					else if (j == numColumns - 1) {
-						if(board[i - 1][j].isDoorway() || board[i - 1][j].isWalkway()) {
-							adjList.add(board[i - 1][j]);
+						if(getCellAt(i - 1,j).isDoorway() || getCellAt(i - 1,j).isWalkway()) {
+							adjList.add(getCellAt(i - 1,j));
 						}
-						if(board[i + 1][j].isDoorway() || board[i + 1][j].isWalkway()) {
-							adjList.add(board[i + 1][j]);
+						if(getCellAt(i + 1,j).isDoorway() || getCellAt(i + 1,j).isWalkway()) {
+							adjList.add(getCellAt(i + 1,j));
 						}
-						if(board[i][j - 1].isDoorway() || board[i][j - 1].isWalkway()) {
-							adjList.add(board[i][j - 1]);
+						if(getCellAt(i,j - 1).isDoorway() || getCellAt(i,j - 1).isWalkway()) {
+							adjList.add(getCellAt(i,j - 1));
 						}	
 
 					}
 					//middle
 					else {
-						if(board[i - 1][j].isDoorway() || board[i - 1][j].isWalkway()) {
-							adjList.add(board[i - 1][j]);
+						if(getCellAt(i - 1,j).isDoorway() || getCellAt(i - 1,j).isWalkway()) {
+							adjList.add(getCellAt(i - 1,j));
 						}
-						if(board[i + 1][j].isDoorway() || board[i + 1][j].isWalkway()) {
-							adjList.add(board[i + 1][j]);
+						if(getCellAt(i + 1,j).isDoorway() || getCellAt(i + 1,j).isWalkway()) {
+							adjList.add(getCellAt(i + 1,j));
 						}
-						if(board[i][j - 1].isDoorway() || board[i][j - 1].isWalkway()) {
-							adjList.add(board[i][j - 1]);
+						if(getCellAt(i,j - 1).isDoorway() || getCellAt(i,j - 1).isWalkway()) {
+							adjList.add(getCellAt(i,j - 1));
 						}
-						if(board[i][j + 1].isDoorway() || board[i][j + 1].isWalkway()) {
-							adjList.add(board[i][j + 1]);
+						if(getCellAt(i,j + 1).isDoorway() || getCellAt(i,j + 1).isWalkway()) {
+							adjList.add(getCellAt(i,j + 1));
 						}						
 					}
 				}
-				adjmtx.put(board[i][j], adjList);
+				adjmtx.put(getCellAt(i,j), adjList);
 			}
 		}
 	}
 
 	public HashSet<BoardCell> getAdjList(int row, int column) {
-		return adjmtx.get(board[row][column]);
+		return adjmtx.get(getCellAt(row,column));
 
 	}
 
