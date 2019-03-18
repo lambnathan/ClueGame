@@ -194,6 +194,7 @@ public class Board {
 			for(int j = 0; j <numColumns; j++) {
 				HashSet<BoardCell> adjList = new HashSet<BoardCell>();
 				BoardCell current = getCellAt(i,j);
+				
 				if(current.isDoorway()) {
 					if(current.getDoorDirection() == DoorDirection.DOWN) {
 						adjList.add(getCellAt(i+1,j));
