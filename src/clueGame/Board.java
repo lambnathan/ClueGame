@@ -19,12 +19,12 @@ public class Board {
 	public static final int MAX_BOARD_SIZE = 50;
 	private static int numRows;
 	private static int numColumns;
-	private BoardCell[][] board;
+	private static BoardCell[][] board;
 	private Set<BoardCell> visited;
-	private Map<Character, String> legend;
+	private static Map<Character, String> legend;
 	private Map<BoardCell, HashSet<BoardCell>> adjmtx;
 	private HashSet<BoardCell> targets;
-	private String boardConfigFile;
+	private static String boardConfigFile;
 	private String roomConfigFile;
 	
 	// variable used for singleton pattern
@@ -88,7 +88,7 @@ public class Board {
 	}
 	
 	//loads the playing board and gets the size
-	public void loadBoardConfig() throws BadConfigFormatException {
+	public static void loadBoardConfig() throws BadConfigFormatException {
 		//tries to open the file
 		FileReader reader = null;
 		Scanner in = null;
