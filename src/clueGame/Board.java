@@ -11,16 +11,18 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Board {
 	public static final int MAX_BOARD_SIZE = 50;
 	private static int numRows;
 	private static int numColumns;
 	private BoardCell[][] board;
-	private HashSet<BoardCell> visited;
-	private HashMap<Character, String> legend;
-	private HashMap<BoardCell, HashSet<BoardCell>> adjmtx;
+	private Set<BoardCell> visited;
+	private Map<Character, String> legend;
+	private Map<BoardCell, HashSet<BoardCell>> adjmtx;
 	private HashSet<BoardCell> targets;
 	private String boardConfigFile;
 	private String roomConfigFile;
@@ -175,7 +177,7 @@ public class Board {
 		roomConfigFile = legendConfig;
 	}
 	
-	public HashMap<Character, String> getLegend() {		
+	public Map<Character, String> getLegend() {		
 		return legend;
 	}
 	
@@ -277,12 +279,12 @@ public class Board {
 		}
 	}
 
-	public HashSet<BoardCell> getAdjList(int row, int column) {
+	public Set<BoardCell> getAdjList(int row, int column) {
 		return adjmtx.get(getCellAt(row,column));
 
 	}
 
-	public HashSet<BoardCell> getTargets() {
+	public Set<BoardCell> getTargets() {
 		return targets;
 	}
 
@@ -295,7 +297,7 @@ public class Board {
 	}
 
 	private void findAllTargets(BoardCell startCell, int pathLength) {
-		HashSet<BoardCell> adj = new HashSet<BoardCell>();
+		HashSet<BoardCell> adj;
 		adj = adjmtx.get(startCell);
 		for (BoardCell bd : adj) {
 			//if already in visited list, skip
