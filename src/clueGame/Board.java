@@ -6,6 +6,7 @@ package clueGame;
 
 import static org.junit.Assert.assertEquals;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -26,6 +27,11 @@ public class Board {
 	private HashSet<BoardCell> targets;
 	private static String boardConfigFile;
 	private String roomConfigFile;
+	private String playerConfigFile;
+	private String weaponConfigFile;
+	
+	private Set<Player> players;
+	private Set<Card> cards;
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -37,6 +43,9 @@ public class Board {
 		adjmtx = new HashMap<>();
 		targets = new HashSet<>();
 		visited = new HashSet<>();
+		
+		players = new HashSet<>();
+		cards = new HashSet<>();
 	}
 	
 	// this method returns the only Board
@@ -49,6 +58,8 @@ public class Board {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
+			loadPlayerConfig();
+			loadWeaponConfig();
 		}
 		catch(BadConfigFormatException e) {
 			System.out.println(e);
@@ -172,10 +183,34 @@ public class Board {
 		numColumns = cells.length;
 		in.close();
 	}
+	
+	public void loadPlayerConfig() throws BadConfigFormatException{
+		FileReader reader = null;
+		Scanner in = null;
+		try {
+			reader = new FileReader(playerConfigFile);
+			in = new Scanner(reader);
+		} catch (FileNotFoundException e) {
+			System.out.println("Not a valid file.");
+		}
 		
-	public void setConfigFiles(String boardConfig, String legendConfig) {
+		int counter = 0;
+		while(in.hasNext()) {
+			String[] line = null;
+			String currentLine = in.nextLine();
+			line = currentLine.split(",");
+			if(counter == 0) {
+				
+			}
+			
+		}
+	}
+		
+	public void setConfigFiles(String boardConfig, String legendConfig, String playerConfig, String weaponConfig) {
 		boardConfigFile = boardConfig;
 		roomConfigFile = legendConfig;
+		playerConfigFile = playerConfig;
+		weaponConfigFile = weaponConfig;
 	}
 	
 	public Map<Character, String> getLegend() {		
@@ -318,6 +353,18 @@ public class Board {
 			}
 			visited.remove(bd);
 		}
+	}
+	
+	public void selectAnswer() {
+		
+	}
+	
+	public Card handleSuggestion(TBD) {
+		
+	}
+	
+	public boolean checkAccusation(Solution accusation) {
+		
 	}
 	
 }
