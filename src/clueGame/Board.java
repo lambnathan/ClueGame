@@ -101,7 +101,7 @@ public class Board {
 		
 		int row = 0;
 		String[] cells = null;
-		ArrayList<Integer> columnNums = new ArrayList<Integer>();
+		ArrayList<Integer> columnNums = new ArrayList<>();
 		while (in.hasNext()) {
 			String line = in.nextLine();
 			//splits all of the strings seperated by a common and puts in an array
@@ -197,7 +197,7 @@ public class Board {
 	public void calcAdjacencies() {
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j <numColumns; j++) {
-				HashSet<BoardCell> adjList = new HashSet<BoardCell>();
+				HashSet<BoardCell> adjList = new HashSet<>();
 				BoardCell current = getCellAt(i,j);
 				//doorway cases
 				if(current.isDoorway()) {

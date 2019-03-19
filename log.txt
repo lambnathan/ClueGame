@@ -1,1 +1,1 @@
-Invalid legend, needs to be either "Card" or "Other".
+The number of columns for each row do not match.
