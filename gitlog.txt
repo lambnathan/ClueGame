@@ -1,0 +1,192 @@
+commit 7c12810f3796c988304e1e4bf04ab644ae3cdba0
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:39:33 2019 -0600
+
+    changed naming convention of a test within fileinittests to match naming conventions
+
+commit 4c93ce399a48130e02134e29bc5edf146c76f0dd
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:37:09 2019 -0600
+
+    changed the following to static:loadboardconfig, board, legend
+
+commit 893935d1c2339b9cf463171c1aa1abe19d383914
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:34:10 2019 -0600
+
+    Closed scanner in loadBoardConfig and also deleted unneeded argument in columnNums declaration within loadBoardConfig
+
+commit 1d98c514d728807c03ff4be9c8625ea724ba23ea
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:27:55 2019 -0600
+
+    changed declarations in board (didnt need to include arguments within the < >. Also closed scanner in within loadBoardConfig
+
+commit ede390bfa317b5a5266b72675bfe5059518b1124
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:18:18 2019 -0600
+
+    changed first line of findalltargets, removed useless assignment to adj. Also changed declarations from Hash to either normal Map or normal Set.
+
+commit 9db0c2af9dfe027e66d536a1c0f61de26da2991a
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:06:16 2019 -0600
+
+    Added comments to BadConfigFormatException, clarifying how it works
+
+commit 92a843ee0c490fe97a5c7f4708dd6291d4a130e0
+Merge: a985d34 50aa3a8
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:01:52 2019 -0600
+
+    Added comments to calcAdjacencies to specify which case each part of code is for
+
+commit a985d3443ea2d76a68f064ab809dab2a5cc94c67
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 19:53:52 2019 -0600
+
+    .
+
+commit 346327c1b1b6f959bd2c44b117089a7c5f342c55
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 19:50:38 2019 -0600
+
+    .
+
+commit 50aa3a83c5453984755cb5a29c007a7622e4dad8
+Author: Nathan Lambert <nlambert@mymail.mines.edu>
+Date:   Mon Mar 18 18:28:58 2019 -0600
+
+    Refactored the giant if statement in calcAdjacencies in Board.java
+
+commit 0fc94397736c8c871d5edc33a534647578ecb923
+Author: Nathan Lambert <nlambert@mymail.mines.edu>
+Date:   Mon Mar 18 17:48:41 2019 -0600
+
+    got files on own computer
+
+commit e0d1714dc6949dc0d9b3fdaf75a019089ef5c3d3
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Mar 6 15:09:24 2019 -0700
+
+    Fixed calcAdjacencies to account for doorway directins, fixed all tests to pass
+
+commit 0f9dae18da72fb38ed0fab50593f7d3ed8c32209
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Mar 6 13:41:10 2019 -0700
+
+    Current state: failing tests
+
+commit 35e9b1f423a9aa61fa2faabdf1b6d354d5b08409
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Tue Mar 5 18:10:35 2019 -0700
+
+    Fixed nullpointer exception
+
+commit 72ba5f31f29b33982cfa5b14e5f39f318987274a
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Tue Mar 5 16:25:53 2019 -0700
+
+    added calcAdjacencies and getTarget and getAdjList and findAllTargets
+
+commit 943c522752ab914f7b697955def4648bad71487f
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Mon Mar 4 17:11:41 2019 -0700
+
+    Added passing tests, modified BadConfigFormatException, and fixed methods in Board class
+
+commit eef1afcc984400c7bf7c827caba95c31c25fb2bb
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Mon Mar 4 16:28:13 2019 -0700
+
+    Fixed methods reading in the config files, added the implementation for the BadConfigFormatException, added failing tests, and wrote ourTests.txt
+
+commit 600d2e9fcb24ad099d550324324fe60a272c3ced
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Mon Mar 4 14:00:59 2019 -0700
+
+    Added commeents to Board class, and filled in boolean methods in BoardCell class
+
+commit 1ee6b1678c466d5cb73c58f75226cc1efeec818a
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Mon Mar 4 13:31:08 2019 -0700
+
+    Fixed the loadBoardConfig method to accurately read board, added setter to BoardCell for the symbol, and made sure to allocate space for a board array in the Board class constructor
+
+commit e163ea75f54f26f65fefd682e254cec73048acdb
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Thu Feb 28 15:22:59 2019 -0700
+
+    added to loadBoardConfig and loadRoomConfig. Added getLegend, getNumRows, getNumColumns, getCellAt.
+
+commit 1ec05524406650971812140758d9c4c2ce7c8e79
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Thu Feb 28 14:30:18 2019 -0700
+
+    added enum DoorDirection, BoardCell class within experiment, updated BoardCell class within clueGame, added BadConfigFormatException, added Board class
+
+commit 6095153881bf7f611b6e7dbd9459a23423950bcb
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Thu Feb 28 13:59:12 2019 -0700
+
+    Added new test java files and data files
+
+commit 3d6eca24dcd1390acc69350b7bed7641fc0813fd
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 14:33:49 2019 -0700
+
+    created passing tests and fixed missing method call in calcTargets
+
+commit 154eff34ad5e1de9fdcd820250acea6b438702b7
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 14:26:16 2019 -0700
+
+    created failing tests
+
+commit 4a96425ad3a33a1d62b49b0046c584ad5925835f
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 14:05:36 2019 -0700
+
+    Created recursive method findAllTargets
+
+commit b6108ac7c435793b9cdfa555c242d8d6e20fa880
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 13:48:00 2019 -0700
+
+    Filled out the calcAdjacencies method
+
+commit eab0c9dba54a514641138598c5b22bd4457bd4a0
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 13:01:09 2019 -0700
+
+    Created 4 total tests so far, 3 are Adjacency tests, 1 is Targets test
+
+commit 3babd894e377c7dbc000bab34c4c61c91d0803c6
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 12:45:28 2019 -0700
+
+    Created skeleton JUnit testing class called 'IntBoardTests'
+
+commit 274d12b3a362fe7563cce6202ba1a89d24087823
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 12:28:41 2019 -0700
+
+    Created skeleton functions within class IntBoard
+
+commit 7f558e89bb314d097cc614c7705aaab6c41e0ad8
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Feb 27 12:07:28 2019 -0700
+
+    Created 'tests' package
+
+commit 61eb2ccfee53ff5a2bec3e9b1a048bf8e56ce4a1
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Tue Feb 26 15:29:37 2019 -0700
+
+    Added BoardCell class to experiment package
+
+commit eb95c01cd344a270ddecdb2b34e963795e458964
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Tue Feb 26 15:23:08 2019 -0700
+
+    Added .gitignore and source folder
