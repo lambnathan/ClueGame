@@ -196,6 +196,7 @@ public class Board {
 			for(int j = 0; j <numColumns; j++) {
 				HashSet<BoardCell> adjList = new HashSet<BoardCell>();
 				BoardCell current = getCellAt(i,j);
+				//doorway cases
 				if(current.isDoorway()) {
 					if(current.getDoorDirection() == DoorDirection.DOWN) {
 						adjList.add(getCellAt(i+1,j));
@@ -210,113 +211,65 @@ public class Board {
 						adjList.add(getCellAt(i-1,j));
 					}					
 				}
-				
+				//room cases
 				else if(current.isRoom() && !current.isDoorway()) {
 					adjList.clear();
 				}
 				
+				//if statements for walkway cases
 				else if(current.isWalkway()) {
-					//(Top Left Corner) case
-					if(i == 0 && j == 0) {
-						if(getCellAt(i,j+1).isDoorway() || getCellAt(i,j+1).isWalkway()) {
-							adjList.add(getCellAt(i,j+1));
-						}
-						if(getCellAt(i+1,j).isDoorway() || getCellAt(i+1,j).isWalkway()) {
-							adjList.add(getCellAt(i+1,j));
-						}						
-					}
-					//(lower Right corner) case
-					else if(i == numRows - 1 && j == numColumns - 1) {
-						if(getCellAt(i,j - 1).isDoorway() || getCellAt(i,j - 1).isWalkway()) {
-							adjList.add(getCellAt(i,j - 1));
-						}
-						if(getCellAt(i - 1,j).isDoorway() || getCellAt(i - 1,j).isWalkway()) {
-							adjList.add(getCellAt(i - 1,j));
-						}						
-					}
-					//(Top right corner) case
-					else if(i == 0 && j == numColumns - 1) {
-						if(getCellAt(i,j - 1).isDoorway() || getCellAt(i,j - 1).isWalkway()) {
-							adjList.add(getCellAt(i,j - 1));
-						}
-						if(getCellAt(i + 1,j).isDoorway() || getCellAt(i + 1,j).isWalkway()) {
-							adjList.add(getCellAt(i + 1,j));
+					
+					//check below
+					if(i >= 0) {
+						if(i < numRows - 1) {
+							if(getCellAt(i + 1, j).isWalkway()) {
+								adjList.add(getCellAt(i + 1,j));
+							}
+							if(getCellAt(i + 1, j).isDoorway()){
+								if(getCellAt(i + 1, j).getDoorDirection() == DoorDirection.UP) {
+									adjList.add(getCellAt(i + 1, j));
+								}
+							}
 						}
 					}
-					//(Bottom Left) case
-					else if(i == numRows - 1 && j == 0 ) {
-						if(getCellAt(i - 1,j).isDoorway() || getCellAt(i - 1,j).isWalkway()) {
-							adjList.add(getCellAt(i - 1,j));
+					//check above
+					if(i <= numRows - 1) {
+						if(i > 0) {
+							if(getCellAt(i - 1, j).isWalkway()) {
+								adjList.add(getCellAt(i - 1, j));
+							}
+							if(getCellAt(i - 1, j).isDoorway()){
+								if(getCellAt(i - 1,j).getDoorDirection() == DoorDirection.DOWN) {
+									adjList.add(getCellAt(i - 1, j));
+								}
+							}
 						}
-						if(getCellAt(i,j + 1).isDoorway() || getCellAt(i,j + 1).isWalkway()) {
-							adjList.add(getCellAt(i,j + 1));
-						}						
 					}
-					//wall cases
-					//Top wall
-					else if (i == 0) {
-						if(getCellAt(i,j - 1).isDoorway() || getCellAt(i,j - 1).isWalkway()) {
-							adjList.add(getCellAt(i,j-1));
+					//check right
+					if(j >= 0) {
+						if(j < numColumns - 1) {
+							if(getCellAt(i, j + 1).isWalkway()) {
+								adjList.add(getCellAt(i, j + 1));
+							}
+							if(getCellAt(i, j + 1).isDoorway()){
+								if(getCellAt(i, j + 1).getDoorDirection() == DoorDirection.LEFT) {
+									adjList.add(getCellAt(i, j + 1));
+								}
+							}
 						}
-						if(getCellAt(i,j + 1).isDoorway() || getCellAt(i,j + 1).isWalkway()) {
-							adjList.add(getCellAt(i,j+1));
-						}
-						if(getCellAt(i + 1,j).isDoorway() || getCellAt(i + 1,j).isWalkway()) {
-							adjList.add(getCellAt(i + 1,j));
-						}
-						
 					}
-					//bottom wall
-					else if (i == numRows - 1) {
-						if(getCellAt(i,j-1).isDoorway() || getCellAt(i,j-1).isWalkway()) {
-							adjList.add(getCellAt(i,j-1));
+					//check left
+					if(j <= numColumns - 1) {
+						if(j > 0) {
+							if(getCellAt(i, j - 1).isWalkway()) {
+								adjList.add(getCellAt(i, j - 1));
+							}
+							if(getCellAt(i, j - 1).isDoorway()){
+								if(getCellAt(i, j - 1).getDoorDirection() == DoorDirection.RIGHT) {
+									adjList.add(getCellAt(i, j - 1));
+								}
+							}
 						}
-						if(getCellAt(i,j+1).isDoorway() || getCellAt(i,j+1).isWalkway()) {
-							adjList.add(getCellAt(i,j+1));
-						}
-						if(getCellAt(i-1,j).isDoorway() || getCellAt(i-1,j).isWalkway()) {
-							adjList.add(getCellAt(i-1,j));
-						}						
-					}
-					//Leftmost wall
-					else if (j == 0) {
-						if(getCellAt(i-1,j).isDoorway() || getCellAt(i-1,j).isWalkway()) {
-							adjList.add(getCellAt(i-1,j));
-						}
-						if(getCellAt(i+1,j).isDoorway() || getCellAt(i+1,j).isWalkway()) {
-							adjList.add(getCellAt(i+1,j));
-						}
-						if(getCellAt(i,j + 1).isDoorway() || getCellAt(i,j+1).isWalkway()) {
-							adjList.add(getCellAt(i,j+1));
-						}						
-					}
-					//Rightmost wall
-					else if (j == numColumns - 1) {
-						if(getCellAt(i - 1,j).isDoorway() || getCellAt(i - 1,j).isWalkway()) {
-							adjList.add(getCellAt(i - 1,j));
-						}
-						if(getCellAt(i + 1,j).isDoorway() || getCellAt(i + 1,j).isWalkway()) {
-							adjList.add(getCellAt(i + 1,j));
-						}
-						if(getCellAt(i,j - 1).isDoorway() || getCellAt(i,j - 1).isWalkway()) {
-							adjList.add(getCellAt(i,j - 1));
-						}	
-
-					}
-					//middle
-					else {
-						if(getCellAt(i - 1,j).isDoorway() || getCellAt(i - 1,j).isWalkway()) {
-							adjList.add(getCellAt(i - 1,j));
-						}
-						if(getCellAt(i + 1,j).isDoorway() || getCellAt(i + 1,j).isWalkway()) {
-							adjList.add(getCellAt(i + 1,j));
-						}
-						if(getCellAt(i,j - 1).isDoorway() || getCellAt(i,j - 1).isWalkway()) {
-							adjList.add(getCellAt(i,j - 1));
-						}
-						if(getCellAt(i,j + 1).isDoorway() || getCellAt(i,j + 1).isWalkway()) {
-							adjList.add(getCellAt(i,j + 1));
-						}						
 					}
 				}
 				adjmtx.put(getCellAt(i,j), adjList);
@@ -348,6 +301,9 @@ public class Board {
 			//if already in visited list, skip
 			if(visited.contains(bd)) {
 				continue;
+			}
+			if(bd.isDoorway()) {
+				targets.add(bd);
 			}
 			visited.add(bd);
 			//if player rolls a 1, adjacent squares are targets.
