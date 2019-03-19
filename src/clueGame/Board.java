@@ -33,10 +33,10 @@ public class Board {
 	// constructor is private to ensure only one can be created
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
-		legend = new HashMap<Character, String>();
-		adjmtx = new HashMap<BoardCell, HashSet<BoardCell>>();
-		targets = new HashSet<BoardCell>();
-		visited = new HashSet<BoardCell>();
+		legend = new HashMap<>();
+		adjmtx = new HashMap<>();
+		targets = new HashSet<>();
+		visited = new HashSet<>();
 	}
 	
 	// this method returns the only Board
@@ -170,6 +170,7 @@ public class Board {
 		}
 		numRows = row;
 		numColumns = cells.length;
+		in.close();
 	}
 		
 	public void setConfigFiles(String boardConfig, String legendConfig) {
