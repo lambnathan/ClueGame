@@ -18,4 +18,25 @@ public class Player {
 	public Card disproveSuggestion(Solution suggestion) {
 		return null;
 	}
+
+	
+	/*
+	 * getters, only for testing
+	 */
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+	
 }

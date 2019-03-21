@@ -403,4 +403,8 @@ public class Board {
 		return color;
 	}
 	
+	public Set<Player> getPlayerList(){
+		return players;
+	}
+	
 }
