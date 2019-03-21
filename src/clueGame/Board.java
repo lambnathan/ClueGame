@@ -7,6 +7,7 @@ package clueGame;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.Color;
+import java.lang.reflect.Field;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -183,7 +184,10 @@ public class Board {
 		numColumns = cells.length;
 		in.close();
 	}
-	
+	/*
+	 * reads all the players from the player config file and 
+	 * adds them to the set of all players, with their correct properties
+	 */
 	public void loadPlayerConfig() throws BadConfigFormatException{
 		FileReader reader = null;
 		Scanner in = null;
@@ -194,16 +198,32 @@ public class Board {
 			System.out.println("Not a valid file.");
 		}
 		
-		int counter = 0;
 		while(in.hasNext()) {
 			String[] line = null;
 			String currentLine = in.nextLine();
 			line = currentLine.split(",");
-			if(counter == 0) {
-				
+			String name = line[0].trim();
+			int row = Integer.parseInt(line[1]);
+			int column = Integer.parseInt(line[2]);
+			Color color = convertColor(line[3]);
+			//
+			if(line[4].equals("Human")) {
+				Player player = new HumanPlayer(name, row, column, color);
+				players.add(player);
+			}
+			else {
+				Player player = new ComputerPlayer(name, row, column, color);
+				players.add(player);
 			}
 			
 		}
+	}
+	
+	/*
+	 * reads the weapon config file
+	 */
+	public void loadWeaponConfig() throws BadConfigFormatException{
+		
 	}
 		
 	public void setConfigFiles(String boardConfig, String legendConfig, String playerConfig, String weaponConfig) {
@@ -365,6 +385,22 @@ public class Board {
 	
 	public boolean checkAccusation(Solution accusation) {
 		
+	}
+	
+	/*
+	 * returns color object from string
+	 */
+	public Color convertColor(String strColor) {
+		Color color;
+		try {
+			Field field = Class.forName("java.awt.Color").getField(strColor.trim());
+			color = (Color)field.get(null);
+		}
+		catch(Exception e) {
+			color = null; //not defined
+		}
+		
+		return color;
 	}
 	
 }
