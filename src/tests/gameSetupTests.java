@@ -9,6 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.Board;
+import clueGame.Card;
+import clueGame.CardType;
 import clueGame.HumanPlayer;
 import clueGame.Player;
 
@@ -70,7 +72,52 @@ public class gameSetupTests {
 	
 	@Test
 	public void loadCards() {
+		Set<Card> cards = board.getCardList();
 		
+		//check if correct total number of cards is loaded
+		assertEquals(cards.size(), 21);
+		
+		int weaponCount = 0;
+		int playerCount = 0;
+		int roomCount = 0;
+		Card room = null;
+		Card weapon = null;
+		Card player = null;
+		for(Card c: cards) {
+			if(c.getCardType() == CardType.PERSON) {
+				playerCount++;
+			}
+			else if(c.getCardType() == CardType.ROOM) {
+				roomCount++;
+			}
+			else if(c.getCardType() == CardType.WEAPON) {
+				weaponCount++;
+			}
+			if(c.getCardName().equals("Conservatory")) {
+				room = c;
+			}
+			if(c.getCardName().equals("Wrench")) {
+				weapon = c;
+			}
+			if(c.getCardName().equals("Colonel Mustard")) {
+				player = c;
+			}
+			
+			
+		}
+		//checks if there is the correct number of player, weapon, and room cards
+		assertEquals(weaponCount, 6);
+		assertEquals(playerCount, 6);
+		assertEquals(roomCount, 9);
+		
+		//make sure a room is in the deck
+		assertEquals(room.getCardName(), "Conservatory");
+		
+		//make sure weapon is in deck
+		assertEquals(weapon.getCardName(), "Wrench");
+		
+		//make sure player is in deck
+		assertEquals(player.getCardName(), "Colonel Mustard");
 	}
 	
 	@Test

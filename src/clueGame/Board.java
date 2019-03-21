@@ -407,4 +407,8 @@ public class Board {
 		return players;
 	}
 	
+	public Set<Card> getCardList(){
+		return cards;
+	}
+	
 }
