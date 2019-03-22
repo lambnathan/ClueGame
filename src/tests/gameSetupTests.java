@@ -122,7 +122,33 @@ public class gameSetupTests {
 	
 	@Test
 	public void dealCards() {
+		//checks that all the cards have been dealt
+		Set<Player> players = board.getPlayerList();
+		Set<Card> cards = board.getCardList();
+		int totalCards = 0;
+		for(Player p : players) {
+			totalCards += p.getPlayerCards().size();
+		}
+		assertEquals(totalCards, 21);
 		
+		//make sure each player has roughly the same number of cards
+		Player[] playerArr = (Player[]) players.toArray();
+		for(int i = 0; i < playerArr.length; i++) {
+			for(int j = i + 1; j < playerArr.length; j++) {
+				assertTrue( Math.abs(playerArr[i].getPlayerCards().size() - playerArr[j].getPlayerCards().size()) < 2);
+			}
+		}
+		
+		//makes sure no players have the same card
+		for(Card c: cards) {
+			int seen = 0;
+			for(Player p : players) {
+				if(p.getPlayerCards().contains(c)) {
+					seen++;
+				}
+			}
+			assertEquals(seen, 1);
+		}
 	}
 
 }

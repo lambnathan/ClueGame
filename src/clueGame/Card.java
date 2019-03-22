@@ -4,8 +4,9 @@ public class Card {
 	private String cardName;
 	private CardType cardType;
 	
-	public Card(String n) {
+	public Card(String n, CardType cardType) {
 		this.cardName = n;
+		this.cardType = cardType;
 	}
 	
 	public boolean equals() {

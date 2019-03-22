@@ -67,6 +67,7 @@ public class Board {
 			System.out.println(e.getMessage());
 		}
 		calcAdjacencies();
+		dealCards();
 	}
 	
 	public void loadRoomConfig() throws BadConfigFormatException {
@@ -95,6 +96,10 @@ public class Board {
 			int index = line.lastIndexOf(',');
 			//room = 3rd index to next comma
 			room = line.substring(3, index);
+			if(line.contains("Card")) {
+				Card c = new Card(room, CardType.ROOM);
+				cards.add(c);
+			}
 			legend.put(symbol, room);
 		}
 	}
@@ -215,6 +220,8 @@ public class Board {
 				Player player = new ComputerPlayer(name, row, column, color);
 				players.add(player);
 			}
+			Card c = new Card(name, CardType.PERSON);
+			cards.add(c);
 			
 		}
 	}
@@ -223,7 +230,21 @@ public class Board {
 	 * reads the weapon config file
 	 */
 	public void loadWeaponConfig() throws BadConfigFormatException{
+		FileReader reader = null;
+		Scanner in = null;
+		try {
+			reader = new FileReader(weaponConfigFile);
+			in = new Scanner(reader);
+		}
+		catch(FileNotFoundException e) {
+			System.out.println("Not a valid file.");
+		}
 		
+		while(in.hasNext()) {
+			String weapon = in.nextLine().trim();
+			Card c = new Card(weapon, CardType.WEAPON);
+			cards.add(c);
+		}
 	}
 		
 	public void setConfigFiles(String boardConfig, String legendConfig, String playerConfig, String weaponConfig) {
@@ -353,7 +374,7 @@ public class Board {
 	}
 
 	private void findAllTargets(BoardCell startCell, int pathLength) {
-		HashSet<BoardCell> adj;
+	    HashSet<BoardCell> adj;
 		adj = adjmtx.get(startCell);
 		for (BoardCell bd : adj) {
 			//if already in visited list, skip
@@ -375,16 +396,55 @@ public class Board {
 		}
 	}
 	
+	public void dealCards() {
+		Set<Card> seen = new HashSet<>();
+		for(Player p : players) {
+			int weaponCount = 0;
+			int playerCount = 0;
+			int roomCount = 0;
+			for(Card c: cards) {
+				//if card has not been dealt
+				if(!seen.contains(c)) {
+					if(c.getCardType() == CardType.PERSON && playerCount == 0) {
+						p.addCard(c);
+						seen.add(c);
+						playerCount++;
+						break;
+					}
+					else if(c.getCardType() == CardType.ROOM && roomCount == 0) {
+						p.addCard(c);
+						seen.add(c);
+						roomCount++;
+						break;
+					}
+					else if(c.getCardType() == CardType.WEAPON && weaponCount == 0) {
+						p.addCard(c);
+						seen.add(c);
+						weaponCount++;
+						break;
+					}
+					
+					//if player already has each type of card, add the next unseen card
+					if(weaponCount + playerCount + roomCount == 3) {
+						p.addCard(c);
+						seen.add(c);
+						break;
+					}
+				}
+			}
+		}
+	}
+	
 	public void selectAnswer() {
 		
 	}
 	
-	public Card handleSuggestion(TBD) {
-		
+	public Card handleSuggestion() {
+		return null;
 	}
 	
 	public boolean checkAccusation(Solution accusation) {
-		
+		return false;
 	}
 	
 	/*
