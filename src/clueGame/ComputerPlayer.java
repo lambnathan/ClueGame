@@ -1,3 +1,5 @@
+//Authors: Nathan Lambert, Elliott McCabe
+
 package clueGame;
 
 import java.awt.Color;

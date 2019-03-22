@@ -1,5 +1,3 @@
-//--------------------DoorDirection--------------------
-
 //Authors: Nathan Lambert and Elliott McCabe
 
 package clueGame;

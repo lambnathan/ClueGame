@@ -1,3 +1,5 @@
+//Authors: Nathan Lambert, Elliott McCabe
+
 package tests;
 
 import static org.junit.Assert.*;
@@ -18,7 +20,7 @@ public class gameSetupTests {
 	private static Board board;
 	
 	@BeforeClass
-	public void setUp() {
+	public static void setUp() {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use our own files
@@ -132,7 +134,8 @@ public class gameSetupTests {
 		assertEquals(totalCards, 21);
 		
 		//make sure each player has roughly the same number of cards
-		Player[] playerArr = (Player[]) players.toArray();
+		Player[] playerArr = new Player[players.size()];
+		System.arraycopy(players.toArray(), 0, playerArr, 0, players.size());
 		for(int i = 0; i < playerArr.length; i++) {
 			for(int j = i + 1; j < playerArr.length; j++) {
 				assertTrue( Math.abs(playerArr[i].getPlayerCards().size() - playerArr[j].getPlayerCards().size()) < 2);

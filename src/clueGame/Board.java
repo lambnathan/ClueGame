@@ -27,9 +27,9 @@ public class Board {
 	private Map<BoardCell, HashSet<BoardCell>> adjmtx;
 	private HashSet<BoardCell> targets;
 	private static String boardConfigFile;
-	private String roomConfigFile;
-	private String playerConfigFile;
-	private String weaponConfigFile;
+	private static String roomConfigFile;
+	private static String playerConfigFile;
+	private static String weaponConfigFile;
 	
 	private Set<Player> players;
 	private Set<Card> cards;
@@ -96,6 +96,8 @@ public class Board {
 			int index = line.lastIndexOf(',');
 			//room = 3rd index to next comma
 			room = line.substring(3, index);
+			
+			//creates a room card for each viable room
 			if(line.contains("Card")) {
 				Card c = new Card(room, CardType.ROOM);
 				cards.add(c);
@@ -105,7 +107,7 @@ public class Board {
 	}
 	
 	//loads the playing board and gets the size
-	public static void loadBoardConfig() throws BadConfigFormatException {
+	public void loadBoardConfig() throws BadConfigFormatException {
 		//tries to open the file
 		FileReader reader = null;
 		Scanner in = null;
@@ -202,17 +204,22 @@ public class Board {
 		} catch (FileNotFoundException e) {
 			System.out.println("Not a valid file.");
 		}
-		
+		/*
+		 * gets each line of player config file, splits the line on the commas (,)
+		 * then sets the appropriate values based on their index in the array. All
+		 * player config files should have the same format
+		 * makes sure to trim the strings in the array
+		 */
 		while(in.hasNext()) {
 			String[] line = null;
 			String currentLine = in.nextLine();
 			line = currentLine.split(",");
 			String name = line[0].trim();
-			int row = Integer.parseInt(line[1]);
-			int column = Integer.parseInt(line[2]);
-			Color color = convertColor(line[3]);
-			//
-			if(line[4].equals("Human")) {
+			int row = Integer.valueOf(line[1].trim());
+			int column = Integer.valueOf(line[2].trim());
+			Color color = convertColor(line[3].trim());
+			//determines whether the player is human or computer
+			if(line[4].trim().equals("Human")) {
 				Player player = new HumanPlayer(name, row, column, color);
 				players.add(player);
 			}
@@ -220,6 +227,7 @@ public class Board {
 				Player player = new ComputerPlayer(name, row, column, color);
 				players.add(player);
 			}
+			//adds a card for each player
 			Card c = new Card(name, CardType.PERSON);
 			cards.add(c);
 			
@@ -239,7 +247,7 @@ public class Board {
 		catch(FileNotFoundException e) {
 			System.out.println("Not a valid file.");
 		}
-		
+		//creates a weapon card for each weapon
 		while(in.hasNext()) {
 			String weapon = in.nextLine().trim();
 			Card c = new Card(weapon, CardType.WEAPON);
@@ -397,38 +405,46 @@ public class Board {
 	}
 	
 	public void dealCards() {
+		//keeps track of cards that have been dealt
 		Set<Card> seen = new HashSet<>();
-		for(Player p : players) {
-			int weaponCount = 0;
-			int playerCount = 0;
-			int roomCount = 0;
-			for(Card c: cards) {
-				//if card has not been dealt
-				if(!seen.contains(c)) {
-					if(c.getCardType() == CardType.PERSON && playerCount == 0) {
-						p.addCard(c);
-						seen.add(c);
-						playerCount++;
-						break;
-					}
-					else if(c.getCardType() == CardType.ROOM && roomCount == 0) {
-						p.addCard(c);
-						seen.add(c);
-						roomCount++;
-						break;
-					}
-					else if(c.getCardType() == CardType.WEAPON && weaponCount == 0) {
-						p.addCard(c);
-						seen.add(c);
-						weaponCount++;
-						break;
-					}
-					
-					//if player already has each type of card, add the next unseen card
-					if(weaponCount + playerCount + roomCount == 3) {
-						p.addCard(c);
-						seen.add(c);
-						break;
+		/*
+		 * while we have not dealt all of the cards, go over each player and make sure they have one of 
+		 * each type of card. if they already have each type of card,
+		 * add the current card if it has not already been dealt
+		 */
+		while(seen.size() != cards.size()) {
+			for(Player p : players) {
+				int weaponCount = 0;
+				int playerCount = 0;
+				int roomCount = 0;
+				for(Card c: cards) {
+					//if card has not been dealt
+					if(!seen.contains(c)) {
+						if(c.getCardType() == CardType.PERSON && playerCount == 0) {
+							p.addCard(c);
+							seen.add(c);
+							playerCount++;
+							break;
+						}
+						else if(c.getCardType() == CardType.ROOM && roomCount == 0) {
+							p.addCard(c);
+							seen.add(c);
+							roomCount++;
+							break;
+						}
+						else if(c.getCardType() == CardType.WEAPON && weaponCount == 0) {
+							p.addCard(c);
+							seen.add(c);
+							weaponCount++;
+							break;
+						}
+						
+						//if player already has each type of card, add the next unseen card
+						if(weaponCount + playerCount + roomCount == 3) {
+							p.addCard(c);
+							seen.add(c);
+							break;
+						}
 					}
 				}
 			}
