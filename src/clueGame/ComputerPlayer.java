@@ -35,6 +35,10 @@ public class ComputerPlayer extends Player {
 		return boardcells[rnd];
 	}
 	
+	public void addVisitedRoom(char c) {
+		visitedRooms.add(c);
+	}
+	
 	public void makeAccusation() {
 		
 	}

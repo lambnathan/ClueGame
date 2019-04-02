@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -31,6 +32,8 @@ public class Board {
 	private static String playerConfigFile;
 	private static String weaponConfigFile;
 	
+	private Set<Card> answer; //stores a randomly selected player, weapon and room
+	
 	private Set<Player> players;
 	private Set<Card> cards;
 	
@@ -47,6 +50,8 @@ public class Board {
 		
 		players = new HashSet<>();
 		cards = new HashSet<>();
+		
+		answer = new HashSet<>();
 	}
 	
 	// this method returns the only Board
@@ -67,6 +72,7 @@ public class Board {
 			System.out.println(e.getMessage());
 		}
 		calcAdjacencies();
+		//selectAnswer()
 		dealCards();
 	}
 	
@@ -451,8 +457,28 @@ public class Board {
 		}
 	}
 	
+	/*
+	 * randomly selects three cards, one of each type, to be the answer for the game
+	 * this is called after all the cards have been loaded in before cards are dealt
+	 */
 	public void selectAnswer() {
-		
+		Card[] cardArr = new Card[cards.size()];
+		System.arraycopy(cards.toArray(), 0, cardArr, 0, cards.size());
+		while(answer.size() < 3) {
+			int rand = new Random().nextInt(cards.size());
+			Card c = cardArr[rand];
+			boolean inside = false;
+			for(Card card: answer) {
+				if(c.getCardType() == card.getCardType()) {
+					inside = true;
+					break;
+				}
+			}
+			if(!inside) {
+				answer.add(c);
+				cards.remove(c);
+			}
+		}
 	}
 	
 	public Card handleSuggestion() {

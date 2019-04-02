@@ -56,4 +56,12 @@ public class BoardCell {
 	public char getInitial() {
 		return initial;
 	}
+	
+	public int getRow() {
+		return row;
+	}
+	
+	public int getColumn() {
+		return column;
+	}
 }
