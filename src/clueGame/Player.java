@@ -53,4 +53,9 @@ public class Player {
 		return playerCards;
 	}
 	
+	public void setLocation(int row, int column) {
+		this.row = row;
+		this.column = column;
+	}
+	
 }
