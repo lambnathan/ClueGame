@@ -80,6 +80,8 @@ public class gameActionTests {
 	
 	@Test
 	public void disproveSuggestion() {
+		//computer player within the gun room
+		ComputerPlayer p = new ComputerPlayer("test", 22, 0, Color.RED);
 		
 	}
 	

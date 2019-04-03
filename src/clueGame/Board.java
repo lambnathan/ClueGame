@@ -72,7 +72,7 @@ public class Board {
 			System.out.println(e.getMessage());
 		}
 		calcAdjacencies();
-		//selectAnswer()
+		selectAnswer();
 		dealCards();
 	}
 	
@@ -280,7 +280,7 @@ public class Board {
 		return numColumns;
 	}
 	
-	public BoardCell getCellAt(int row, int column) {
+	public static BoardCell getCellAt(int row, int column) {
 		return board[row][column];
 	}
 	
@@ -480,12 +480,37 @@ public class Board {
 			}
 		}
 	}
-	
-	public Card handleSuggestion() {
-		return null;
+	/*
+	 * Finding the first player in the game that is able to disprove the suggestion
+	 * returns null if no one can disprove
+	 */
+	public Card handleSuggestion(Solution suggestion, Player accuser) {
+		Card disproveCard = null;
+		Player accusedPlayer = null;
+		/*
+		 * going player by player, if that player has a card that can disprove the suggestion, they are selected
+		 */
+		
+		for(Player p : players) {
+			if(p.disproveSuggestion(suggestion) != null) {
+				disproveCard = p.disproveSuggestion(suggestion);
+				break;
+			}				
+		}
+		for(Player p : players) {
+			if(p.getPlayerName() == suggestion.getPersonName()) {
+				accusedPlayer = p;
+				accusedPlayer.setLocation(accuser.getRow(), accuser.getColumn());
+				break;
+			}
+		}
+		return disproveCard;
 	}
-	
+
 	public boolean checkAccusation(Solution accusation) {
+		if(answer.contains(accusation.getPerson()) && answer.contains(accusation.getWeapon()) && answer.contains(accusation.getRoom())) {
+			return true;
+		}
 		return false;
 	}
 	
