@@ -13,7 +13,7 @@ public class Player {
 	private int row;
 	private int column;
 	private Color color;
-	private Set<Card> playerCards;
+	protected Set<Card> playerCards;
 	
 	public Player(String playerName, int row, int column, Color color) {
 		this.playerName = playerName;

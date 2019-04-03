@@ -47,14 +47,21 @@ public class ComputerPlayer extends Player {
 		return null;		
 	}
 
+	public Set<Card> getSeenCards() {
+		return seenCards;
+	}
+	public void addSeenCard(Card c) {
+		seenCards.add(c);
+	}
+
 	public Solution createSuggestion(Board board) {
-		Card roomGuess = new Card(board.getLegend().get(board.getCellAt(this.getRow(), this.getColumn())), CardType.ROOM);
+		Card roomGuess = new Card(board.getLegend().get(board.getCellAt(this.getRow(), this.getColumn()).getInitial()), CardType.ROOM);
 		Card weaponGuess = null;
 		Card personGuess = null;
 		ArrayList<Card> weapons = new ArrayList<Card>();
 		ArrayList<Card> persons = new ArrayList<Card>();
 		for(Card c : board.getCardList()) {
-			if(!seenCards.contains(c) && !this.getPlayerCards().contains(c)) {
+			if(!(seenCards.contains(c)) && !(this.getPlayerCards().contains(c))) {
 				if(c.getCardType() == CardType.PERSON) {
 					persons.add(c);
 				}
@@ -69,5 +76,10 @@ public class ComputerPlayer extends Player {
 		Solution sol = new Solution(personGuess, roomGuess, weaponGuess);
 
 		return sol;
+	}
+	//testing only
+	public void removeCard(Card c) {
+		playerCards.remove(c);
+		seenCards.remove(c);
 	}
 }

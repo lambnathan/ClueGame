@@ -514,6 +514,10 @@ public class Board {
 		return false;
 	}
 	
+	public Set<Card> getAnswer() {
+		return answer;
+	}
+
 	/*
 	 * returns color object from string
 	 */

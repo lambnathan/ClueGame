@@ -12,9 +12,12 @@ import org.junit.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.Card;
+import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.DoorDirection;
 import clueGame.Player;
+import clueGame.Solution;
 
 public class gameActionTests {
 
@@ -65,7 +68,7 @@ public class gameActionTests {
 		targets = board.getTargets();
 		visited.clear();
 		p.addVisitedRoom('S'); //add the room to the list of already visisted rooms for the computer player
-		for(int i = 0; i < 20; i++) { //go through 20 times and it will pick a random location of the 4 possible targets
+		for(int i = 0; i < 500; i++) { //go through 20 times and it will pick a random location of the 4 possible targets
 			pickedLocation = p.pickLocation(targets);
 			visited.add(pickedLocation);
 		}
@@ -75,6 +78,82 @@ public class gameActionTests {
 	
 	@Test
 	public void checkAccusation() {
+		Card person = null;
+		Card weapon = null;
+		Card room = null;
+		//Checking solution that is correct
+		//Set each card type to the correct answer
+		for(Card c : board.getAnswer()) {
+			if(c.getCardType() == CardType.ROOM) {
+				room = c;
+			}
+			if(c.getCardType() == CardType.PERSON) {
+				person = c;
+			}
+			if(c.getCardType() == CardType.WEAPON) {
+				weapon = c;
+			}
+		}
+		
+		//set the accusation to the correct solution
+		Solution accusation = new Solution(person, room, weapon);
+		//test that our checkAccusation functions works as intended
+		assertTrue(board.checkAccusation(accusation));
+		
+		/*
+		 * checking solution with wrong person
+		 */
+		for(Card c : board.getAnswer()) {
+			if(c.getCardType() == CardType.ROOM) {
+				room = c;
+			}
+
+			if(c.getCardType() == CardType.WEAPON) {
+				weapon = c;
+			}
+			person = null;
+		}
+		
+		//set the accusation to the solution with an intended wrong person
+		accusation = new Solution(person, room, weapon);
+		//test that our checkAccusation functions works as intended
+		assertEquals(board.checkAccusation(accusation), false);
+		
+		/*
+		 * checking solution with wrong room
+		 */
+		for(Card c : board.getAnswer()) {
+			if(c.getCardType() == CardType.PERSON) {
+				person = c;
+			}
+
+			if(c.getCardType() == CardType.WEAPON) {
+				weapon = c;
+			}
+			room = null;
+		}
+		//set the accusation to the solution with an intended wrong room
+		accusation = new Solution(person, room, weapon);
+		//test that our checkAccusation functions works as intended
+		assertEquals(board.checkAccusation(accusation), false);
+		
+		/*
+		 * checking solution with wrong weapon
+		 */
+		for(Card c : board.getAnswer()) {
+			if(c.getCardType() == CardType.ROOM) {
+				room = c;
+			}
+
+			if(c.getCardType() == CardType.PERSON) {
+				person = c;
+			}
+			weapon = null;
+		}
+		//set the accusation to the solution with an intended wrong person
+		accusation = new Solution(person, room, weapon);
+		//test that our checkAccusation functions works as intended
+		assertEquals(board.checkAccusation(accusation), false);
 		
 	}
 	
@@ -93,6 +172,33 @@ public class gameActionTests {
 	@Test
 	public void createSuggestion() {
 		
+		ComputerPlayer accuser = new ComputerPlayer("Miss Scarlet", 22, 0, Color.RED); //setting player to gun room
+		//testing room matches current location
+		assertEquals(accuser.createSuggestion(board).getRoomName(), "Gun room");
+		
+		
+		//testing if only one weapon not seen, it's selected
+		//add all but one weapon to seen
+		Card rope = new Card("Rope", CardType.WEAPON);
+		Card pipe = new Card("Lead Pipe", CardType.WEAPON);
+		Card knife = new Card("Knife", CardType.WEAPON);
+		Card wrench = new Card("Wrench", CardType.WEAPON);
+		Card candlestick = new Card("Candlestick", CardType.WEAPON);
+		accuser.addCard(rope);
+		accuser.addCard(pipe);
+		accuser.addCard(knife);
+		accuser.addCard(wrench);
+		accuser.addCard(candlestick);
+		
+		accuser.addSeenCard(rope);
+		accuser.addSeenCard(pipe);
+		accuser.addSeenCard(knife);
+		accuser.addSeenCard(wrench);
+		accuser.addSeenCard(candlestick);
+		
+		assertEquals(accuser.createSuggestion(board).getWeaponName(), "Revolver");	
+		
+		
+		//testing for one person not seen, then are selected
 	}
-
 }
