@@ -71,15 +71,23 @@ public class ComputerPlayer extends Player {
 			}
 		}
 		Random rand = new Random();
-		weaponGuess = weapons.get(rand.nextInt(weapons.size()));
-		personGuess = persons.get(rand.nextInt(persons.size()));
+		if(weapons.isEmpty()) {
+			weaponGuess = null;
+		}
+		else if(persons.isEmpty()) {
+			personGuess = null;
+		}
+		else {
+			weaponGuess = weapons.get(rand.nextInt(weapons.size()));
+			personGuess = persons.get(rand.nextInt(persons.size()));
+		}
 		Solution sol = new Solution(personGuess, roomGuess, weaponGuess);
 
 		return sol;
 	}
 	//testing only
-	public void removeCard(Card c) {
-		playerCards.remove(c);
-		seenCards.remove(c);
+	public void clearCards() {
+		playerCards.clear();
+		seenCards.clear();
 	}
 }

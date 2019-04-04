@@ -542,4 +542,10 @@ public class Board {
 		return cards;
 	}
 	
+	
+	//for testing
+	public void addCardToDeck(Card c) {
+		cards.add(c);
+	}
+	
 }
