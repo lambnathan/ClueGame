@@ -2,6 +2,11 @@
 
 package clueGame;
 
+
+/*
+ * class that can represent an accusation or a suggestion for the correct solution
+ * contains a card for each type (player, weapon, room)
+ */
 public class Solution {
 	public Card person;
 	public Card room;
