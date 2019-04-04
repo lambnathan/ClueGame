@@ -501,17 +501,20 @@ public class Board {
 		/*
 		 * going player by player, if that player has a card that can disprove the suggestion, they are selected
 		 */
-		if(indexOfAccuser == players.size()) {
+		if(indexOfAccuser == playerArr.length - 1) {
 			indexOfAccuser = -1;
 		}
-		for(int i = indexOfAccuser + 1; i != indexOfAccuser; i++) {
-			if(i == playerArr.length - 1) {
-				i = 0;
-			}
+		int i = indexOfAccuser + 1;
+		while(i != indexOfAccuser) {
 			if(!playerArr[i].equals(accuser) && playerArr[i].disproveSuggestion(suggestion) != null) {
 				disproveCard = playerArr[i].disproveSuggestion(suggestion);
 				break;
-			}				
+			}	
+			
+			if(i == playerArr.length - 1) {
+				i = -1;
+			}
+			i++;
 		}
 		
 		//get the accused player

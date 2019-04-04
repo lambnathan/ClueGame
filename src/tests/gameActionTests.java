@@ -223,6 +223,7 @@ public class gameActionTests {
 	@Test 
 	public void handleSuggestion() {
 		ComputerPlayer accuser = null;
+		ComputerPlayer otherAccuser = null;
 		HumanPlayer human = null;
 		
 		Card rope = new Card("Rope", CardType.WEAPON);
@@ -239,10 +240,16 @@ public class gameActionTests {
 		
 		Solution s = new Solution(green, conservatory, rope);
 		//clearing hands of all computer players
+		int index = 0;
 		for(Player p : board.getPlayerList()) {
-			if(p instanceof ComputerPlayer) {
+			if(p instanceof ComputerPlayer && index == 0) {
 				accuser = (ComputerPlayer) p;
 				accuser.clearCards();
+				index++;
+			}
+			else if(p instanceof ComputerPlayer && index != 0) {
+				otherAccuser = (ComputerPlayer) p;
+				otherAccuser.clearCards();
 			}
 			else if(p instanceof HumanPlayer) {
 				human = (HumanPlayer) p;
@@ -291,8 +298,20 @@ public class gameActionTests {
 		human.addCard(green);
 		assertEquals(board.handleSuggestion(s, human), null);
 		
-		//test a suggestion that both players can disprove, 
+		//test a suggestion that a human and computer can disprove, but the first player in the list disproves it
+		accuser.clearCards();
+		human.clearCards();
+		accuser.addCard(green);
+		human.addCard(conservatory);
+		assertEquals(board.handleSuggestion(s, otherAccuser), green);
 		
+		//test a suggestion that two computer player can disprove, and the first in the list disporves it
+		accuser.clearCards();
+		human.clearCards();
+		otherAccuser.clearCards();
+		accuser.addCard(green);
+		otherAccuser.addCard(conservatory);
+		assertEquals(board.handleSuggestion(s, human), conservatory);
 	}
 	
 	@Test
