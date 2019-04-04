@@ -548,4 +548,12 @@ public class Board {
 		cards.add(c);
 	}
 	
+	public void clearAnswer() {
+		answer.clear();
+	}
+	
+	public void addCardToAnswer(Card c) {
+		answer.add(c);
+	}
+	
 }

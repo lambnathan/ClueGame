@@ -159,9 +159,65 @@ public class gameActionTests {
 	
 	@Test
 	public void disproveSuggestion() {
+		//testing one singular right answer
+		ComputerPlayer accuser = new ComputerPlayer("Miss Scarlet", 22, 0, Color.RED); //setting player to gun room
 		
+		Card rope = new Card("Rope", CardType.WEAPON);
+		Card pipe = new Card("Lead Pipe", CardType.WEAPON);
+		Card knife = new Card("Knife", CardType.WEAPON);
+		Card wrench = new Card("Wrench", CardType.WEAPON);
+		Card candlestick = new Card("Candlestick", CardType.WEAPON);
+		Card revolver = new Card("Revolver", CardType.WEAPON);
 		
-	}
+		Card scarlet = new Card("Miss Scarlet", CardType.PERSON);
+		Card mustard = new Card("Colonel Mustard", CardType.PERSON);
+		Card green = new Card("Mr. Green", CardType.PERSON);
+		Card peacock = new Card("Mrs. Peacock", CardType.PERSON);
+		Card white = new Card("Mrs. White", CardType.PERSON);
+		Card plum = new Card("Professor Plum", CardType.PERSON);
+		
+		Card conservatory = new Card("Conservatory", CardType.ROOM);
+		Card kitchen = new Card("Kitchen", CardType.ROOM);
+		Card ballroom = new Card("Ballroom", CardType.ROOM);
+		Card library = new Card("Library", CardType.ROOM);
+		Card arcade = new Card("Arcade room", CardType.ROOM);
+		Card gun = new Card("Gun room", CardType.ROOM);
+		Card trophy = new Card("Trophy room", CardType.ROOM);
+		Card pantry = new Card("Pantry", CardType.ROOM);
+		Card sauna = new Card("Sauna", CardType.ROOM);
+		
+		board.clearAnswer();
+		board.addCardToAnswer(rope);
+		board.addCardToAnswer(scarlet);
+		board.addCardToAnswer(sauna);
+		accuser.clearCards();
+		accuser.addCard(rope);
+		Solution s = new Solution(green, conservatory, rope);
+		assertEquals(accuser.disproveSuggestion(s), rope);
+		
+		//testing if player has more than one correct card for the solution, then it is randomly chosen which one is supplied
+		
+		accuser.addCard(sauna);
+		int saunaCounter = 0;
+		int ropeCounter = 0;
+		s = new Solution(green, sauna, rope); 
+		for(int i = 0; i < 100; i++) {
+			if(accuser.disproveSuggestion(s).equals(sauna)) {
+				saunaCounter++;
+			}
+			else if(accuser.disproveSuggestion(s).equals(rope)) {
+				ropeCounter++;
+			}
+		}
+		//if we generate 10 suggestions and it randomly chooses between these two, then we expect 
+		//that the number of times they are choosen will be at least greater than 10
+		assertTrue(saunaCounter > 10);
+		assertTrue(ropeCounter > 10);
+		
+		//testing if user has no cards, return null
+		accuser.clearCards();
+		assertEquals(accuser.disproveSuggestion(s), null);
+	}	
 	
 	@Test 
 	public void handleSuggestion() {
