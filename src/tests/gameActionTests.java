@@ -1,3 +1,5 @@
+//Authors: Nathan Lambert, Elliott McCabe
+
 package tests;
 
 import static org.junit.Assert.*;
