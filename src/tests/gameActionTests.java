@@ -16,6 +16,7 @@ import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.DoorDirection;
+import clueGame.HumanPlayer;
 import clueGame.Player;
 import clueGame.Solution;
 
@@ -30,7 +31,7 @@ public class gameActionTests {
 		// set the file names to use our own files
 		board.setConfigFiles("data/BoardLayout.csv", "data/ClueRooms.txt", "data/CluePlayers.txt", "data/ClueWeapons.txt");		
 		// Initialize will load BOTH config files 
-		board.initialize();
+		board.initialize();		
 	}
 	
 	@Test
@@ -221,6 +222,76 @@ public class gameActionTests {
 	
 	@Test 
 	public void handleSuggestion() {
+		ComputerPlayer accuser = null;
+		HumanPlayer human = null;
+		
+		Card rope = new Card("Rope", CardType.WEAPON);
+		Card green = new Card("Mr. Green", CardType.PERSON);
+		Card conservatory = new Card("Conservatory", CardType.ROOM);
+		
+		Card pipe = new Card("Lead Pipe", CardType.WEAPON);
+		Card mustard = new Card("Colonel Mustard", CardType.PERSON);
+		Card kitchen = new Card("Kitchen", CardType.ROOM);
+		
+		Card knife = new Card("Knife", CardType.WEAPON);
+		Card scarlet = new Card("Miss Scarlet", CardType.PERSON);
+		Card ballroom = new Card("Ballroom", CardType.ROOM);
+		
+		Solution s = new Solution(green, conservatory, rope);
+		//clearing hands of all computer players
+		for(Player p : board.getPlayerList()) {
+			if(p instanceof ComputerPlayer) {
+				accuser = (ComputerPlayer) p;
+				accuser.clearCards();
+			}
+			else if(p instanceof HumanPlayer) {
+				human = (HumanPlayer) p;
+				human.clearCards();
+			}
+		} 
+		
+		accuser.addCard(pipe);
+		accuser.addCard(mustard);
+		accuser.addCard(kitchen);
+		
+		human.addCard(knife);
+		human.addCard(scarlet);
+		human.addCard(ballroom);
+
+		
+		
+		//testing if no one can disprove return null (no one has any cards, so will return null)
+		assertEquals(board.handleSuggestion(s, accuser), null);
+		
+		//testing only accusing player can disprove returns null
+		accuser.addCard(green);
+		assertEquals(board.handleSuggestion(s, accuser), null);
+		
+		//testing only human can disprove, so returns answer
+		accuser.clearCards();
+		accuser.addCard(pipe);
+		accuser.addCard(mustard);
+		accuser.addCard(kitchen);
+		
+		human.addCard(knife);
+		human.addCard(scarlet);
+		human.addCard(ballroom);
+		human.addCard(green);
+		assertEquals(board.handleSuggestion(s, accuser), green);
+		
+		//testing only human can disprove, however, human is also accuser, therefore returns null
+		accuser.clearCards();
+		accuser.addCard(pipe);
+		accuser.addCard(mustard);
+		accuser.addCard(kitchen);
+		
+		human.addCard(knife);
+		human.addCard(scarlet);
+		human.addCard(ballroom);
+		human.addCard(green);
+		assertEquals(board.handleSuggestion(s, human), null);
+		
+		//test a suggestion that both players can disprove, 
 		
 	}
 	

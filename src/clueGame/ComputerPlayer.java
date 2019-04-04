@@ -85,6 +85,7 @@ public class ComputerPlayer extends Player {
 
 		return sol;
 	}
+	
 	//testing only
 	public void clearCards() {
 		playerCards.clear();

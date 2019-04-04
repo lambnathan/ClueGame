@@ -29,13 +29,13 @@ public class Player {
 		 * adds the players cards that are able to disprove the suggestion to a new arraylist to later randomly select a card
 		 */
 		for(Card c : playerCards) {
-			if(c.getCardName() == suggestion.getPersonName()) {
+			if(c.getCardName().equals(suggestion.getPersonName())) {
 				disprove.add(c);
 			}
-			else if(c.getCardName() == suggestion.getRoomName()) {
+			else if(c.getCardName().equals(suggestion.getRoomName())) {
 				disprove.add(c);
 			}
-			else if(c.getCardName() == suggestion.getWeaponName()) {
+			else if(c.getCardName().equals(suggestion.getWeaponName())) {
 				disprove.add(c);
 			}
 		}

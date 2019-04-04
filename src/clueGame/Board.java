@@ -485,18 +485,36 @@ public class Board {
 	 * returns null if no one can disprove
 	 */
 	public Card handleSuggestion(Solution suggestion, Player accuser) {
+		Player[] playerArr = new Player[players.size()];
+		System.arraycopy(players.toArray(), 0, playerArr, 0, players.size());
 		Card disproveCard = null;
 		Player accusedPlayer = null;
+		int indexOfAccuser = 0;
+		
+		for(Player p : playerArr) {
+			if(p.equals(accuser)) {
+				break;
+			}
+			indexOfAccuser++;
+		}
+		
 		/*
 		 * going player by player, if that player has a card that can disprove the suggestion, they are selected
 		 */
-		
-		for(Player p : players) {
-			if(p.disproveSuggestion(suggestion) != null) {
-				disproveCard = p.disproveSuggestion(suggestion);
+		if(indexOfAccuser == players.size()) {
+			indexOfAccuser = -1;
+		}
+		for(int i = indexOfAccuser + 1; i != indexOfAccuser; i++) {
+			if(i == playerArr.length - 1) {
+				i = 0;
+			}
+			if(!playerArr[i].equals(accuser) && playerArr[i].disproveSuggestion(suggestion) != null) {
+				disproveCard = playerArr[i].disproveSuggestion(suggestion);
 				break;
 			}				
 		}
+		
+		//get the accused player
 		for(Player p : players) {
 			if(p.getPlayerName() == suggestion.getPersonName()) {
 				accusedPlayer = p;
@@ -504,6 +522,7 @@ public class Board {
 				break;
 			}
 		}
+		
 		return disproveCard;
 	}
 
