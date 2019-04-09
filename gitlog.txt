@@ -1,3 +1,111 @@
+commit 5b6df355369fc102cee33cb79515dab067560731
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 20:51:35 2019 -0600
+
+    finished adding passing tests and changed all tests failing to passed
+
+commit 28ba6996f391cfb459fe6b06d059bfeb41c3f4f6
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 20:20:06 2019 -0600
+
+    Added for loops to handleSuggestion function in Board and add some tests to handleSuggestion in gameActionTests
+
+commit b87b1eada81ebb42f421160f2c133064b6e3ebd1
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 18:59:06 2019 -0600
+
+    Implemented disprove suggestion test
+
+commit 8cb59dde1c05a8b8e48a474e909fe10241912365
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 18:45:12 2019 -0600
+
+    Finished implementing tests for createSuggestion
+
+commit 012f9e3c92131986bd8fa4b014e61f1624dc7aba
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 17:43:25 2019 -0600
+
+    Added tests for gameActionTests
+
+commit 086b75f27364c721b60ada05b630f79b87c77e5d
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 15:26:02 2019 -0600
+
+    added multiple getters/setters throughout just for testing, added the bodies for checkAccusation, handleSuggestion, selectAnswer, pickLocation, createSuggestion, disproveSuggestion.
+
+commit 279cf37f09144c3276274f8eebc05c37df17b149
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Tue Apr 2 16:37:16 2019 -0600
+
+    added selectAnswer method in Board class and finished test for selectTarget
+
+commit d10015c7b6a0b1eeb5c832cdf8d4026cfc28c414
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Tue Apr 2 15:34:09 2019 -0600
+
+    Filled in test for no room in list for selectTarget and implemented pickLocation function for ComputerPlayer
+
+commit d398266ace6c39fcf824a409106b2b10f001b31b
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Tue Apr 2 14:30:55 2019 -0600
+
+    Added skeleton class for gameActionTests
+
+commit 0085429b09fc6c707bafb1eefc78901b03fe8fc9
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Fri Mar 22 15:24:31 2019 -0600
+
+    Added git log
+
+commit cd2814ee68d15c0604ba5983781efa096f134793
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Fri Mar 22 15:23:48 2019 -0600
+
+    Made all of the gameSetup tests pass, fixed other methods, and added comments
+
+commit 2a7f0b9737a39f89939760c32bf8738a7ba6bd04
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Fri Mar 22 14:49:53 2019 -0600
+
+    Added dealCards funcion, finsihed adding the functionality of creating cards from config files, and added tests for dealCards
+
+commit 169919dc426c01a2f2348024b90cf8b62836317c
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Thu Mar 21 15:13:24 2019 -0600
+
+    Added failing tests for loadCards
+
+commit 170b171e20f4ab04f87bc69c974bc3d7ff524ff9
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Thu Mar 21 14:59:28 2019 -0600
+
+    Added failing tests for loadPoeple test
+
+commit 0458f360acb0cda77867ff89ce246d33e26402a9
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Thu Mar 21 14:37:41 2019 -0600
+
+    Finished the loadPlayerConfig method in Board class
+
+commit afd36d7d1342c8b974a41fdf8f9bea3df8513fcb
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Tue Mar 19 15:19:34 2019 -0600
+
+    Added more skeleton function to the classes, add Player Config and Weapons config files, and began the method to impliment reading the player config file
+
+commit f131ab8335ce2a62f7ae5138bcc5d5bc08af3e83
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Tue Mar 19 14:35:51 2019 -0600
+
+    Added skeleton classes for implimenting players and player logic
+
+commit 9777e68a620c88d2262958ed7fc55ce9d48b720f
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:42:00 2019 -0600
+
+    Added file for c14a-2
+
 commit 7c12810f3796c988304e1e4bf04ab644ae3cdba0
 Author: Elliott McCabe <mccabe@mines.edu>
 Date:   Mon Mar 18 20:39:33 2019 -0600

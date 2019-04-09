@@ -7,12 +7,14 @@ package clueGame;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.Color;
+import java.lang.reflect.Field;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -26,9 +28,11 @@ public class Board {
 	private Map<BoardCell, HashSet<BoardCell>> adjmtx;
 	private HashSet<BoardCell> targets;
 	private static String boardConfigFile;
-	private String roomConfigFile;
-	private String playerConfigFile;
-	private String weaponConfigFile;
+	private static String roomConfigFile;
+	private static String playerConfigFile;
+	private static String weaponConfigFile;
+	
+	private Set<Card> answer; //stores a randomly selected player, weapon and room
 	
 	private Set<Player> players;
 	private Set<Card> cards;
@@ -46,6 +50,8 @@ public class Board {
 		
 		players = new HashSet<>();
 		cards = new HashSet<>();
+		
+		answer = new HashSet<>();
 	}
 	
 	// this method returns the only Board
@@ -66,6 +72,8 @@ public class Board {
 			System.out.println(e.getMessage());
 		}
 		calcAdjacencies();
+		selectAnswer();
+		dealCards();
 	}
 	
 	public void loadRoomConfig() throws BadConfigFormatException {
@@ -94,12 +102,18 @@ public class Board {
 			int index = line.lastIndexOf(',');
 			//room = 3rd index to next comma
 			room = line.substring(3, index);
+			
+			//creates a room card for each viable room
+			if(line.contains("Card")) {
+				Card c = new Card(room, CardType.ROOM);
+				cards.add(c);
+			}
 			legend.put(symbol, room);
 		}
 	}
 	
 	//loads the playing board and gets the size
-	public static void loadBoardConfig() throws BadConfigFormatException {
+	public void loadBoardConfig() throws BadConfigFormatException {
 		//tries to open the file
 		FileReader reader = null;
 		Scanner in = null;
@@ -183,7 +197,10 @@ public class Board {
 		numColumns = cells.length;
 		in.close();
 	}
-	
+	/*
+	 * reads all the players from the player config file and 
+	 * adds them to the set of all players, with their correct properties
+	 */
 	public void loadPlayerConfig() throws BadConfigFormatException{
 		FileReader reader = null;
 		Scanner in = null;
@@ -193,16 +210,54 @@ public class Board {
 		} catch (FileNotFoundException e) {
 			System.out.println("Not a valid file.");
 		}
-		
-		int counter = 0;
+		/*
+		 * gets each line of player config file, splits the line on the commas (,)
+		 * then sets the appropriate values based on their index in the array. All
+		 * player config files should have the same format
+		 * makes sure to trim the strings in the array
+		 */
 		while(in.hasNext()) {
 			String[] line = null;
 			String currentLine = in.nextLine();
 			line = currentLine.split(",");
-			if(counter == 0) {
-				
+			String name = line[0].trim();
+			int row = Integer.valueOf(line[1].trim());
+			int column = Integer.valueOf(line[2].trim());
+			Color color = convertColor(line[3].trim());
+			//determines whether the player is human or computer
+			if(line[4].trim().equals("Human")) {
+				Player player = new HumanPlayer(name, row, column, color);
+				players.add(player);
 			}
+			else {
+				Player player = new ComputerPlayer(name, row, column, color);
+				players.add(player);
+			}
+			//adds a card for each player
+			Card c = new Card(name, CardType.PERSON);
+			cards.add(c);
 			
+		}
+	}
+	
+	/*
+	 * reads the weapon config file
+	 */
+	public void loadWeaponConfig() throws BadConfigFormatException{
+		FileReader reader = null;
+		Scanner in = null;
+		try {
+			reader = new FileReader(weaponConfigFile);
+			in = new Scanner(reader);
+		}
+		catch(FileNotFoundException e) {
+			System.out.println("Not a valid file.");
+		}
+		//creates a weapon card for each weapon
+		while(in.hasNext()) {
+			String weapon = in.nextLine().trim();
+			Card c = new Card(weapon, CardType.WEAPON);
+			cards.add(c);
 		}
 	}
 		
@@ -225,7 +280,7 @@ public class Board {
 		return numColumns;
 	}
 	
-	public BoardCell getCellAt(int row, int column) {
+	public static BoardCell getCellAt(int row, int column) {
 		return board[row][column];
 	}
 	
@@ -333,7 +388,7 @@ public class Board {
 	}
 
 	private void findAllTargets(BoardCell startCell, int pathLength) {
-		HashSet<BoardCell> adj;
+	    HashSet<BoardCell> adj;
 		adj = adjmtx.get(startCell);
 		for (BoardCell bd : adj) {
 			//if already in visited list, skip
@@ -355,16 +410,172 @@ public class Board {
 		}
 	}
 	
+	public void dealCards() {
+		//keeps track of cards that have been dealt
+		Set<Card> seen = new HashSet<>();
+		/*
+		 * while we have not dealt all of the cards, go over each player and make sure they have one of 
+		 * each type of card. if they already have each type of card,
+		 * add the current card if it has not already been dealt
+		 */
+		while(seen.size() != cards.size()) {
+			for(Player p : players) {
+				int weaponCount = 0;
+				int playerCount = 0;
+				int roomCount = 0;
+				for(Card c: cards) {
+					//if card has not been dealt
+					if(!seen.contains(c)) {
+						if(c.getCardType() == CardType.PERSON && playerCount == 0) {
+							p.addCard(c);
+							seen.add(c);
+							playerCount++;
+							break;
+						}
+						else if(c.getCardType() == CardType.ROOM && roomCount == 0) {
+							p.addCard(c);
+							seen.add(c);
+							roomCount++;
+							break;
+						}
+						else if(c.getCardType() == CardType.WEAPON && weaponCount == 0) {
+							p.addCard(c);
+							seen.add(c);
+							weaponCount++;
+							break;
+						}
+						
+						//if player already has each type of card, add the next unseen card
+						if(weaponCount + playerCount + roomCount == 3) {
+							p.addCard(c);
+							seen.add(c);
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/*
+	 * randomly selects three cards, one of each type, to be the answer for the game
+	 * this is called after all the cards have been loaded in before cards are dealt
+	 */
 	public void selectAnswer() {
-		
+		Card[] cardArr = new Card[cards.size()];
+		System.arraycopy(cards.toArray(), 0, cardArr, 0, cards.size());
+		while(answer.size() < 3) {
+			int rand = new Random().nextInt(cards.size());
+			Card c = cardArr[rand];
+			boolean inside = false;
+			for(Card card: answer) {
+				if(c.getCardType() == card.getCardType()) {
+					inside = true;
+					break;
+				}
+			}
+			if(!inside) {
+				answer.add(c);
+				cards.remove(c);
+			}
+		}
 	}
-	
-	public Card handleSuggestion(TBD) {
+	/*
+	 * Finding the first player in the game that is able to disprove the suggestion
+	 * returns null if no one can disprove
+	 */
+	public Card handleSuggestion(Solution suggestion, Player accuser) {
+		Player[] playerArr = new Player[players.size()];
+		System.arraycopy(players.toArray(), 0, playerArr, 0, players.size());
+		Card disproveCard = null;
+		Player accusedPlayer = null;
+		int indexOfAccuser = 0;
 		
+		for(Player p : playerArr) {
+			if(p.equals(accuser)) {
+				break;
+			}
+			indexOfAccuser++;
+		}
+		
+		/*
+		 * going player by player, if that player has a card that can disprove the suggestion, they are selected
+		 */
+		if(indexOfAccuser == playerArr.length - 1) {
+			indexOfAccuser = -1;
+		}
+		int i = indexOfAccuser + 1;
+		while(i != indexOfAccuser) {
+			if(!playerArr[i].equals(accuser) && playerArr[i].disproveSuggestion(suggestion) != null) {
+				disproveCard = playerArr[i].disproveSuggestion(suggestion);
+				break;
+			}	
+			
+			if(i == playerArr.length - 1) {
+				i = -1;
+			}
+			i++;
+		}
+		
+		//get the accused player
+		for(Player p : players) {
+			if(p.getPlayerName() == suggestion.getPersonName()) {
+				accusedPlayer = p;
+				accusedPlayer.setLocation(accuser.getRow(), accuser.getColumn());
+				break;
+			}
+		}
+		
+		return disproveCard;
 	}
-	
+
 	public boolean checkAccusation(Solution accusation) {
+		if(answer.contains(accusation.getPerson()) && answer.contains(accusation.getWeapon()) && answer.contains(accusation.getRoom())) {
+			return true;
+		}
+		return false;
+	}
+	
+	public Set<Card> getAnswer() {
+		return answer;
+	}
+
+	/*
+	 * returns color object from string
+	 */
+	public Color convertColor(String strColor) {
+		Color color;
+		try {
+			Field field = Class.forName("java.awt.Color").getField(strColor.trim());
+			color = (Color)field.get(null);
+		}
+		catch(Exception e) {
+			color = null; //not defined
+		}
 		
+		return color;
+	}
+	
+	public Set<Player> getPlayerList(){
+		return players;
+	}
+	
+	public Set<Card> getCardList(){
+		return cards;
+	}
+	
+	
+	//for testing
+	public void addCardToDeck(Card c) {
+		cards.add(c);
+	}
+	
+	public void clearAnswer() {
+		answer.clear();
+	}
+	
+	public void addCardToAnswer(Card c) {
+		answer.add(c);
 	}
 	
 }
