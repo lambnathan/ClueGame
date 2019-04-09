@@ -1,27 +1,37 @@
+//--------------------Board--------------------
+
 //Authors: Nathan Lambert and Elliott McCabe
 
 package clueGame;
 
 import static org.junit.Assert.assertEquals;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Board {
 	public static final int MAX_BOARD_SIZE = 50;
 	private static int numRows;
 	private static int numColumns;
-	private BoardCell[][] board;
-	private HashSet<BoardCell> visited;
-	private HashMap<Character, String> legend;
-	private HashMap<BoardCell, HashSet<BoardCell>> adjmtx;
+	private static BoardCell[][] board;
+	private Set<BoardCell> visited;
+	private static Map<Character, String> legend;
+	private Map<BoardCell, HashSet<BoardCell>> adjmtx;
 	private HashSet<BoardCell> targets;
-	private String boardConfigFile;
+	private static String boardConfigFile;
 	private String roomConfigFile;
+	private String playerConfigFile;
+	private String weaponConfigFile;
+	
+	private Set<Player> players;
+	private Set<Card> cards;
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -29,10 +39,13 @@ public class Board {
 	// constructor is private to ensure only one can be created
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
-		legend = new HashMap<Character, String>();
-		adjmtx = new HashMap<BoardCell, HashSet<BoardCell>>();
-		targets = new HashSet<BoardCell>();
-		visited = new HashSet<BoardCell>();
+		legend = new HashMap<>();
+		adjmtx = new HashMap<>();
+		targets = new HashSet<>();
+		visited = new HashSet<>();
+		
+		players = new HashSet<>();
+		cards = new HashSet<>();
 	}
 	
 	// this method returns the only Board
@@ -45,6 +58,8 @@ public class Board {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
+			loadPlayerConfig();
+			loadWeaponConfig();
 		}
 		catch(BadConfigFormatException e) {
 			System.out.println(e);
@@ -84,7 +99,7 @@ public class Board {
 	}
 	
 	//loads the playing board and gets the size
-	public void loadBoardConfig() throws BadConfigFormatException {
+	public static void loadBoardConfig() throws BadConfigFormatException {
 		//tries to open the file
 		FileReader reader = null;
 		Scanner in = null;
@@ -97,7 +112,7 @@ public class Board {
 		
 		int row = 0;
 		String[] cells = null;
-		ArrayList<Integer> columnNums = new ArrayList<Integer>();
+		ArrayList<Integer> columnNums = new ArrayList<>();
 		while (in.hasNext()) {
 			String line = in.nextLine();
 			//splits all of the strings seperated by a common and puts in an array
@@ -166,14 +181,39 @@ public class Board {
 		}
 		numRows = row;
 		numColumns = cells.length;
-	}
-		
-	public void setConfigFiles(String boardConfig, String legendConfig) {
-		boardConfigFile = boardConfig;
-		roomConfigFile = legendConfig;
+		in.close();
 	}
 	
-	public HashMap<Character, String> getLegend() {		
+	public void loadPlayerConfig() throws BadConfigFormatException{
+		FileReader reader = null;
+		Scanner in = null;
+		try {
+			reader = new FileReader(playerConfigFile);
+			in = new Scanner(reader);
+		} catch (FileNotFoundException e) {
+			System.out.println("Not a valid file.");
+		}
+		
+		int counter = 0;
+		while(in.hasNext()) {
+			String[] line = null;
+			String currentLine = in.nextLine();
+			line = currentLine.split(",");
+			if(counter == 0) {
+				
+			}
+			
+		}
+	}
+		
+	public void setConfigFiles(String boardConfig, String legendConfig, String playerConfig, String weaponConfig) {
+		boardConfigFile = boardConfig;
+		roomConfigFile = legendConfig;
+		playerConfigFile = playerConfig;
+		weaponConfigFile = weaponConfig;
+	}
+	
+	public Map<Character, String> getLegend() {		
 		return legend;
 	}
 	
@@ -192,8 +232,9 @@ public class Board {
 	public void calcAdjacencies() {
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j <numColumns; j++) {
-				HashSet<BoardCell> adjList = new HashSet<BoardCell>();
+				HashSet<BoardCell> adjList = new HashSet<>();
 				BoardCell current = getCellAt(i,j);
+				//doorway cases
 				if(current.isDoorway()) {
 					if(current.getDoorDirection() == DoorDirection.DOWN) {
 						adjList.add(getCellAt(i+1,j));
@@ -208,230 +249,63 @@ public class Board {
 						adjList.add(getCellAt(i-1,j));
 					}					
 				}
-				
+				//room cases
 				else if(current.isRoom() && !current.isDoorway()) {
 					adjList.clear();
 				}
 				
+				//if statements for walkway cases
 				else if(current.isWalkway()) {
-					//(Top Left Corner) case
-					if(i == 0 && j == 0) {
-						if(getCellAt(i,j+1).isWalkway()) {
-							adjList.add(getCellAt(i,j+1));
-						}
-						if(getCellAt(i,j+1).isDoorway()){
-							if(getCellAt(i,j+1).getDoorDirection() == DoorDirection.LEFT) {
-								adjList.add(getCellAt(i,j+1));
+					
+					//check below
+					if(i >= 0) {
+						if(i < numRows - 1) {
+							if(getCellAt(i + 1, j).isWalkway()) {
+								adjList.add(getCellAt(i + 1,j));
 							}
-						}
-						if(getCellAt(i+1,j).isWalkway()) {
-							adjList.add(getCellAt(i+1,j));
-						}
-						if(getCellAt(i+1,j).isDoorway()) {
-							if(getCellAt(i+1,j).getDoorDirection() == DoorDirection.UP) {
-								adjList.add(getCellAt(i+1,j));
+							if(getCellAt(i + 1, j).isDoorway()){
+								if(getCellAt(i + 1, j).getDoorDirection() == DoorDirection.UP) {
+									adjList.add(getCellAt(i + 1, j));
+								}
 							}
 						}
 					}
-					//(lower Right corner) case
-					else if(i == numRows - 1 && j == numColumns - 1) {
-						if(getCellAt(i,j - 1).isWalkway()) {
-							adjList.add(getCellAt(i,j - 1));
-						}
-						if(getCellAt(i,j-1).isDoorway()){
-							if(getCellAt(i,j-1).getDoorDirection() == DoorDirection.RIGHT) {
-								adjList.add(getCellAt(i,j-1));
+					//check above
+					if(i <= numRows - 1) {
+						if(i > 0) {
+							if(getCellAt(i - 1, j).isWalkway()) {
+								adjList.add(getCellAt(i - 1, j));
 							}
-						}
-						if(getCellAt(i - 1,j).isWalkway()) {
-							adjList.add(getCellAt(i - 1,j));
-						}
-						if(getCellAt(i-1,j).isDoorway()){
-							if(getCellAt(i-1,j).getDoorDirection() == DoorDirection.DOWN) {
-								adjList.add(getCellAt(i-1,j));
+							if(getCellAt(i - 1, j).isDoorway()){
+								if(getCellAt(i - 1,j).getDoorDirection() == DoorDirection.DOWN) {
+									adjList.add(getCellAt(i - 1, j));
+								}
 							}
 						}
 					}
-					//(Top right corner) case
-					else if(i == 0 && j == numColumns - 1) {
-						if(getCellAt(i,j - 1).isWalkway()) {
-							adjList.add(getCellAt(i,j - 1));
-						}
-						if(getCellAt(i,j-1).isDoorway()){
-							if(getCellAt(i,j-1).getDoorDirection() == DoorDirection.RIGHT) {
-								adjList.add(getCellAt(i,j-1));
+					//check right
+					if(j >= 0) {
+						if(j < numColumns - 1) {
+							if(getCellAt(i, j + 1).isWalkway()) {
+								adjList.add(getCellAt(i, j + 1));
 							}
-						}
-						if(getCellAt(i + 1,j).isWalkway()) {
-							adjList.add(getCellAt(i + 1,j));
-						}
-						if(getCellAt(i+1,j).isDoorway()){
-							if(getCellAt(i+1,j).getDoorDirection() == DoorDirection.UP) {
-								adjList.add(getCellAt(i+1,j));
+							if(getCellAt(i, j + 1).isDoorway()){
+								if(getCellAt(i, j + 1).getDoorDirection() == DoorDirection.LEFT) {
+									adjList.add(getCellAt(i, j + 1));
+								}
 							}
 						}
 					}
-					//(Bottom Left) case
-					else if(i == numRows - 1 && j == 0 ) {
-						if(getCellAt(i - 1,j).isWalkway()) {
-							adjList.add(getCellAt(i - 1,j));
-						}
-						if(getCellAt(i-1,j).isDoorway()){
-							if(getCellAt(i-1,j).getDoorDirection() == DoorDirection.DOWN) {
-								adjList.add(getCellAt(i-1,j));
+					//check left
+					if(j <= numColumns - 1) {
+						if(j > 0) {
+							if(getCellAt(i, j - 1).isWalkway()) {
+								adjList.add(getCellAt(i, j - 1));
 							}
-						}
-						if(getCellAt(i,j + 1).isWalkway()) {
-							adjList.add(getCellAt(i,j + 1));
-						}
-						if(getCellAt(i,j+1).isDoorway()){
-							if(getCellAt(i,j+1).getDoorDirection() == DoorDirection.LEFT) {
-								adjList.add(getCellAt(i,j+1));
-							}
-						}
-					}
-					//wall cases
-					//Top wall
-					else if (i == 0) {
-						if(getCellAt(i,j - 1).isWalkway()) {
-							adjList.add(getCellAt(i,j - 1));
-						}
-						if(getCellAt(i,j-1).isDoorway()){
-							if(getCellAt(i,j-1).getDoorDirection() == DoorDirection.RIGHT) {
-								adjList.add(getCellAt(i,j-1));
-							}
-						}
-						if(getCellAt(i,j + 1).isWalkway()) {
-							adjList.add(getCellAt(i,j + 1));
-						}
-						if(getCellAt(i,j+1).isDoorway()){
-							if(getCellAt(i,j+1).getDoorDirection() == DoorDirection.LEFT) {
-								adjList.add(getCellAt(i,j+1));
-							}
-						}
-						if(getCellAt(i + 1,j).isWalkway()) {
-							adjList.add(getCellAt(i + 1,j));
-						}
-						if(getCellAt(i+1,j).isDoorway()){
-							if(getCellAt(i+1,j).getDoorDirection() == DoorDirection.UP) {
-								adjList.add(getCellAt(i+1,j));
-							}
-						}
-						
-					}
-					//bottom wall
-					else if (i == numRows - 1) {
-						if(getCellAt(i,j - 1).isWalkway()) {
-							adjList.add(getCellAt(i,j - 1));
-						}
-						if(getCellAt(i,j-1).isDoorway()){
-							if(getCellAt(i,j-1).getDoorDirection() == DoorDirection.RIGHT) {
-								adjList.add(getCellAt(i,j-1));
-							}
-						}
-						if(getCellAt(i,j + 1).isWalkway()) {
-							adjList.add(getCellAt(i,j + 1));
-						}
-						if(getCellAt(i,j+1).isDoorway()){
-							if(getCellAt(i,j+1).getDoorDirection() == DoorDirection.LEFT) {
-								adjList.add(getCellAt(i,j+1));
-							}
-						}
-						if(getCellAt(i - 1,j).isWalkway()) {
-							adjList.add(getCellAt(i - 1,j));
-						}
-						if(getCellAt(i-1,j).isDoorway()){
-							if(getCellAt(i-1,j).getDoorDirection() == DoorDirection.DOWN) {
-								adjList.add(getCellAt(i-1,j));
-							}
-						}					
-					}
-					//Leftmost wall
-					else if (j == 0) {
-						if(getCellAt(i - 1,j).isWalkway()) {
-							adjList.add(getCellAt(i - 1,j));
-						}
-						if(getCellAt(i-1,j).isDoorway()){
-							if(getCellAt(i-1,j).getDoorDirection() == DoorDirection.DOWN) {
-								adjList.add(getCellAt(i-1,j));
-							}
-						}
-						if(getCellAt(i + 1,j).isWalkway()) {
-							adjList.add(getCellAt(i + 1,j));
-						}
-						if(getCellAt(i+1,j).isDoorway()){
-							if(getCellAt(i+1,j).getDoorDirection() == DoorDirection.UP) {
-								adjList.add(getCellAt(i+1,j));
-							}
-						}
-						if(getCellAt(i,j + 1).isWalkway()) {
-							adjList.add(getCellAt(i,j + 1));
-						}
-						if(getCellAt(i,j+1).isDoorway()){
-							if(getCellAt(i,j+1).getDoorDirection() == DoorDirection.LEFT) {
-								adjList.add(getCellAt(i,j+1));
-							}
-						}						
-					}
-					//Rightmost wall
-					else if (j == numColumns - 1) {
-						if(getCellAt(i - 1,j).isWalkway()) {
-							adjList.add(getCellAt(i - 1,j));
-						}
-						if(getCellAt(i-1,j).isDoorway()){
-							if(getCellAt(i-1,j).getDoorDirection() == DoorDirection.DOWN) {
-								adjList.add(getCellAt(i-1,j));
-							}
-						}
-						if(getCellAt(i + 1,j).isWalkway()) {
-							adjList.add(getCellAt(i + 1,j));
-						}
-						if(getCellAt(i+1,j).isDoorway()){
-							if(getCellAt(i+1,j).getDoorDirection() == DoorDirection.UP) {
-								adjList.add(getCellAt(i+1,j));
-							}
-						}
-						if(getCellAt(i,j - 1).isWalkway()) {
-							adjList.add(getCellAt(i,j - 1));
-						}
-						if(getCellAt(i,j-1).isDoorway()){
-							if(getCellAt(i,j-1).getDoorDirection() == DoorDirection.RIGHT) {
-								adjList.add(getCellAt(i,j-1));
-							}
-						}
-					}
-					//middle
-					else {
-						if(getCellAt(i - 1,j).isWalkway()) {
-							adjList.add(getCellAt(i - 1,j));
-						}
-						if(getCellAt(i-1,j).isDoorway()){
-							if(getCellAt(i-1,j).getDoorDirection() == DoorDirection.DOWN) {
-								adjList.add(getCellAt(i-1,j));
-							}
-						}
-						if(getCellAt(i + 1,j).isWalkway()) {
-							adjList.add(getCellAt(i + 1,j));
-						}
-						if(getCellAt(i+1,j).isDoorway()){
-							if(getCellAt(i+1,j).getDoorDirection() == DoorDirection.UP) {
-								adjList.add(getCellAt(i+1,j));
-							}
-						}
-						if(getCellAt(i,j - 1).isWalkway()) {
-							adjList.add(getCellAt(i,j - 1));
-						}
-						if(getCellAt(i,j-1).isDoorway()){
-							if(getCellAt(i,j-1).getDoorDirection() == DoorDirection.RIGHT) {
-								adjList.add(getCellAt(i,j-1));
-							}
-						}
-						if(getCellAt(i,j+1).isWalkway()) {
-							adjList.add(getCellAt(i,j+1));
-						}
-						if(getCellAt(i,j+1).isDoorway()) {
-							if(getCellAt(i,j+1).getDoorDirection() == DoorDirection.LEFT) {
-								adjList.add(getCellAt(i,j+1));
+							if(getCellAt(i, j - 1).isDoorway()){
+								if(getCellAt(i, j - 1).getDoorDirection() == DoorDirection.RIGHT) {
+									adjList.add(getCellAt(i, j - 1));
+								}
 							}
 						}
 					}
@@ -441,12 +315,12 @@ public class Board {
 		}
 	}
 
-	public HashSet<BoardCell> getAdjList(int row, int column) {
+	public Set<BoardCell> getAdjList(int row, int column) {
 		return adjmtx.get(getCellAt(row,column));
 
 	}
 
-	public HashSet<BoardCell> getTargets() {
+	public Set<BoardCell> getTargets() {
 		return targets;
 	}
 
@@ -459,7 +333,7 @@ public class Board {
 	}
 
 	private void findAllTargets(BoardCell startCell, int pathLength) {
-		HashSet<BoardCell> adj = new HashSet<BoardCell>();
+		HashSet<BoardCell> adj;
 		adj = adjmtx.get(startCell);
 		for (BoardCell bd : adj) {
 			//if already in visited list, skip
@@ -479,6 +353,18 @@ public class Board {
 			}
 			visited.remove(bd);
 		}
+	}
+	
+	public void selectAnswer() {
+		
+	}
+	
+	public Card handleSuggestion(TBD) {
+		
+	}
+	
+	public boolean checkAccusation(Solution accusation) {
+		
 	}
 	
 }

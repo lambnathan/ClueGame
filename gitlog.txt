@@ -1,4 +1,70 @@
-<<<<<<< HEAD
+commit 7c12810f3796c988304e1e4bf04ab644ae3cdba0
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:39:33 2019 -0600
+
+    changed naming convention of a test within fileinittests to match naming conventions
+
+commit 4c93ce399a48130e02134e29bc5edf146c76f0dd
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:37:09 2019 -0600
+
+    changed the following to static:loadboardconfig, board, legend
+
+commit 893935d1c2339b9cf463171c1aa1abe19d383914
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:34:10 2019 -0600
+
+    Closed scanner in loadBoardConfig and also deleted unneeded argument in columnNums declaration within loadBoardConfig
+
+commit 1d98c514d728807c03ff4be9c8625ea724ba23ea
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:27:55 2019 -0600
+
+    changed declarations in board (didnt need to include arguments within the < >. Also closed scanner in within loadBoardConfig
+
+commit ede390bfa317b5a5266b72675bfe5059518b1124
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:18:18 2019 -0600
+
+    changed first line of findalltargets, removed useless assignment to adj. Also changed declarations from Hash to either normal Map or normal Set.
+
+commit 9db0c2af9dfe027e66d536a1c0f61de26da2991a
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:06:16 2019 -0600
+
+    Added comments to BadConfigFormatException, clarifying how it works
+
+commit 92a843ee0c490fe97a5c7f4708dd6291d4a130e0
+Merge: a985d34 50aa3a8
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 20:01:52 2019 -0600
+
+    Added comments to calcAdjacencies to specify which case each part of code is for
+
+commit a985d3443ea2d76a68f064ab809dab2a5cc94c67
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 19:53:52 2019 -0600
+
+    .
+
+commit 346327c1b1b6f959bd2c44b117089a7c5f342c55
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Mon Mar 18 19:50:38 2019 -0600
+
+    .
+
+commit 50aa3a83c5453984755cb5a29c007a7622e4dad8
+Author: Nathan Lambert <nlambert@mymail.mines.edu>
+Date:   Mon Mar 18 18:28:58 2019 -0600
+
+    Refactored the giant if statement in calcAdjacencies in Board.java
+
+commit 0fc94397736c8c871d5edc33a534647578ecb923
+Author: Nathan Lambert <nlambert@mymail.mines.edu>
+Date:   Mon Mar 18 17:48:41 2019 -0600
+
+    got files on own computer
+
 commit e0d1714dc6949dc0d9b3fdaf75a019089ef5c3d3
 Author: Elliott McCabe <mccabe@mines.edu>
 Date:   Wed Mar 6 15:09:24 2019 -0700
@@ -124,6 +190,3 @@ Author: Nathan <nlambert@mymail.mines.edu>
 Date:   Tue Feb 26 15:23:08 2019 -0700
 
     Added .gitignore and source folder
-=======
-The number of columns for each row do not match.
->>>>>>> afd36d7d1342c8b974a41fdf8f9bea3df8513fcb

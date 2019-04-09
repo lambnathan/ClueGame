@@ -20,7 +20,7 @@ public class ClueLayout_Tests {
 	public static final int NUM_ROWS = 26;
 	public static final int NUM_COLUMNS = 26;
 	
-private static Board board;
+	private static Board board;
 	
 	@BeforeClass
 	public static void setUp() {
