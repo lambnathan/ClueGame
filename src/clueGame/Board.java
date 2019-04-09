@@ -18,7 +18,11 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Board {
+import javax.swing.JPanel;
+
+import com.sun.prism.Graphics;
+
+public class Board extends JPanel{
 	public static final int MAX_BOARD_SIZE = 50;
 	private static int numRows;
 	private static int numColumns;
@@ -272,11 +276,11 @@ public class Board {
 		return legend;
 	}
 	
-	public int getNumRows() {
+	public static int getNumRows() {
 		return numRows;
 	}
 	
-	public int getNumColumns() {
+	public static int getNumColumns() {
 		return numColumns;
 	}
 	
@@ -562,6 +566,11 @@ public class Board {
 	
 	public Set<Card> getCardList(){
 		return cards;
+	}
+	
+	//draw the board
+	public void paintComponent(Graphics g) {
+		
 	}
 	
 	

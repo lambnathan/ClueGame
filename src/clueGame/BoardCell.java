@@ -1,6 +1,8 @@
 //Authors: Nathan Lambert and Elliott McCabe
 package clueGame;
 
+import com.sun.prism.Graphics;
+
 public class BoardCell {
 	private int row;
 	private int column;
@@ -63,5 +65,9 @@ public class BoardCell {
 	
 	public int getColumn() {
 		return column;
+	}
+	
+	public void draw(Graphics g) {
+	 
 	}
 }

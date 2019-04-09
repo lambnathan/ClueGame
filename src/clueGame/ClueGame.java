@@ -16,22 +16,25 @@ import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class ControlGUI extends JPanel{
+public class ClueGame extends JPanel{
 	
-	public ControlGUI() {
+	public ClueGame() {		
 		setLayout(new GridLayout(2, 0));
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new GridLayout(1, 0));
-		topPanel.add(createTurnPanel());
-		topPanel.add(createButtonPanel());
-		add(topPanel);
+		JPanel gameBoardPanel = new JPanel();
+		gameBoardPanel.setLayout(new GridLayout(Board.getNumRows(), Board.getNumColumns()));
 		
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(new FlowLayout());
-		bottomPanel.add(createDieRollPanel());
-		bottomPanel.add(createGuessPanel());
-		bottomPanel.add(createGuessResultPanel());
-		add(bottomPanel);
+		JPanel topControlPanel = new JPanel();
+		topControlPanel.setLayout(new GridLayout(1, 0));
+		topControlPanel.add(createTurnPanel());
+		topControlPanel.add(createButtonPanel());
+		add(topControlPanel);
+		
+		JPanel bottomControlPanel = new JPanel();
+		bottomControlPanel.setLayout(new FlowLayout());
+		bottomControlPanel.add(createDieRollPanel());
+		bottomControlPanel.add(createGuessPanel());
+		bottomControlPanel.add(createGuessResultPanel());
+		add(bottomControlPanel);
 	}
 	
 	
@@ -83,14 +86,21 @@ public class ControlGUI extends JPanel{
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Response to Guess"));
 		return panel;
 	}
-
+	
 	
 	public static void main(String[] args) {
+		// Board is singleton, get the only instance
+		Board board;
+		board = Board.getInstance();
+		// set the file names to use our own files
+		board.setConfigFiles("data/BoardLayout.csv", "data/ClueRooms.txt", "data/CluePlayers.txt", "data/ClueWeapons.txt");		
+		// Initialize will load BOTH config files 
+		board.initialize();
 		//creates the main JFrame
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(700, 150);
-		ControlGUI control = new ControlGUI();
+		frame.setSize(700, 750);
+		ClueGame control = new ClueGame();
 		frame.add(control, BorderLayout.CENTER);
 		
 		try {
