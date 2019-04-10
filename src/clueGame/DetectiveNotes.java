@@ -1,6 +1,9 @@
+//Authors: Elliott McCabe, Nathan Lambert
+
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.JCheckBox;
@@ -14,14 +17,13 @@ import javax.swing.border.TitledBorder;
 
 public class DetectiveNotes extends JFrame {
 	
-	public JComboBox persons, weapons, rooms;
+	public JPanel persons, weapons, rooms;
 	public JPanel personCheckList, weaponCheckList, roomCheckList;
 	
 	private notesDialog dialog;
 	
 	//constructor
 	public DetectiveNotes() {
-		//setTitle("Detective Notes");
 		setTitle("Detective Notes");
 		setSize(600,750);
 
@@ -38,6 +40,7 @@ public class DetectiveNotes extends JFrame {
 	//calls each individual panel creation, then adds them to one final panel called completed
 	public void createLayout() {
 		persons = createPersonGuessPanel();
+		
 		weapons = createWeaponGuessPanel();
 		rooms = createRoomGuessPanel();
 		
@@ -72,16 +75,18 @@ public class DetectiveNotes extends JFrame {
 	}
 	
 	//Person Guess panel which holds all possible names for people to guess on in drop down menu
-	public JComboBox<String> createPersonGuessPanel() {
-		JComboBox<String> panel = new JComboBox<String>();
+	public JPanel createPersonGuessPanel() {
+		JPanel panel = new JPanel();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Person Guess"));
-		panel.addItem("Unsure");
-		panel.addItem("Miss Scarlet");
-		panel.addItem("Colonel Mustard");
-		panel.addItem("Mr. Green");
-		panel.addItem("Mrs. White");
-		panel.addItem("Mrs. Peacock");
-		panel.addItem("Professor Plum");
+		comboBox.addItem("Unsure");
+		comboBox.addItem("Miss Scarlet");
+		comboBox.addItem("Colonel Mustard");
+		comboBox.addItem("Mr. Green");
+		comboBox.addItem("Mrs. White");
+		comboBox.addItem("Mrs. Peacock");
+		comboBox.addItem("Professor Plum");
+		panel.add(comboBox);
 		return panel;
 	}
 	
@@ -103,19 +108,21 @@ public class DetectiveNotes extends JFrame {
 	}
 	
 	//Room guess panel that holds all possible names for rooms to guess on in drop down menu
-	public JComboBox<String> createRoomGuessPanel() {
-		JComboBox<String> panel = new JComboBox<String>();
+	public JPanel createRoomGuessPanel() {
+		JPanel panel = new JPanel();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Room Guess"));
-		panel.addItem("Unsure");
-		panel.addItem("Conservatory");
-		panel.addItem("Kitchen");
-		panel.addItem("Ballroom");
-		panel.addItem("Library");
-		panel.addItem("Arcade room");
-		panel.addItem("Gun room");
-		panel.addItem("Trophy room");
-		panel.addItem("Pantry");
-		panel.addItem("Sauna");				
+		comboBox.addItem("Unsure");
+		comboBox.addItem("Conservatory");
+		comboBox.addItem("Kitchen");
+		comboBox.addItem("Ballroom");
+		comboBox.addItem("Library");
+		comboBox.addItem("Arcade room");
+		comboBox.addItem("Gun room");
+		comboBox.addItem("Trophy room");
+		comboBox.addItem("Pantry");
+		comboBox.addItem("Sauna");	
+		panel.add(comboBox);
 		return panel;
 	}
 	
@@ -134,16 +141,18 @@ public class DetectiveNotes extends JFrame {
 	}
 	
 	//Weapon guess panel that holds all possible names for weapons to guess on in drop down menu
-	public JComboBox<String> createWeaponGuessPanel() {
-		JComboBox<String> panel = new JComboBox<String>();
+	public JPanel createWeaponGuessPanel() {
+		JPanel panel = new JPanel();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Weapon Guess"));
-		panel.addItem("Unsure");
-		panel.addItem("Rope");
-		panel.addItem("Lead Pipe");
-		panel.addItem("Knife");
-		panel.addItem("Wrench");
-		panel.addItem("Candlestick");
-		panel.addItem("Revolver");		
+		comboBox.addItem("Unsure");
+		comboBox.addItem("Rope");
+		comboBox.addItem("Lead Pipe");
+		comboBox.addItem("Knife");
+		comboBox.addItem("Wrench");
+		comboBox.addItem("Candlestick");
+		comboBox.addItem("Revolver");	
+		panel.add(comboBox);
 		return panel;
 	}	
 }

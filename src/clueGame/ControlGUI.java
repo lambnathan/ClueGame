@@ -97,13 +97,6 @@ public class ControlGUI extends JPanel{
 		ControlGUI control = new ControlGUI();
 		frame.add(control, BorderLayout.CENTER);
 		
-		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-		}
-		catch(Exception e) {
-			System.err.println("Look and feel not set");
-		}
-		
 		//view the JFrame
 		frame.setVisible(true);
 	}

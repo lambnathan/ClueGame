@@ -12,6 +12,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import java.awt.Color;
 
@@ -76,9 +77,19 @@ public class ClueGame extends JFrame{
 }
 	
 	public static void main(String[] args) {
+		
+		try {
+			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch(Exception e) {
+			System.err.println("Look and feel not set");
+		}
+		
 		ClueGame game = new ClueGame();
 		frame = game;
 		frame.setSize(700, 850);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
 		
