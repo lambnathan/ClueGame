@@ -91,7 +91,7 @@ public class ControlGUI extends JPanel{
 	}
 	
 	
-	//main function for testing
+	//main function for testing, will open a window with only controlGUI, not whole game board
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

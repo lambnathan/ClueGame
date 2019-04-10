@@ -20,7 +20,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-import com.sun.prism.Graphics;
+import java.awt.Graphics;
 
 public class Board extends JPanel{
 	public static final int MAX_BOARD_SIZE = 50;
@@ -78,6 +78,7 @@ public class Board extends JPanel{
 		calcAdjacencies();
 		selectAnswer();
 		dealCards();
+		
 	}
 	
 	public void loadRoomConfig() throws BadConfigFormatException {
@@ -568,8 +569,15 @@ public class Board extends JPanel{
 		return cards;
 	}
 	
-	//draw the board
+	//draw everything on the game board
 	public void paintComponent(Graphics g) {
+		//draw the board (all the board cells and the rooms)
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numColumns; j++) {
+				getCellAt(i, j).draw(g);
+			}
+		}
+		
 		
 	}
 	

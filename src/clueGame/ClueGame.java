@@ -12,6 +12,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import java.awt.Color;
+
 public class ClueGame extends JFrame{
 	
 	private Board board;
@@ -59,7 +61,7 @@ public class ClueGame extends JFrame{
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame();
 		frame = game;
-		frame.setSize(700, 700);
+		frame.setSize(700, 850);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
 		
