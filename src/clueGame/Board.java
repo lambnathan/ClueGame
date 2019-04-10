@@ -72,7 +72,7 @@ public class Board {
 			System.out.println(e.getMessage());
 		}
 		calcAdjacencies();
-		//selectAnswer()
+		selectAnswer();
 		dealCards();
 	}
 	
