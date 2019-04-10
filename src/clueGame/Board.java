@@ -18,7 +18,11 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Board {
+import javax.swing.JPanel;
+
+import java.awt.Graphics;
+
+public class Board extends JPanel{
 	public static final int MAX_BOARD_SIZE = 50;
 	private static int numRows;
 	private static int numColumns;
@@ -74,6 +78,7 @@ public class Board {
 		calcAdjacencies();
 		selectAnswer();
 		dealCards();
+		
 	}
 	
 	public void loadRoomConfig() throws BadConfigFormatException {
@@ -272,15 +277,15 @@ public class Board {
 		return legend;
 	}
 	
-	public int getNumRows() {
+	public static int getNumRows() {
 		return numRows;
 	}
 	
-	public int getNumColumns() {
+	public static int getNumColumns() {
 		return numColumns;
 	}
 	
-	public BoardCell getCellAt(int row, int column) {
+	public static BoardCell getCellAt(int row, int column) {
 		return board[row][column];
 	}
 	
@@ -480,15 +485,66 @@ public class Board {
 			}
 		}
 	}
-	
-	public Card handleSuggestion() {
-		return null;
+	/*
+	 * Finding the first player in the game that is able to disprove the suggestion
+	 * returns null if no one can disprove
+	 */
+	public Card handleSuggestion(Solution suggestion, Player accuser) {
+		Player[] playerArr = new Player[players.size()];
+		System.arraycopy(players.toArray(), 0, playerArr, 0, players.size());
+		Card disproveCard = null;
+		Player accusedPlayer = null;
+		int indexOfAccuser = 0;
+		
+		for(Player p : playerArr) {
+			if(p.equals(accuser)) {
+				break;
+			}
+			indexOfAccuser++;
+		}
+		
+		/*
+		 * going player by player, if that player has a card that can disprove the suggestion, they are selected
+		 */
+		if(indexOfAccuser == playerArr.length - 1) {
+			indexOfAccuser = -1;
+		}
+		int i = indexOfAccuser + 1;
+		while(i != indexOfAccuser) {
+			if(!playerArr[i].equals(accuser) && playerArr[i].disproveSuggestion(suggestion) != null) {
+				disproveCard = playerArr[i].disproveSuggestion(suggestion);
+				break;
+			}	
+			
+			if(i == playerArr.length - 1) {
+				i = -1;
+			}
+			i++;
+		}
+		
+		//get the accused player
+		for(Player p : players) {
+			if(p.getPlayerName() == suggestion.getPersonName()) {
+				accusedPlayer = p;
+				accusedPlayer.setLocation(accuser.getRow(), accuser.getColumn());
+				break;
+			}
+		}
+		
+		return disproveCard;
 	}
-	
+
 	public boolean checkAccusation(Solution accusation) {
+		if(answer.contains(accusation.getPerson()) && answer.contains(accusation.getWeapon()) && answer.contains(accusation.getRoom())) {
+			return true;
+		}
 		return false;
 	}
 	
+	public Set<Card> getAnswer() {
+		return answer;
+	}
+
 	/*
 	 * returns color object from string
 	 */
@@ -511,6 +567,32 @@ public class Board {
 	
 	public Set<Card> getCardList(){
 		return cards;
+	}
+	
+	//draw everything on the game board
+	public void paintComponent(Graphics g) {
+		//draw the board (all the board cells and the rooms)
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numColumns; j++) {
+				getCellAt(i, j).draw(g);
+			}
+		}
+		
+		
+	}
+	
+	
+	//for testing
+	public void addCardToDeck(Card c) {
+		cards.add(c);
+	}
+	
+	public void clearAnswer() {
+		answer.clear();
+	}
+	
+	public void addCardToAnswer(Card c) {
+		answer.add(c);
 	}
 	
 }

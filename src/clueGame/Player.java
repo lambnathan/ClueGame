@@ -3,7 +3,9 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class Player {
@@ -11,7 +13,7 @@ public class Player {
 	private int row;
 	private int column;
 	private Color color;
-	private Set<Card> playerCards;
+	protected Set<Card> playerCards;
 	
 	public Player(String playerName, int row, int column, Color color) {
 		this.playerName = playerName;
@@ -22,9 +24,28 @@ public class Player {
 	}
 	
 	public Card disproveSuggestion(Solution suggestion) {
-		return null;
+		ArrayList<Card> disprove = new ArrayList<Card>();
+		/*
+		 * adds the players cards that are able to disprove the suggestion to a new arraylist to later randomly select a card
+		 */
+		for(Card c : playerCards) {
+			if(c.getCardName().equals(suggestion.getPersonName())) {
+				disprove.add(c);
+			}
+			else if(c.getCardName().equals(suggestion.getRoomName())) {
+				disprove.add(c);
+			}
+			else if(c.getCardName().equals(suggestion.getWeaponName())) {
+				disprove.add(c);
+			}
+		}
+		Random rand = new Random();
+		//if no cards that can disprove suggestion, return null
+		if(disprove.isEmpty()) {
+			return null;
+		}
+		return disprove.get(rand.nextInt(disprove.size()));
 	}
-
 	
 	/*
 	 * getters, only for testing

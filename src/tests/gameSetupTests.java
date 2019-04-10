@@ -77,7 +77,7 @@ public class gameSetupTests {
 		Set<Card> cards = board.getCardList();
 		
 		//check if correct total number of cards is loaded
-		assertEquals(cards.size(), 21);
+		assertEquals(cards.size(), 18);
 		
 		int weaponCount = 0;
 		int playerCount = 0;
@@ -107,6 +107,27 @@ public class gameSetupTests {
 			
 			
 		}
+		
+		for(Card c : board.getAnswer()) {
+			if(c.getCardType() == CardType.PERSON) {
+				playerCount++;
+			}
+			else if(c.getCardType() == CardType.ROOM) {
+				roomCount++;
+			}
+			else if(c.getCardType() == CardType.WEAPON) {
+				weaponCount++;
+			}
+			if(c.getCardName().equals("Conservatory")) {
+				room = c;
+			}
+			if(c.getCardName().equals("Wrench")) {
+				weapon = c;
+			}
+			if(c.getCardName().equals("Colonel Mustard")) {
+				player = c;
+			}
+		}
 		//checks if there is the correct number of player, weapon, and room cards
 		assertEquals(weaponCount, 6);
 		assertEquals(playerCount, 6);
@@ -131,7 +152,7 @@ public class gameSetupTests {
 		for(Player p : players) {
 			totalCards += p.getPlayerCards().size();
 		}
-		assertEquals(totalCards, 21);
+		assertEquals(totalCards, 18);
 		
 		//make sure each player has roughly the same number of cards
 		Player[] playerArr = new Player[players.size()];

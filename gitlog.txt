@@ -1,3 +1,63 @@
+commit 5b6df355369fc102cee33cb79515dab067560731
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 20:51:35 2019 -0600
+
+    finished adding passing tests and changed all tests failing to passed
+
+commit 28ba6996f391cfb459fe6b06d059bfeb41c3f4f6
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 20:20:06 2019 -0600
+
+    Added for loops to handleSuggestion function in Board and add some tests to handleSuggestion in gameActionTests
+
+commit b87b1eada81ebb42f421160f2c133064b6e3ebd1
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 18:59:06 2019 -0600
+
+    Implemented disprove suggestion test
+
+commit 8cb59dde1c05a8b8e48a474e909fe10241912365
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 18:45:12 2019 -0600
+
+    Finished implementing tests for createSuggestion
+
+commit 012f9e3c92131986bd8fa4b014e61f1624dc7aba
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 17:43:25 2019 -0600
+
+    Added tests for gameActionTests
+
+commit 086b75f27364c721b60ada05b630f79b87c77e5d
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 15:26:02 2019 -0600
+
+    added multiple getters/setters throughout just for testing, added the bodies for checkAccusation, handleSuggestion, selectAnswer, pickLocation, createSuggestion, disproveSuggestion.
+
+commit 279cf37f09144c3276274f8eebc05c37df17b149
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Tue Apr 2 16:37:16 2019 -0600
+
+    added selectAnswer method in Board class and finished test for selectTarget
+
+commit d10015c7b6a0b1eeb5c832cdf8d4026cfc28c414
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Tue Apr 2 15:34:09 2019 -0600
+
+    Filled in test for no room in list for selectTarget and implemented pickLocation function for ComputerPlayer
+
+commit d398266ace6c39fcf824a409106b2b10f001b31b
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Tue Apr 2 14:30:55 2019 -0600
+
+    Added skeleton class for gameActionTests
+
+commit 0085429b09fc6c707bafb1eefc78901b03fe8fc9
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Fri Mar 22 15:24:31 2019 -0600
+
+    Added git log
+
 commit cd2814ee68d15c0604ba5983781efa096f134793
 Author: Nathan <nlambert@mymail.mines.edu>
 Date:   Fri Mar 22 15:23:48 2019 -0600
