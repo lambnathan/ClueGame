@@ -5,6 +5,7 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -17,6 +18,7 @@ import java.awt.Color;
 public class ClueGame extends JFrame{
 	
 	private Board board;
+	private DetectiveNotes notes;
 	JPanel panel;
 	private static JFrame frame;
 	
@@ -29,6 +31,8 @@ public class ClueGame extends JFrame{
 		// Initialize will load BOTH config files 
 		board.initialize();
 		
+		notes = new DetectiveNotes();
+
 		panel = board;
 		add(panel, BorderLayout.CENTER);
 		
@@ -43,6 +47,7 @@ public class ClueGame extends JFrame{
 	
 	private JMenu createFileMenu() {
 		JMenu menu = new JMenu("File");
+		menu.add(createDetectiveNotesItem());
 		menu.add(createFileExitItem());
 		return menu;
 	}
@@ -57,6 +62,18 @@ public class ClueGame extends JFrame{
 		item.addActionListener(new MenuItemListener());
 		return item;
 	}
+	
+	private JMenuItem createDetectiveNotesItem() {
+		JMenuItem item = new JMenuItem("Detective Notes");
+		class MenuItemListener implements ActionListener {
+			public void actionPerformed(ActionEvent e)
+			{
+				notes.setVisible(true);
+			}
+		}
+		item.addActionListener(new MenuItemListener());
+		return item;
+}
 	
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame();

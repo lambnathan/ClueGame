@@ -38,6 +38,7 @@ public class ControlGUI extends JPanel{
 		bottomControlPanel.add(createGuessPanel());
 		bottomControlPanel.add(createGuessResultPanel());
 		add(bottomControlPanel);
+		
 	}
 
 
