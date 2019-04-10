@@ -28,7 +28,7 @@ public class Board extends JPanel{
 	private static int numColumns;
 	private static BoardCell[][] board;
 	private Set<BoardCell> visited;
-	private static Map<Character, String> legend;
+	private static Map<Character, String> legend; //a map that maps a character to the room it represents
 	private Map<BoardCell, HashSet<BoardCell>> adjmtx;
 	private HashSet<BoardCell> targets;
 	private static String boardConfigFile;
@@ -81,6 +81,7 @@ public class Board extends JPanel{
 		
 	}
 	
+	//loads room config and creates a map that maps a character to the room it represents
 	public void loadRoomConfig() throws BadConfigFormatException {
 		FileReader reader = null;
 		Scanner in = null;
@@ -144,13 +145,13 @@ public class Board extends JPanel{
 				if(cell.length() == 0) {
 					throw new BadConfigFormatException("There is a blank cell");
 				}
-				char symbol = cell.charAt(0);
+				char symbol = cell.charAt(0); //room symbol is always the first character
 				//check if cell symbol is in the legend
 				if(!(legend.containsKey(symbol))) {
 					throw new BadConfigFormatException("The cell symbol does not exist in the legend.");
 				}
 				BoardCell c = null;
-				if(cell.length() > 1) { //if the cell is a string of length > 1, it is a door
+				if(cell.length() == 2) { //if the cell is a string of length 2, it is a door
 					char doorSymbol = cell.charAt(1);
 					switch(doorSymbol) {
 						case 'U':
@@ -178,12 +179,12 @@ public class Board extends JPanel{
 					}
 					
 				}
-				else if (cell.length() > 2){
-					throw new BadConfigFormatException("Invalid cell format (too many characters)");
-				}
 				else {
 					c = new BoardCell(row, i, symbol, DoorDirection.NONE);
 					c.setDoorwayBool(false);
+					if(cell.contains("DRAW")) {
+						c.shouldDrawName(); 
+					}
 				}
 				//put the BoardCell in the gameboard array
 				board[row][i] = c;
@@ -273,7 +274,7 @@ public class Board extends JPanel{
 		weaponConfigFile = weaponConfig;
 	}
 	
-	public Map<Character, String> getLegend() {		
+	public static Map<Character, String> getLegend() {		
 		return legend;
 	}
 	
@@ -374,6 +375,7 @@ public class Board extends JPanel{
 			}
 		}
 	}
+	
 
 	public Set<BoardCell> getAdjList(int row, int column) {
 		return adjmtx.get(getCellAt(row,column));

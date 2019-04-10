@@ -9,7 +9,8 @@ public class BoardCell {
 	private int column;
 	private char initial;
 	private DoorDirection doorDirection;
-	private boolean isDoor;
+	private boolean isDoor; 
+	private boolean drawName = false; //keeps track of what cell should draw the name of the room, dtermined by the config file
 	
 	//size of cell
 	private static final int WIDTH = 25;
@@ -50,6 +51,10 @@ public class BoardCell {
 		this.isDoor = doorway;
 	}
 	
+	public void shouldDrawName() {
+		this.drawName = true;
+	}
+	
 	public boolean isDoorway() {
 		return isDoor;
 	}
@@ -74,6 +79,11 @@ public class BoardCell {
 		if(this.isRoom()) {
 			g.setColor(Color.LIGHT_GRAY);
 			g.fillRect(column * WIDTH, row * HEIGHT, WIDTH, HEIGHT);	
+			if(drawName) { //if this is a cell that should draw the name of the room
+				String name = Board.getLegend().get(this.initial);
+				g.setColor(Color.BLACK);
+				g.drawString(name, column * WIDTH, row * HEIGHT - 10);
+			}
 		}
 		if(this.isDoorway()) {
 			g.setColor(Color.LIGHT_GRAY);
