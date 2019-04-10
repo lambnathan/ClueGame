@@ -4,8 +4,6 @@
 
 package clueGame;
 
-import static org.junit.Assert.assertEquals;
-
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.io.FileNotFoundException;
@@ -24,6 +22,12 @@ import java.awt.Graphics;
 
 public class Board extends JPanel{
 	public static final int MAX_BOARD_SIZE = 50;
+	public static final int CELL_SIZE = 25; //size of a square cell
+	public static final int PLAYER_RADIUS = 20;
+	//door will either have length or width that is this value less than the cell's width or height, and will be moved either up and down or left and right this ammount
+	public static final int DOOR_OFFSET = 21; 
+	
+	
 	private static int numRows;
 	private static int numColumns;
 	private static BoardCell[][] board;
@@ -578,6 +582,11 @@ public class Board extends JPanel{
 			for(int j = 0; j < numColumns; j++) {
 				getCellAt(i, j).draw(g);
 			}
+		}
+		
+		//goes through each player and draws them
+		for(Player p : players) {
+			p.draw(g);
 		}
 		
 		

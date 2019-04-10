@@ -12,12 +12,6 @@ public class BoardCell {
 	private boolean isDoor; 
 	private boolean drawName = false; //keeps track of what cell should draw the name of the room, dtermined by the config file
 	
-	//size of cell
-	private static final int WIDTH = 25;
-	private static final int HEIGHT = 25;
-	//door will either have length or width that is this value less than the cell's width or height, and will be moved either up and down or left and right this ammount
-	private static final int DOOR_OFFSET = 21; 
-	
 	
 	public static final char WALKWAY_INITIAL = 'W';
 	
@@ -78,34 +72,34 @@ public class BoardCell {
 	public void draw(Graphics g) {
 		if(this.isRoom()) {
 			g.setColor(Color.LIGHT_GRAY);
-			g.fillRect(column * WIDTH, row * HEIGHT, WIDTH, HEIGHT);	
+			g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);	
 			if(drawName) { //if this is a cell that should draw the name of the room
 				String name = Board.getLegend().get(this.initial);
 				g.setColor(Color.BLACK);
-				g.drawString(name, column * WIDTH, row * HEIGHT - 10);
+				g.drawString(name, column * Board.CELL_SIZE, row * Board.CELL_SIZE - 10);
 			}
 		}
 		if(this.isDoorway()) {
 			g.setColor(Color.LIGHT_GRAY);
-			g.fillRect(column * WIDTH, row * HEIGHT, WIDTH, HEIGHT);
+			g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);
 			g.setColor(Color.BLUE); //blue will let players know that the cell is a doorway
 			//draws the blue sliver that indicates a door deoending on the cell's door direction
 			if(this.getDoorDirection() == DoorDirection.DOWN) {
-				g.fillRect(column * WIDTH, row * HEIGHT + DOOR_OFFSET, WIDTH, HEIGHT - DOOR_OFFSET);
+				g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE + Board.DOOR_OFFSET, Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET);
 			}
 			else if(this.getDoorDirection() == DoorDirection.UP) {
-				g.fillRect(column * WIDTH, row * HEIGHT, WIDTH, HEIGHT - DOOR_OFFSET);
+				g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET);
 			}
 			else if(this.getDoorDirection() == DoorDirection.LEFT) {
-				g.fillRect(column * WIDTH, row * HEIGHT, WIDTH - DOOR_OFFSET, HEIGHT);
+				g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET, Board.CELL_SIZE);
 			}
 			else if(this.getDoorDirection() == DoorDirection.RIGHT) {
-				g.fillRect(column * WIDTH + DOOR_OFFSET, row * HEIGHT, WIDTH - DOOR_OFFSET, HEIGHT);
+				g.fillRect(column * Board.CELL_SIZE + Board.DOOR_OFFSET, row * Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET, Board.CELL_SIZE);
 			}
 		}
 		if(this.isWalkway()) {
 			g.setColor(Color.BLACK);
-			g.drawRect(column * WIDTH, row * HEIGHT, WIDTH, HEIGHT);
+			g.drawRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);
 		}
 	}
 }

@@ -3,6 +3,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -46,13 +47,6 @@ public class Player {
 		}
 		return disprove.get(rand.nextInt(disprove.size()));
 	}
-	
-	/*
-	 * getters, only for testing
-	 */
-	public String getPlayerName() {
-		return playerName;
-	}
 
 	public int getRow() {
 		return row;
@@ -61,9 +55,24 @@ public class Player {
 	public int getColumn() {
 		return column;
 	}
-
+	
 	public Color getColor() {
 		return color;
+	}
+	
+	//draws the players
+	public void draw(Graphics g) {
+		g.setColor(color);
+		g.fillArc(column * Board.CELL_SIZE + 2, row * Board.CELL_SIZE + 2, Board.PLAYER_RADIUS, Board.PLAYER_RADIUS, 0, 360);
+		g.setColor(Color.BLACK);
+		g.drawArc(column * Board.CELL_SIZE + 2, row * Board.CELL_SIZE + 2, Board.PLAYER_RADIUS, Board.PLAYER_RADIUS, 0, 360);
+	}
+	
+	/*
+	 * getters, only for testing
+	 */
+	public String getPlayerName() {
+		return playerName;
 	}
 	
 	public void addCard(Card c) {
