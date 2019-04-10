@@ -14,6 +14,8 @@ public class BoardCell {
 	//size of cell
 	private static final int WIDTH = 25;
 	private static final int HEIGHT = 25;
+	//door will either have length or width that is this value less than the cell's width or height, and will be moved either up and down or left and right this ammount
+	private static final int DOOR_OFFSET = 21; 
 	
 	
 	public static final char WALKWAY_INITIAL = 'W';
@@ -70,15 +72,29 @@ public class BoardCell {
 	
 	public void draw(Graphics g) {
 		if(this.isRoom()) {
-			g.setColor(Color.GRAY);
-			g.fillRect(column * WIDTH, row * HEIGHT, WIDTH, HEIGHT);
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(column * WIDTH, row * HEIGHT, WIDTH, HEIGHT);	
 		}
 		if(this.isDoorway()) {
-			g.setColor(Color.BLUE);
+			g.setColor(Color.LIGHT_GRAY);
 			g.fillRect(column * WIDTH, row * HEIGHT, WIDTH, HEIGHT);
+			g.setColor(Color.BLUE); //blue will let players know that the cell is a doorway
+			//draws the blue sliver that indicates a door deoending on the cell's door direction
+			if(this.getDoorDirection() == DoorDirection.DOWN) {
+				g.fillRect(column * WIDTH, row * HEIGHT + DOOR_OFFSET, WIDTH, HEIGHT - DOOR_OFFSET);
+			}
+			else if(this.getDoorDirection() == DoorDirection.UP) {
+				g.fillRect(column * WIDTH, row * HEIGHT, WIDTH, HEIGHT - DOOR_OFFSET);
+			}
+			else if(this.getDoorDirection() == DoorDirection.LEFT) {
+				g.fillRect(column * WIDTH, row * HEIGHT, WIDTH - DOOR_OFFSET, HEIGHT);
+			}
+			else if(this.getDoorDirection() == DoorDirection.RIGHT) {
+				g.fillRect(column * WIDTH + DOOR_OFFSET, row * HEIGHT, WIDTH - DOOR_OFFSET, HEIGHT);
+			}
 		}
 		if(this.isWalkway()) {
-			g.setColor(Color.ORANGE);
+			g.setColor(Color.BLACK);
 			g.drawRect(column * WIDTH, row * HEIGHT, WIDTH, HEIGHT);
 		}
 	}
