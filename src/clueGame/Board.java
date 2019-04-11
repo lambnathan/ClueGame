@@ -120,6 +120,7 @@ public class Board extends JPanel{
 			}
 			legend.put(symbol, room);
 		}
+		in.close();
 	}
 	
 	//loads the playing board and gets the size
@@ -248,6 +249,7 @@ public class Board extends JPanel{
 			cards.add(c);
 			
 		}
+		in.close();
 	}
 	
 	/*
@@ -269,6 +271,7 @@ public class Board extends JPanel{
 			Card c = new Card(weapon, CardType.WEAPON);
 			cards.add(c);
 		}
+		in.close();
 	}
 		
 	public void setConfigFiles(String boardConfig, String legendConfig, String playerConfig, String weaponConfig) {
