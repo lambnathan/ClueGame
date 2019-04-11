@@ -71,8 +71,15 @@ public class BoardCell {
 	
 	public void draw(Graphics g) {
 		if(this.isRoom()) {
-			g.setColor(Color.LIGHT_GRAY);
-			g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);	
+			if(this.initial == 'X') {
+				Color c = new Color(109, 12, 33);
+				g.setColor(c);
+				g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);
+			}	
+			else {
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);
+			}
 			if(drawName) { //if this is a cell that should draw the name of the room
 				String name = Board.getLegend().get(this.initial);
 				g.setColor(Color.BLACK);
