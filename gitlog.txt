@@ -1,3 +1,15 @@
+commit c8140b031b8140edb086f37c57937ab6bbe8c5fe
+Author: Nathan Lambert <nlambert@mines.edu>
+Date:   Thu Apr 11 14:59:25 2019 -0600
+
+    Added names
+
+commit 4c9bdfd981ae79b01c052d8b68bb59a5a09ea998
+Author: Nathan Lambert <nlambert@mines.edu>
+Date:   Thu Apr 11 14:57:43 2019 -0600
+
+    Added git log
+
 commit 1ada4504ff2bc1402a6f501177e30bbf49ae944c
 Author: Nathan Lambert <nlambert@mines.edu>
 Date:   Thu Apr 11 14:57:15 2019 -0600
