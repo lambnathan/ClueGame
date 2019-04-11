@@ -87,6 +87,7 @@ public class ClueGame extends JFrame{
 		}
 		
 		ClueGame game = new ClueGame();
+		SplashScreen test = new SplashScreen();
 		frame = game;
 		frame.setSize(700, 850);
 		frame.setResizable(false);
@@ -94,7 +95,7 @@ public class ClueGame extends JFrame{
 		frame.setTitle("Clue Game");
 		
 		game.setVisible(true);
-		
+		test.setVisible(true);
 		
 	}
 	
