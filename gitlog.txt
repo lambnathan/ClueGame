@@ -1,3 +1,151 @@
+commit 1ada4504ff2bc1402a6f501177e30bbf49ae944c
+Author: Nathan Lambert <nlambert@mines.edu>
+Date:   Thu Apr 11 14:57:15 2019 -0600
+
+    Added cards panel that displays the player's cards
+
+commit b8bd014d5af56ccfbb4a89c156f4355434dc6f58
+Author: Nathan Lambert <nlambert@mines.edu>
+Date:   Thu Apr 11 14:14:29 2019 -0600
+
+    Made closet dark red
+
+commit 260a9db4a92b1e09cc1488d490585bb8ba576b1b
+Author: Nathan Lambert <nlambert@mines.edu>
+Date:   Thu Apr 11 14:04:01 2019 -0600
+
+    Added title for splash screen
+
+commit f463094a0f22390418a0be6d57249cadc1bedb90
+Author: Nathan Lambert <nlambert@mines.edu>
+Date:   Thu Apr 11 13:52:34 2019 -0600
+
+    Added closers for scanners
+
+commit 92de8262978c636f73ffef4fddc3904d02d2840d
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Thu Apr 11 13:20:59 2019 -0600
+
+    Added splashscreen
+
+commit 356fae98c913617d972a773dbd05d3ff46a1d872
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Thu Apr 11 13:19:38 2019 -0600
+
+    Added splashscreen
+
+commit 036aa2917a9669ebf0111a3f7c798fbe03646986
+Author: Nathan Lambert <nlambert@mymail.mines.edu>
+Date:   Wed Apr 10 17:49:26 2019 -0600
+
+    added a draw method in Player class, and moved all constants that determined how the board and players were drawn to the board class. The window now shows the game board with room names and players in initial positions
+
+commit 60cd38da49af3bec8bb755849a3923c6b9cc50c7
+Author: Nathan Lambert <nlambert@mymail.mines.edu>
+Date:   Wed Apr 10 17:24:15 2019 -0600
+
+    Added a bool in BoardCell that determines whether it should draw the room name or not. The config file determines this, and the bool is set when reading it. The game board now shows room names
+
+commit 516ee45f3adab05a211a7bad59c976d940db9842
+Author: Nathan Lambert <nlambert@mymail.mines.edu>
+Date:   Wed Apr 10 16:49:06 2019 -0600
+
+    Added blue doors to the board
+
+commit f9c7ccbf21929d69a5bf6ee78f5e8e0b27c3a171
+Author: Nathan Lambert <nlambert@mymail.mines.edu>
+Date:   Wed Apr 10 16:00:15 2019 -0600
+
+    Fized sizing of combo boxes, and changed theme
+
+commit 01464ad6bd9254acb2900002a5309b78b56d2de3
+Merge: 0e11f3d a5bbbe0
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Apr 10 15:05:32 2019 -0600
+
+    Merge branch 'master' of https://github.com/nlambe/ClueGame
+
+commit 0e11f3d6b2bb5ed9de6912fd9f91a66d087092c4
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Apr 10 15:04:57 2019 -0600
+
+    actually added DetectiveNotes class to git
+
+commit a5bbbe0d954ba6ce79d5afc796056a529852601f
+Author: Nathan Lambert <nlambert@mymail.mines.edu>
+Date:   Wed Apr 10 15:02:09 2019 -0600
+
+    got rid of unused imports
+
+commit b87d321dc816cf8b8a1c9b052a01294b289171f1
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Apr 10 12:54:51 2019 -0600
+
+    added DetectiveNotes class that shows up in a file menu on ClueGame. Once clicked, a pop-up window appears for the player to keep notes it
+
+commit 91d63ec708d7b0f1be324af3831e6cca27003bdb
+Merge: fc578eb 1645183
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Apr 10 10:33:56 2019 -0600
+
+    Merge branch 'master' of https://github.com/nlambe/ClueGame
+
+commit fc578eb0c9282a9032cab5fbddd89a2b7f154cab
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Wed Apr 10 10:33:09 2019 -0600
+
+    modified board
+
+commit 1645183b5f3fc4690925ee4c83ee03c99bf6b2f4
+Author: Nathan Lambert <nlambert@mymail.mines.edu>
+Date:   Wed Apr 10 02:27:53 2019 -0600
+
+    implemented draw function for Boardcells, now a basic outline of the gameboard shows, highlighting doorways
+
+commit 486ccdebb6530f56e4dbea9f7011d1181e5e0603
+Author: Nathan Lambert <nlambert@mymail.mines.edu>
+Date:   Wed Apr 10 00:26:58 2019 -0600
+
+    Added fixed CLueGame and readded ControlGUI. Added main window for game, just have to draw game board
+
+commit 6b01fcd859d1540e451cfc45baa4441c764d2d8a
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Tue Apr 9 15:31:46 2019 -0600
+
+    added skeleton methods for draw and paintComponent
+
+commit 7d32f813ccfe1934da5ff0de910a6494254ca655
+Merge: a5cb4d7 c44c6a1
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Tue Apr 9 14:11:16 2019 -0600
+
+    added cluePlayers
+
+commit a5cb4d7a1cfe37ccde157aa683cfa10d5a02faaf
+Merge: 7f6b45f afd36d7
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Tue Apr 9 13:59:59 2019 -0600
+
+    added tests
+
+commit c44c6a14d2a5c267af2adac23c2a8b66679ddb76
+Author: Nathan Lambert <nlambert@mines.edu>
+Date:   Thu Apr 4 15:13:25 2019 -0600
+
+    finised the control gui layout and added name comments
+
+commit affdd0f04be4378ee5f4344938dbe302e7d228cd
+Author: Nathan Lambert <nlambert@mines.edu>
+Date:   Thu Apr 4 14:24:59 2019 -0600
+
+    Created ControlGUI class that will display whose turn it is, the die roll, the guess, and the guess response, and buttons for next player and make accusation
+
+commit a4f4d78cf8988f769c65e5600d05de6f7bc5938a
+Author: Nathan <nlambert@mymail.mines.edu>
+Date:   Wed Apr 3 20:52:42 2019 -0600
+
+    Added the gitLog
+
 commit 5b6df355369fc102cee33cb79515dab067560731
 Author: Nathan <nlambert@mymail.mines.edu>
 Date:   Wed Apr 3 20:51:35 2019 -0600
@@ -87,6 +235,12 @@ Author: Nathan <nlambert@mymail.mines.edu>
 Date:   Thu Mar 21 14:37:41 2019 -0600
 
     Finished the loadPlayerConfig method in Board class
+
+commit 7f6b45f1928824c17ae34a0a19d03c0a0f5e7119
+Author: Elliott McCabe <mccabe@mines.edu>
+Date:   Thu Mar 21 14:35:30 2019 -0600
+
+    edited log
 
 commit afd36d7d1342c8b974a41fdf8f9bea3df8513fcb
 Author: Nathan <nlambert@mymail.mines.edu>
