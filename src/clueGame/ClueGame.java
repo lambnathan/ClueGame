@@ -38,7 +38,9 @@ public class ClueGame extends JFrame{
 		add(panel, BorderLayout.CENTER);
 		
 		JPanel controlGui = new ControlGUI();
+		JPanel playerCardsGUI = new PlayerCardsGUI(board);
 		add(controlGui, BorderLayout.SOUTH);
+		add(playerCardsGUI, BorderLayout.EAST);
 		
 		//add the menu bar
 		JMenuBar menuBar = new JMenuBar();
@@ -89,7 +91,7 @@ public class ClueGame extends JFrame{
 		ClueGame game = new ClueGame();
 		SplashScreen test = new SplashScreen();
 		frame = game;
-		frame.setSize(700, 850);
+		frame.setSize(850, 850);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");

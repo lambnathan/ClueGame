@@ -42,12 +42,10 @@ public class ControlGUI extends JPanel{
 	public JPanel createTurnPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2, 1));
-		JLabel turnLabel = new JLabel("Whose turn?");
 		JTextField name = new JTextField(20);
 		name.setEditable(false);
-		panel.add(turnLabel);
 		panel.add(name);
-		panel.setBorder(new EtchedBorder());
+		panel.setBorder(new TitledBorder(new EtchedBorder(), "Whose turn?"));
 		return panel;
 	}
 	
