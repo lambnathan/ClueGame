@@ -23,6 +23,11 @@ public class ClueGame extends JFrame{
 	private Board board;
 	
 	public ClueGame() {
+		//add the menu bar
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		menuBar.add(createFileMenu());
+		
 		// Board is singleton, get the only instance
 		Board board;
 		board = Board.getInstance();
@@ -40,10 +45,7 @@ public class ClueGame extends JFrame{
 		add(controlGui, BorderLayout.SOUTH);
 		add(playerCardsGUI, BorderLayout.EAST);
 		
-		//add the menu bar
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		menuBar.add(createFileMenu());
+		
 	}
 	
 	private JMenu createFileMenu() {

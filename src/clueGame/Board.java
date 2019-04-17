@@ -16,6 +16,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import java.awt.Graphics;
