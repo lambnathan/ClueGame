@@ -5,6 +5,7 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.junit.BeforeClass;
@@ -31,7 +32,7 @@ public class gameSetupTests {
 	
 	@Test
 	public void loadPeople() {
-		Set<Player> players = board.getPlayerList();
+		ArrayList<Player> players = board.getPlayerList();
 		int humanPlayers = 0;
 		Player human = null;
 		Player last = null;
@@ -146,7 +147,7 @@ public class gameSetupTests {
 	@Test
 	public void dealCards() {
 		//checks that all the cards have been dealt
-		Set<Player> players = board.getPlayerList();
+		ArrayList<Player> players = board.getPlayerList();
 		Set<Card> cards = board.getCardList();
 		int totalCards = 0;
 		for(Player p : players) {

@@ -8,19 +8,27 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class ControlGUI extends JPanel{
+public class ControlGUI extends JPanel implements MouseListener {
+	static JTextField dieRoll;
+	static JTextField name;
 	
-	public ControlGUI() {		
+	public ControlGUI() {
+		
 		setLayout(new GridLayout(2, 0));
 		
 		JPanel topControlPanel = new JPanel();
@@ -42,7 +50,7 @@ public class ControlGUI extends JPanel{
 	public JPanel createTurnPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2, 1));
-		JTextField name = new JTextField(20);
+		name = new JTextField(20);
 		name.setEditable(false);
 		panel.add(name);
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Whose turn?"));
@@ -54,6 +62,20 @@ public class ControlGUI extends JPanel{
 		JPanel panel = new JPanel();
 		JButton nextPlayer = new JButton("Next player");
 		JButton makeAccusation = new JButton("Make accusation");
+		nextPlayer.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton() == MouseEvent.BUTTON1) {
+					Board.getInstance().makeMove();
+				}
+			}
+		});
+		makeAccusation.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton() == MouseEvent.BUTTON1) {
+					
+				}
+			}
+		});	
 		panel.add(nextPlayer);
 		panel.add(makeAccusation);
 		return panel;
@@ -61,7 +83,7 @@ public class ControlGUI extends JPanel{
 	
 	public JPanel createDieRollPanel() {
 		JPanel panel = new JPanel();
-		JTextField dieRoll = new JTextField(5);
+		dieRoll = new JTextField(5);
 		dieRoll.setEditable(false);
 		panel.add(dieRoll);
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Die Roll"));
@@ -86,6 +108,43 @@ public class ControlGUI extends JPanel{
 		return panel;
 	}
 	
+	public static void showTurn(String playerName, int roll) {
+		name.setText(playerName);
+		dieRoll.setText(String.valueOf(roll));
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	//main function for testing, will open a window with only controlGUI, not whole game board
 	public static void main(String[] args) {

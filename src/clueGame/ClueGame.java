@@ -17,24 +17,22 @@ import javax.swing.UIManager;
 import java.awt.Color;
 
 public class ClueGame extends JFrame{
-	
-	private Board board;
 	private DetectiveNotes notes;
 	JPanel panel;
 	private static JFrame frame;
+	private Board board;
 	
 	public ClueGame() {
 		// Board is singleton, get the only instance
 		Board board;
 		board = Board.getInstance();
+		panel = board;
 		// set the file names to use our own files
 		board.setConfigFiles("data/BoardLayout.csv", "data/ClueRooms.txt", "data/CluePlayers.txt", "data/ClueWeapons.txt");		
 		// Initialize will load BOTH config files 
 		board.initialize();
-		
 		notes = new DetectiveNotes();
 
-		panel = board;
 		add(panel, BorderLayout.CENTER);
 		
 		JPanel controlGui = new ControlGUI();

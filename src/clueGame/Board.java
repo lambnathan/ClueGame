@@ -39,10 +39,12 @@ public class Board extends JPanel{
 	private static String roomConfigFile;
 	private static String playerConfigFile;
 	private static String weaponConfigFile;
+	private Player currentPlayer;
+	private int playerIndex;
 	
 	private Set<Card> answer; //stores a randomly selected player, weapon and room
 	
-	private Set<Player> players;
+	private ArrayList<Player> players;
 	private Set<Card> cards;
 	
 	// variable used for singleton pattern
@@ -56,7 +58,7 @@ public class Board extends JPanel{
 		targets = new HashSet<>();
 		visited = new HashSet<>();
 		
-		players = new HashSet<>();
+		players = new ArrayList<>();
 		cards = new HashSet<>();
 		
 		answer = new HashSet<>();
@@ -250,6 +252,9 @@ public class Board extends JPanel{
 			
 		}
 		in.close();
+		//grabs human player
+		currentPlayer = players.get(0);
+		playerIndex = 0;
 	}
 	
 	/*
@@ -570,7 +575,7 @@ public class Board extends JPanel{
 		return color;
 	}
 	
-	public Set<Player> getPlayerList(){
+	public ArrayList<Player> getPlayerList(){
 		return players;
 	}
 	
@@ -595,6 +600,32 @@ public class Board extends JPanel{
 		
 	}
 	
+	public void makeMove() {
+		int diceRoll = getDiceRoll();
+		if(currentPlayer instanceof HumanPlayer) {
+			calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
+			repaint();
+		}
+		else if (currentPlayer instanceof ComputerPlayer) {
+			calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
+			BoardCell cellToMoveTo = ((ComputerPlayer) currentPlayer).pickLocation(targets);
+			currentPlayer.setLocation(cellToMoveTo.getRow(), cellToMoveTo.getColumn());
+		}
+		ControlGUI.showTurn(currentPlayer.getPlayerName(), diceRoll);
+		repaint();
+		
+		playerIndex++;
+		currentPlayer = players.get(playerIndex % players.size());
+	} 
+	
+	public int getDiceRoll() {
+		Random rand = new Random();
+		return 1 + rand.nextInt(6);
+	}
+	
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
 	
 	//for testing
 	public void addCardToDeck(Card c) {

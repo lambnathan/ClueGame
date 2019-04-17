@@ -108,5 +108,12 @@ public class BoardCell {
 			g.setColor(Color.BLACK);
 			g.drawRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);
 		}
+		
+		if(Board.getInstance().getCurrentPlayer() instanceof HumanPlayer) {
+			g.setColor(Color.CYAN);
+			if(Board.getInstance().getTargets().contains(this)) {
+				g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);
+			}
+		}
 	}
 }

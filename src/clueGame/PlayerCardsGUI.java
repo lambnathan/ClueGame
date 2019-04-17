@@ -92,5 +92,6 @@ public class PlayerCardsGUI extends JPanel{
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Weapons"));
 		return panel;
 	}
+	
 
 }
