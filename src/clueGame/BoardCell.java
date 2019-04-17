@@ -105,6 +105,8 @@ public class BoardCell {
 			}
 		}
 		if(this.isWalkway()) {
+			g.setColor(Color.GRAY);
+			g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);
 			g.setColor(Color.BLACK);
 			g.drawRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);
 		}

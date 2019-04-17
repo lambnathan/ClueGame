@@ -62,6 +62,8 @@ public class Board extends JPanel{
 		cards = new HashSet<>();
 		
 		answer = new HashSet<>();
+		
+		playerIndex = 0;
 	}
 	
 	// this method returns the only Board
@@ -253,8 +255,7 @@ public class Board extends JPanel{
 		}
 		in.close();
 		//grabs human player
-		currentPlayer = players.get(0);
-		playerIndex = 0;
+		currentPlayer = null;
 	}
 	
 	/*
@@ -601,7 +602,10 @@ public class Board extends JPanel{
 	}
 	
 	public void makeMove() {
+		currentPlayer = players.get(playerIndex % players.size());
+		
 		int diceRoll = getDiceRoll();
+		System.out.println("Current player: " + currentPlayer.getPlayerName());
 		if(currentPlayer instanceof HumanPlayer) {
 			calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
 			repaint();
@@ -615,7 +619,6 @@ public class Board extends JPanel{
 		repaint();
 		
 		playerIndex++;
-		currentPlayer = players.get(playerIndex % players.size());
 	} 
 	
 	public int getDiceRoll() {
