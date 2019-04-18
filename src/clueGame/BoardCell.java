@@ -89,20 +89,8 @@ public class BoardCell {
 		if(this.isDoorway()) {
 			g.setColor(Color.LIGHT_GRAY);
 			g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);
-			g.setColor(Color.BLUE); //blue will let players know that the cell is a doorway
-			//draws the blue sliver that indicates a door deoending on the cell's door direction
-			if(this.getDoorDirection() == DoorDirection.DOWN) {
-				g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE + Board.DOOR_OFFSET, Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET);
-			}
-			else if(this.getDoorDirection() == DoorDirection.UP) {
-				g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET);
-			}
-			else if(this.getDoorDirection() == DoorDirection.LEFT) {
-				g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET, Board.CELL_SIZE);
-			}
-			else if(this.getDoorDirection() == DoorDirection.RIGHT) {
-				g.fillRect(column * Board.CELL_SIZE + Board.DOOR_OFFSET, row * Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET, Board.CELL_SIZE);
-			}
+			drawDoorways(g);
+			
 		}
 		if(this.isWalkway()) {
 			g.setColor(Color.GRAY);
@@ -117,6 +105,25 @@ public class BoardCell {
 			if(Board.getInstance().getTargets().contains(this)) {
 				g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);
 			}
+			if(this.isDoorway()) {
+				drawDoorways(g);
+			}
+		}
+	}
+	public void drawDoorways(Graphics g) {
+		g.setColor(Color.BLUE); //blue will let players know that the cell is a doorway
+		//draws the blue sliver that indicates a door deoending on the cell's door direction
+		if(this.getDoorDirection() == DoorDirection.DOWN) {
+			g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE + Board.DOOR_OFFSET, Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET);
+		}
+		else if(this.getDoorDirection() == DoorDirection.UP) {
+			g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET);
+		}
+		else if(this.getDoorDirection() == DoorDirection.LEFT) {
+			g.fillRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET, Board.CELL_SIZE);
+		}
+		else if(this.getDoorDirection() == DoorDirection.RIGHT) {
+			g.fillRect(column * Board.CELL_SIZE + Board.DOOR_OFFSET, row * Board.CELL_SIZE, Board.CELL_SIZE - Board.DOOR_OFFSET, Board.CELL_SIZE);
 		}
 	}
 }
