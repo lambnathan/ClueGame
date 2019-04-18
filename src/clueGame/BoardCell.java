@@ -111,6 +111,7 @@ public class BoardCell {
 			g.drawRect(column * Board.CELL_SIZE, row * Board.CELL_SIZE, Board.CELL_SIZE, Board.CELL_SIZE);
 		}
 		
+		//if the current player is human, show available tiles for them to select
 		if(Board.getInstance().getCurrentPlayer() instanceof HumanPlayer) {
 			g.setColor(Color.CYAN);
 			if(Board.getInstance().getTargets().contains(this)) {

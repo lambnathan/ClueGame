@@ -27,7 +27,6 @@ public class ClueGame extends JFrame{
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
-		
 		// Board is singleton, get the only instance
 		Board board;
 		board = Board.getInstance();
@@ -36,6 +35,7 @@ public class ClueGame extends JFrame{
 		board.setConfigFiles("data/BoardLayout.csv", "data/ClueRooms.txt", "data/CluePlayers.txt", "data/ClueWeapons.txt");		
 		// Initialize will load BOTH config files 
 		board.initialize();
+		board.addMouseListener(Board.getInstance().getClickDetector()); //adds mouse listener to board
 		notes = new DetectiveNotes();
 
 		add(panel, BorderLayout.CENTER);
@@ -43,9 +43,7 @@ public class ClueGame extends JFrame{
 		JPanel controlGui = new ControlGUI();
 		JPanel playerCardsGUI = new PlayerCardsGUI(board);
 		add(controlGui, BorderLayout.SOUTH);
-		add(playerCardsGUI, BorderLayout.EAST);
-		
-		
+		add(playerCardsGUI, BorderLayout.EAST);		
 	}
 	
 	private JMenu createFileMenu() {
@@ -55,7 +53,7 @@ public class ClueGame extends JFrame{
 		return menu;
 	}
 	
-	private JMenuItem createFileExitItem() {
+	private static JMenuItem createFileExitItem() {
 		JMenuItem item = new JMenuItem("Exit");
 		class MenuItemListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
@@ -78,8 +76,7 @@ public class ClueGame extends JFrame{
 		return item;
 }
 	
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) {		
 		try {
 			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -89,15 +86,17 @@ public class ClueGame extends JFrame{
 		}
 		
 		ClueGame game = new ClueGame();
-		SplashScreen test = new SplashScreen();
+		SplashScreen welcomeMessage = new SplashScreen();
 		frame = game;
-		frame.setSize(850, 850);
+		frame.setSize(814, 825);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
 		
+
+		
 		game.setVisible(true);
-		test.setVisible(true);
+		welcomeMessage.setVisible(true);
 		
 	}
 	

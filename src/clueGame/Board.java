@@ -17,9 +17,13 @@ import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Board extends JPanel{
 	public static final int MAX_BOARD_SIZE = 50;
@@ -27,7 +31,7 @@ public class Board extends JPanel{
 	public static final int PLAYER_RADIUS = 20;
 	//door will either have length or width that is this value less than the cell's width or height, and will be moved either up and down or left and right this ammount
 	public static final int DOOR_OFFSET = 21; 
-	
+	private boolean isPlayerMoved = true;
 	
 	private static int numRows;
 	private static int numColumns;
@@ -89,6 +93,8 @@ public class Board extends JPanel{
 		dealCards();
 		
 	}
+	
+	
 	
 	//loads room config and creates a map that maps a character to the room it represents
 	public void loadRoomConfig() throws BadConfigFormatException {
@@ -602,26 +608,76 @@ public class Board extends JPanel{
 		
 	}
 	
+	//gets called whenever the "Next Player" button is clicked
 	public void makeMove() {
-		currentPlayer = players.get(playerIndex % players.size());
-		
+		currentPlayer = players.get(playerIndex % players.size()); //current player is set to the playerIndex
+		isPlayerMoved = false; //keeps track if a player has completed their turn
 		int diceRoll = getDiceRoll();
-		System.out.println("Current player: " + currentPlayer.getPlayerName());
 		if(currentPlayer instanceof HumanPlayer) {
 			calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
-			repaint();
+			repaint(); //shows highlighted options	
 		}
 		else if (currentPlayer instanceof ComputerPlayer) {
 			calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
 			BoardCell cellToMoveTo = ((ComputerPlayer) currentPlayer).pickLocation(targets);
 			currentPlayer.setLocation(cellToMoveTo.getRow(), cellToMoveTo.getColumn());
+			isPlayerMoved = true;
 		}
-		ControlGUI.showTurn(currentPlayer.getPlayerName(), diceRoll);
-		repaint();
-		
-		playerIndex++;
+		ControlGUI.showTurn(currentPlayer.getPlayerName(), diceRoll); //fills in dialog boxes in controlgui
+		repaint();	//calls repaint to show updated computerplayer locations
+		playerIndex++; //moves to next player index
 	} 
 	
+	//mouse listener for the board
+	private class ClickDetection implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if(currentPlayer instanceof HumanPlayer) { //only detects mouse clicks for human players
+				boolean clickedValidTile = false;
+				for(BoardCell cell : targets) {
+					//creates new rectangle that is the size of the cell, with the origin in the upper left
+					Rectangle rect = new Rectangle(cell.getColumn() * CELL_SIZE, cell.getRow() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+					if(rect.contains(e.getPoint())) { //if the correct rectangle is clicked on
+						clickedValidTile = true;
+						currentPlayer.setLocation(cell.getRow(), cell.getColumn()); //move player to selected tile
+						currentPlayer = players.get(playerIndex % players.size()); //update the current player and call repaint to get rid of highlighted tiles
+						repaint();
+						isPlayerMoved = true; //player has moved
+						break;
+					}
+					else {
+						continue;
+					}
+				}
+				//if the player did not select a valid cell
+				if(!clickedValidTile) {
+					JOptionPane.showMessageDialog(null, "You must select a highlighted tile!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+		
+	}
+	
+	//creates a new click detector for the board
+	public ClickDetection getClickDetector() {
+		ClickDetection cd = new ClickDetection();
+		return cd;
+	}
+	
+	//simulates a random dice roll
 	public int getDiceRoll() {
 		Random rand = new Random();
 		return 1 + rand.nextInt(6);
@@ -643,5 +699,10 @@ public class Board extends JPanel{
 	public void addCardToAnswer(Card c) {
 		answer.add(c);
 	}
+	
+	public boolean getIsPlayerMoved() {
+		return isPlayerMoved;
+	}
+
 	
 }

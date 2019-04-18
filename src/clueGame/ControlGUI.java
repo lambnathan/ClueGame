@@ -65,7 +65,13 @@ public class ControlGUI extends JPanel implements MouseListener {
 		nextPlayer.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getButton() == MouseEvent.BUTTON1) {
-					Board.getInstance().makeMove();
+					if(Board.getInstance().getIsPlayerMoved()) {
+						Board.getInstance().makeMove();
+					}
+					//if player clicks next player before completing turn
+					else {
+						JOptionPane.showMessageDialog(null, "You must select a tile to move to first!", "Error", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
@@ -117,34 +123,6 @@ public class ControlGUI extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent arg0) {
 		
 	}
-
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	//main function for testing, will open a window with only controlGUI, not whole game board
 	public static void main(String[] args) {
@@ -157,4 +135,20 @@ public class ControlGUI extends JPanel implements MouseListener {
 		//view the JFrame
 		frame.setVisible(true);
 	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {}
+
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {}
+
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {}
+
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {}
 }
