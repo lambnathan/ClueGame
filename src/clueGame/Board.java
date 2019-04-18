@@ -641,6 +641,13 @@ public class Board extends JPanel{
 					if(rect.contains(e.getPoint())) { //if the correct rectangle is clicked on
 						clickedValidTile = true;
 						currentPlayer.setLocation(cell.getRow(), cell.getColumn()); //move player to selected tile
+						if(cell.isDoorway()) {
+							String roomName = legend.get(cell.getInitial());
+							SuggestionWindow sg = new SuggestionWindow(roomName);
+							sg.setVisible(true);
+							
+							
+						}
 						currentPlayer = players.get(playerIndex % players.size()); //update the current player and call repaint to get rid of highlighted tiles
 						repaint();
 						isPlayerMoved = true; //player has moved
