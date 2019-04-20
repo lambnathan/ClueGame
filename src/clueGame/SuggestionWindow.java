@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 public class SuggestionWindow extends JFrame{
 	JPanel roomLabel, personLabel, weaponLabel;
