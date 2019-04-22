@@ -6,7 +6,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -21,11 +20,11 @@ public class SuggestionWindow extends JFrame{
 	
 	private guessDialog dialog;
 	private String selectedRoomName;
-	private JComboBox personBox;
-	private JComboBox weaponBox;
+	private JComboBox<String> personBox;
+	private JComboBox<String> weaponBox;
 	
 	public SuggestionWindow(String roomName) {
-		setTitle("Make a Suggestion");
+		setTitle("Suggestion");
 		setSize(250, 200);
 		this.selectedRoomName = roomName;
 		
@@ -83,17 +82,19 @@ public class SuggestionWindow extends JFrame{
 	
 	public JPanel createRoomComboBox() {
 		JPanel panel = new JPanel();
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.addItem(selectedRoomName);
-		comboBox.setEnabled(false);
-		comboBox.setEditable(false);
-		panel.add(comboBox);
+		JComboBox<String> roomBox = new JComboBox<String>();
+		roomBox.setPrototypeDisplayValue("Colonel Mustard");
+		roomBox.addItem(selectedRoomName);
+		roomBox.setEnabled(false);
+		roomBox.setEditable(false);
+		panel.add(roomBox);
 		return panel;
 	}
 	
 	public JPanel createPersonComboBox() {
 		JPanel panel = new JPanel();
 		personBox = new JComboBox<String>();
+		personBox.setPrototypeDisplayValue("Colonel Mustard");
 		personBox.addItem("Miss Scarlet");
 		personBox.addItem("Colonel Mustard");
 		personBox.addItem("Mr. Green");
@@ -107,6 +108,7 @@ public class SuggestionWindow extends JFrame{
 	public JPanel createWeaponComboBox() {
 		JPanel panel = new JPanel();
 		weaponBox = new JComboBox<String>();
+		weaponBox.setPrototypeDisplayValue("Colonel Mustard");
 		weaponBox.addItem("Rope");
 		weaponBox.addItem("Lead Pipe");
 		weaponBox.addItem("Knife");
