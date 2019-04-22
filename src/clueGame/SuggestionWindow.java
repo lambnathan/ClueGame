@@ -19,15 +19,19 @@ public class SuggestionWindow extends JFrame{
 	JPanel suggestButtonPanel, cancelButtonPanel;
 	
 	private guessDialog dialog;
+	private Board board;
 	private String selectedRoomName;
+	private String accuserName;
 	private JComboBox<String> personBox;
 	private JComboBox<String> weaponBox;
 	
-	public SuggestionWindow(String roomName) {
+	public SuggestionWindow(String roomName, String personName) {
+		
 		setTitle("Suggestion");
 		setSize(250, 200);
 		this.selectedRoomName = roomName;
-		
+		this.accuserName = personName;
+		board = Board.getInstance();
 		dialog = new guessDialog();
 	}
 	
@@ -127,14 +131,47 @@ public class SuggestionWindow extends JFrame{
 				if(e.getButton() == MouseEvent.BUTTON1) {
 					String personSuggestion = personBox.getSelectedItem().toString();
 					String weaponSuggestion = weaponBox.getSelectedItem().toString();
-					System.out.println(personSuggestion + " " + weaponSuggestion);
+					Card personSuggestionCard = null;
+					Card weaponSuggestionCard = null;
+					Card roomSuggestionCard = null;
+					Card temp = null;
+					Player temp2 = null;
+					//setting all cards that were grabbed from suggestion window to be checked with handleSuggestion()
+					for(Card c: board.getCardList()) {
+						if(c.getCardName().equals(personSuggestion)) {
+							personSuggestionCard = c;
+						}
+						else if(c.getCardName().equals(weaponSuggestion)) {
+							weaponSuggestionCard = c;
+						}
+						else if(c.getCardName().equals(selectedRoomName)) {
+							roomSuggestionCard = c;
+						}
+					}
+					//setting Current players name equal to whoever was accused in the suggestion
+					for(Card c: board.getCardList()) {
+						if(c.getCardName().equals(accuserName)) {
+							temp = c;
+						}
+					}
+					//setting the player(our current makeMove() function changes the currentplayer before we can access them)
+					for(Player p: board.getPlayerList()) {
+						if(p.getPlayerName().equals(accuserName)) {
+							temp2 = p;
+						}
+					}
+					Solution suggestion = new Solution(personSuggestionCard, roomSuggestionCard, weaponSuggestionCard);
+					Card disproveCard = board.handleSuggestion(suggestion, temp2);
+					String disproveCardName = disproveCard.getCardName();
+					System.out.println(disproveCardName);
+					dispose();
 				}
 			}
 		});
 		panel.add(makeSuggestion);
 		return panel;
 	}
-	
+
 	public JPanel createCancelButtonPanel() {
 		JPanel panel = new JPanel();
 		JButton makeCancel = new JButton("Cancel");
@@ -148,8 +185,4 @@ public class SuggestionWindow extends JFrame{
 		panel.add(makeCancel);
 		return panel;
 	}
-	
-	
-	
-
 }

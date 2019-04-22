@@ -93,8 +93,6 @@ public class ClueGame extends JFrame{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
 		
-
-		
 		game.setVisible(true);
 		welcomeMessage.setVisible(true);
 		

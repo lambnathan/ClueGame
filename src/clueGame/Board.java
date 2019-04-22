@@ -45,6 +45,7 @@ public class Board extends JPanel{
 	private static String playerConfigFile;
 	private static String weaponConfigFile;
 	private Player currentPlayer;
+	private Player currentPlayerBeforeMove;
 	private int playerIndex;
 	
 	private Set<Card> answer; //stores a randomly selected player, weapon and room
@@ -263,6 +264,8 @@ public class Board extends JPanel{
 		in.close();
 		//grabs human player
 		currentPlayer = null;
+		currentPlayerBeforeMove = null;
+
 	}
 	
 	/*
@@ -562,10 +565,6 @@ public class Board extends JPanel{
 		}
 		return false;
 	}
-	
-	public Set<Card> getAnswer() {
-		return answer;
-	}
 
 	/*
 	 * returns color object from string
@@ -581,14 +580,6 @@ public class Board extends JPanel{
 		}
 		
 		return color;
-	}
-	
-	public ArrayList<Player> getPlayerList(){
-		return players;
-	}
-	
-	public Set<Card> getCardList(){
-		return cards;
 	}
 	
 	//draw everything on the game board
@@ -611,6 +602,7 @@ public class Board extends JPanel{
 	//gets called whenever the "Next Player" button is clicked
 	public void makeMove() {
 		currentPlayer = players.get(playerIndex % players.size()); //current player is set to the playerIndex
+		currentPlayerBeforeMove = players.get(playerIndex % players.size()); //current player is set to the playerIndex
 		isPlayerMoved = false; //keeps track if a player has completed their turn
 		int diceRoll = getDiceRoll();
 		if(currentPlayer instanceof HumanPlayer) {
@@ -623,8 +615,8 @@ public class Board extends JPanel{
 			currentPlayer.setLocation(cellToMoveTo.getRow(), cellToMoveTo.getColumn());
 			isPlayerMoved = true;
 		}
-		ControlGUI.showTurn(currentPlayer.getPlayerName(), diceRoll); //fills in dialog boxes in controlgui
-		repaint();	//calls repaint to show updated computerplayer locations
+		ControlGUI.showTurn(currentPlayer.getPlayerName(), diceRoll); //fills in dialog boxes in control gui
+		repaint();	//calls repaint to show updated computer player locations
 		playerIndex++; //moves to next player index
 	} 
 	
@@ -643,10 +635,9 @@ public class Board extends JPanel{
 						currentPlayer.setLocation(cell.getRow(), cell.getColumn()); //move player to selected tile
 						if(cell.isDoorway()) {
 							String roomName = legend.get(cell.getInitial());
-							SuggestionWindow sg = new SuggestionWindow(roomName);
+							String personName = currentPlayerBeforeMove.getPlayerName();
+							SuggestionWindow sg = new SuggestionWindow(roomName, personName);
 							sg.setVisible(true);
-							
-							
 						}
 						currentPlayer = players.get(playerIndex % players.size()); //update the current player and call repaint to get rid of highlighted tiles
 						repaint();
@@ -710,6 +701,16 @@ public class Board extends JPanel{
 	public boolean getIsPlayerMoved() {
 		return isPlayerMoved;
 	}
-
 	
+	public ArrayList<Player> getPlayerList(){
+		return players;
+	}
+	
+	public Set<Card> getCardList(){
+		return cards;
+	}
+	
+	public Set<Card> getAnswer() {
+		return answer;
+	}	
 }

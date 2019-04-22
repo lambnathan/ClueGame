@@ -26,6 +26,7 @@ import javax.swing.border.TitledBorder;
 public class ControlGUI extends JPanel implements MouseListener {
 	static JTextField dieRoll;
 	static JTextField name;
+	static JTextField response;
 	
 	public ControlGUI() {
 		
@@ -117,6 +118,10 @@ public class ControlGUI extends JPanel implements MouseListener {
 	public static void showTurn(String playerName, int roll) {
 		name.setText(playerName);
 		dieRoll.setText(String.valueOf(roll));
+	}
+	
+	public static void showResponse(String suggestionDisproveCard) {
+		response.setText(suggestionDisproveCard);
 	}
 	
 	@Override
