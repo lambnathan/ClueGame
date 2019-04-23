@@ -80,7 +80,8 @@ public class ControlGUI extends JPanel implements MouseListener {
 		makeAccusation.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getButton() == MouseEvent.BUTTON1) {
-					
+					SuggestionWindow accuseWindow = new SuggestionWindow(true);
+					accuseWindow.setVisible(true);
 				}
 			}
 		});	

@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -24,14 +25,23 @@ public class SuggestionWindow extends JFrame{
 	private String accuserName;
 	private JComboBox<String> personBox;
 	private JComboBox<String> weaponBox;
+	private boolean isAccusation = false;
 	
 	public SuggestionWindow(String roomName, String personName) {
-		
 		setTitle("Suggestion");
 		setSize(250, 200);
 		this.selectedRoomName = roomName;
 		this.accuserName = personName;
 		board = Board.getInstance();
+		dialog = new guessDialog();
+	}
+	
+	//only gets called when the player clicks to make accusation
+	public SuggestionWindow(boolean isAccusation) {
+		this.isAccusation = isAccusation;
+		setTitle("Accuse");
+		setSize(250, 250);
+		board = board.getInstance();
 		dialog = new guessDialog();
 	}
 	
@@ -88,9 +98,22 @@ public class SuggestionWindow extends JFrame{
 		JPanel panel = new JPanel();
 		JComboBox<String> roomBox = new JComboBox<String>();
 		roomBox.setPrototypeDisplayValue("Colonel Mustard");
-		roomBox.addItem(selectedRoomName);
-		roomBox.setEnabled(false);
+		if(isAccusation) {
+			roomBox.addItem("Conservatory");
+			roomBox.addItem("Kitchen");
+			roomBox.addItem("Ballroom");
+			roomBox.addItem("Library");
+			roomBox.addItem("Arcade room");
+			roomBox.addItem("Gun room");
+			roomBox.addItem("Trophy room");
+			roomBox.addItem("Pantry");
+			roomBox.addItem("Sauna");	
+		}
+		else {
+			roomBox.addItem(selectedRoomName);
+		}
 		roomBox.setEditable(false);
+		roomBox.setEnabled(isAccusation);
 		panel.add(roomBox);
 		return panel;
 	}
@@ -125,7 +148,13 @@ public class SuggestionWindow extends JFrame{
 	
 	public JPanel createSuggestButtonPanel() {
 		JPanel panel = new JPanel();
-		JButton makeSuggestion = new JButton("Make suggestion");
+		JButton makeSuggestion = null;
+		if(isAccusation) {
+			makeSuggestion = new JButton("Make accusation");
+		}
+		else {
+			makeSuggestion = new JButton("Make suggestion");
+		}
 		makeSuggestion.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getButton() == MouseEvent.BUTTON1) {
