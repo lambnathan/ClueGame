@@ -29,6 +29,7 @@ public class Board extends JPanel{
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int CELL_SIZE = 25; //size of a square cell
 	public static final int PLAYER_RADIUS = 20;
+	public static final int PLAYER_INSIDE_ROOM_RAD = 8;
 	//door will either have length or width that is this value less than the cell's width or height, and will be moved either up and down or left and right this ammount
 	public static final int DOOR_OFFSET = 21; 
 	private boolean isPlayerMoved = true;
@@ -613,6 +614,20 @@ public class Board extends JPanel{
 			calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
 			BoardCell cellToMoveTo = ((ComputerPlayer) currentPlayer).pickLocation(targets);
 			currentPlayer.setLocation(cellToMoveTo.getRow(), cellToMoveTo.getColumn());
+			if(getCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).isDoorway()) {
+				Solution computerSuggestion = ((ComputerPlayer) currentPlayer).createSuggestion(this);
+				String computerGuess = computerSuggestion.getPersonName() + " in the " + computerSuggestion.getRoomName() + " with the " + computerSuggestion.getWeaponName();
+				ControlGUI.showGuess(computerGuess);
+				Card disproveCard = handleSuggestion(computerSuggestion, currentPlayerBeforeMove);
+				//check if there are no cards that can disprove the suggestion
+				if(disproveCard == null) {
+					ControlGUI.showResponse("Cannot disprove");
+				}
+				else {
+					String disproveCardName = disproveCard.getCardName();
+					ControlGUI.showResponse(disproveCardName);
+				}
+			}
 			isPlayerMoved = true;
 		}
 		ControlGUI.showTurn(currentPlayer.getPlayerName(), diceRoll); //fills in dialog boxes in control gui

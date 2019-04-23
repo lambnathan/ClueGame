@@ -169,8 +169,14 @@ public class SuggestionWindow extends JFrame{
 					}
 					Solution suggestion = new Solution(personSuggestionCard, roomSuggestionCard, weaponSuggestionCard);
 					Card disproveCard = board.handleSuggestion(suggestion, temp2);
-					String disproveCardName = disproveCard.getCardName();
-					ControlGUI.showResponse(disproveCardName);
+					//check if there are no cards that can disprove the suggestion
+					if(disproveCard == null) {
+						ControlGUI.showResponse("Cannot disprove");
+					}
+					else {
+						String disproveCardName = disproveCard.getCardName();
+						ControlGUI.showResponse(disproveCardName);
+					}
 					String guess = personSuggestion + " in the " + selectedRoomName + " with the " + weaponSuggestion;
 					ControlGUI.showGuess(guess);
 					dispose();
