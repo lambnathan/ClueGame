@@ -24,9 +24,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class ControlGUI extends JPanel implements MouseListener {
-	static JTextField dieRoll;
-	static JTextField name;
-	static JTextField response;
+	private static JTextField dieRoll;
+	private static JTextField name;
+	private static JTextField response;
+	private static JTextField guess;
 	
 	public ControlGUI() {
 		
@@ -99,7 +100,7 @@ public class ControlGUI extends JPanel implements MouseListener {
 	
 	public JPanel createGuessPanel() {
 		JPanel panel = new JPanel();
-		JTextField guess = new JTextField(30);
+		guess = new JTextField(40);
 		guess.setEditable(false);
 		panel.add(guess);
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
@@ -108,7 +109,7 @@ public class ControlGUI extends JPanel implements MouseListener {
 	
 	public JPanel createGuessResultPanel() {
 		JPanel panel = new JPanel();
-		JTextField response = new JTextField(18);
+		response = new JTextField(18);
 		response.setEditable(false);
 		panel.add(response);
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Response to Guess"));
@@ -122,6 +123,10 @@ public class ControlGUI extends JPanel implements MouseListener {
 	
 	public static void showResponse(String suggestionDisproveCard) {
 		response.setText(suggestionDisproveCard);
+	}
+	
+	public static void showGuess(String g) {
+		guess.setText(g);
 	}
 	
 	@Override

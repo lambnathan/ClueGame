@@ -129,6 +129,7 @@ public class SuggestionWindow extends JFrame{
 		makeSuggestion.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getButton() == MouseEvent.BUTTON1) {
+					board.repaint();
 					String personSuggestion = personBox.getSelectedItem().toString();
 					String weaponSuggestion = weaponBox.getSelectedItem().toString();
 					Card personSuggestionCard = null;
@@ -136,7 +137,8 @@ public class SuggestionWindow extends JFrame{
 					Card roomSuggestionCard = null;
 					Card temp = null;
 					Player temp2 = null;
-					//setting all cards that were grabbed from suggestion window to be checked with handleSuggestion()
+					//creating cards that match what the player suggested
+					//first searching in the deck of cards (does not include solution cards)
 					for(Card c: board.getCardList()) {
 						if(c.getCardName().equals(personSuggestion)) {
 							personSuggestionCard = c;
@@ -148,10 +150,15 @@ public class SuggestionWindow extends JFrame{
 							roomSuggestionCard = c;
 						}
 					}
-					//setting Current players name equal to whoever was accused in the suggestion
-					for(Card c: board.getCardList()) {
-						if(c.getCardName().equals(accuserName)) {
-							temp = c;
+					for(Card c: board.getAnswer()) {
+						if(c.getCardName().equals(personSuggestion)) {
+							personSuggestionCard = c;
+						}
+						else if(c.getCardName().equals(weaponSuggestion)) {
+							weaponSuggestionCard = c;
+						}
+						else if(c.getCardName().equals(selectedRoomName)) {
+							roomSuggestionCard = c;
 						}
 					}
 					//setting the player(our current makeMove() function changes the currentplayer before we can access them)
@@ -163,7 +170,9 @@ public class SuggestionWindow extends JFrame{
 					Solution suggestion = new Solution(personSuggestionCard, roomSuggestionCard, weaponSuggestionCard);
 					Card disproveCard = board.handleSuggestion(suggestion, temp2);
 					String disproveCardName = disproveCard.getCardName();
-					System.out.println(disproveCardName);
+					ControlGUI.showResponse(disproveCardName);
+					String guess = personSuggestion + " in the " + selectedRoomName + " with the " + weaponSuggestion;
+					ControlGUI.showGuess(guess);
 					dispose();
 				}
 			}
