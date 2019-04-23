@@ -64,7 +64,7 @@ public class ControlGUI extends JPanel implements MouseListener {
 		JButton makeAccusation = new JButton("Make accusation");
 		nextPlayer.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(e.getButton() == MouseEvent.BUTTON1) {
+				if(e.getButton() == MouseEvent.BUTTON2) {
 					if(Board.getInstance().getIsPlayerMoved()) {
 						Board.getInstance().makeMove();
 					}

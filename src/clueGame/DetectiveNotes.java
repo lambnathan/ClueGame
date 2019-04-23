@@ -39,8 +39,7 @@ public class DetectiveNotes extends JFrame {
 	
 	//calls each individual panel creation, then adds them to one final panel called completed
 	public void createLayout() {
-		persons = createPersonGuessPanel();
-		
+		persons = createPersonGuessPanel();		
 		weapons = createWeaponGuessPanel();
 		rooms = createRoomGuessPanel();
 		
