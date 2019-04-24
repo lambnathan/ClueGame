@@ -47,6 +47,7 @@ public class Board extends JPanel{
 	private Player currentPlayer;
 	private Player currentPlayerBeforeMove;
 	private int playerIndex;
+	private boolean canPlayerMove = true;
 	
 	private Set<Card> answer; //stores a randomly selected player, weapon and room
 	
@@ -606,8 +607,15 @@ public class Board extends JPanel{
 		isPlayerMoved = false; //keeps track if a player has completed their turn
 		int diceRoll = getDiceRoll();
 		if(currentPlayer instanceof HumanPlayer) {
-			calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
-			repaint(); //shows highlighted options	
+			//logic for stopping player from being able to move if they have failed the accusation
+			if(canPlayerMove) {
+				calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
+				repaint(); //shows highlighted options
+			}
+			else {
+				isPlayerMoved = true;
+			}
+	
 		}
 		else if (currentPlayer instanceof ComputerPlayer) {
 			calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
@@ -628,9 +636,9 @@ public class Board extends JPanel{
 				}
 			}
 			isPlayerMoved = true;
+			repaint();	//calls repaint to show updated computer player locations
 		}
-		ControlGUI.showTurn(currentPlayer.getPlayerName(), diceRoll); //fills in dialog boxes in control gui
-		repaint();	//calls repaint to show updated computer player locations
+		ControlGUI.showTurn(currentPlayer.getPlayerName(), diceRoll); //fills in dialog boxes in control gui		
 		playerIndex++; //moves to next player index
 	} 
 	
@@ -727,4 +735,8 @@ public class Board extends JPanel{
 	public Set<Card> getAnswer() {
 		return answer;
 	}	
+	
+	public void setCanPlayerMoved(boolean g) {
+		this.canPlayerMove = g;
+	}
 }

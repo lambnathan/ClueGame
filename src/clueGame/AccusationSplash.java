@@ -8,7 +8,6 @@ public class AccusationSplash extends JOptionPane {
 		setSize(600,250);
 		if(isWinner) {
 			message = "You did it! You have won the game, now closing.";
-
 		}
 		else {
 			message = "You are incorrect! You can no longer help in this game, it will continue without you.";

@@ -25,6 +25,7 @@ public class SuggestionWindow extends JFrame{
 	private JComboBox<String> personBox;
 	private JComboBox<String> weaponBox;
 	private JComboBox<String> roomBox;
+	private static boolean isAllowedToAccuse = true;
 	private boolean isAccusation = false;
 	
 	public SuggestionWindow(String roomName, String personName) {
@@ -165,7 +166,6 @@ public class SuggestionWindow extends JFrame{
 					Card personSuggestionCard = null;
 					Card weaponSuggestionCard = null;
 					Card roomSuggestionCard = null;
-					Card temp = null;
 					Player temp2 = null;
 					//creating cards that match what the player suggested
 					//first searching in the deck of cards (does not include solution cards)
@@ -228,22 +228,20 @@ public class SuggestionWindow extends JFrame{
 					Solution suggestion = new Solution(personSuggestionCard, roomSuggestionCard, weaponSuggestionCard);
 					//if an accusation, check against the answer
 					if(isAccusation) { //if the accusation is correct, inform player and close game
-						boolean isCorrect = board.checkAccusation(suggestion);
-						if(isCorrect) {
-							AccusationSplash win = new AccusationSplash(isCorrect);
-							win.setVisible(true);
-							dispose();
-							ClueGame.exitGame();
-						}
-						else { //if the accusation is incorrect, inform player and continue game without them
-							 AccusationSplash lose = new AccusationSplash(isCorrect);					 	
-							 lose.setVisible(true);
-							 dispose();
-							 
-//-----------------------------need to finish here:
-							 
-						}
-						
+						boolean isCorrect = board.checkAccusation(suggestion);						
+							if(isCorrect) {
+								AccusationSplash win = new AccusationSplash(isCorrect);
+								win.setVisible(true);
+								dispose();
+								ClueGame.exitGame();
+							}
+							else { //if the accusation is incorrect, inform player and continue game without them
+								AccusationSplash lose = new AccusationSplash(isCorrect);
+								isAllowedToAccuse = false; //only allow one accusation per game
+								lose.setVisible(true);
+								board.setCanPlayerMoved(false);
+								dispose();							 
+							}											
 //----------------------------------------------------------------------------------------------------------------------------------------------------	
 						//ONLY FOR TESTING TO SEE IF WORKING CORRECTLY
 						Set<Card> answer = board.getAnswer();
@@ -260,6 +258,7 @@ public class SuggestionWindow extends JFrame{
 //----------------------------------------------------------------------------------------------------------------------------------------------------					
 												
 					}
+
 					else if(!isAccusation) {
 						Card disproveCard = board.handleSuggestion(suggestion, temp2);
 						//check if there are no cards that can disprove the suggestion
@@ -293,5 +292,9 @@ public class SuggestionWindow extends JFrame{
 		});
 		panel.add(makeCancel);
 		return panel;
+	}
+	
+	public static boolean getIsAllowedToAccuse() {
+		return isAllowedToAccuse;
 	}
 }
