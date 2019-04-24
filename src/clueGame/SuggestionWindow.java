@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -28,14 +29,23 @@ public class SuggestionWindow extends JFrame{
 	private static String disproveCardName;
 	private JComboBox<String> personBox;
 	private JComboBox<String> weaponBox;
+	private boolean isAccusation = false;
 	
 	public SuggestionWindow(String roomName, String personName) {
-		
 		setTitle("Suggestion");
 		setSize(250, 200);
 		this.selectedRoomName = roomName;
 		this.personName = personName;
 		board = Board.getInstance();
+		dialog = new guessDialog();
+	}
+	
+	//only gets called when the player clicks to make accusation
+	public SuggestionWindow(boolean isAccusation) {
+		this.isAccusation = isAccusation;
+		setTitle("Accuse");
+		setSize(250, 250);
+		board = board.getInstance();
 		dialog = new guessDialog();
 	}
 	
@@ -92,9 +102,22 @@ public class SuggestionWindow extends JFrame{
 		JPanel panel = new JPanel();
 		JComboBox<String> roomBox = new JComboBox<String>();
 		roomBox.setPrototypeDisplayValue("Colonel Mustard");
-		roomBox.addItem(selectedRoomName);
-		roomBox.setEnabled(false);
+		if(isAccusation) {
+			roomBox.addItem("Conservatory");
+			roomBox.addItem("Kitchen");
+			roomBox.addItem("Ballroom");
+			roomBox.addItem("Library");
+			roomBox.addItem("Arcade room");
+			roomBox.addItem("Gun room");
+			roomBox.addItem("Trophy room");
+			roomBox.addItem("Pantry");
+			roomBox.addItem("Sauna");	
+		}
+		else {
+			roomBox.addItem(selectedRoomName);
+		}
 		roomBox.setEditable(false);
+		roomBox.setEnabled(isAccusation);
 		panel.add(roomBox);
 		return panel;
 	}
@@ -129,10 +152,17 @@ public class SuggestionWindow extends JFrame{
 	
 	public JPanel createSuggestButtonPanel() {
 		JPanel panel = new JPanel();
-		JButton makeSuggestion = new JButton("Make suggestion");
+		JButton makeSuggestion = null;
+		if(isAccusation) {
+			makeSuggestion = new JButton("Make accusation");
+		}
+		else {
+			makeSuggestion = new JButton("Make suggestion");
+		}
 		makeSuggestion.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getButton() == MouseEvent.BUTTON1) {
+					board.repaint();
 					String personSuggestion = personBox.getSelectedItem().toString();
 					String weaponSuggestion = weaponBox.getSelectedItem().toString();
 					Card personSuggestionCard = null;
@@ -140,7 +170,8 @@ public class SuggestionWindow extends JFrame{
 					Card roomSuggestionCard = null;
 					Card temp = null;
 					Player temp2 = null;
-					//setting all cards that were grabbed from suggestion window to be checked with handleSuggestion()
+					//creating cards that match what the player suggested
+					//first searching in the deck of cards (does not include solution cards)
 					for(Card c: board.getCardList()) {
 						if(c.getCardName().equals(SuggestionWindow.getPersonSuggestion())) {
 							personSuggestionCard = c;
@@ -152,10 +183,15 @@ public class SuggestionWindow extends JFrame{
 							roomSuggestionCard = c;
 						}
 					}
-					//setting Current players name equal to whoever was accused in the suggestion
-					for(Card c: board.getCardList()) {
-						if(c.getCardName().equals(accuserName)) {
-							temp = c;
+					for(Card c: board.getAnswer()) {
+						if(c.getCardName().equals(personSuggestion)) {
+							personSuggestionCard = c;
+						}
+						else if(c.getCardName().equals(weaponSuggestion)) {
+							weaponSuggestionCard = c;
+						}
+						else if(c.getCardName().equals(selectedRoomName)) {
+							roomSuggestionCard = c;
 						}
 					}
 					//setting the player(our current makeMove() function changes the currentplayer before we can access them)
@@ -165,10 +201,24 @@ public class SuggestionWindow extends JFrame{
 						}
 					}
 					Solution suggestion = new Solution(personSuggestionCard, roomSuggestionCard, weaponSuggestionCard);
+<<<<<<< HEAD
 					Card disproveCard = handleSuggestion(suggestion, temp2);
 					String disproveCardName = disproveCard.getCardName();
 					//ControlGUI.showGuess(personSuggestionCard.getCardName(), roomSuggestionCard.getCardName(), weaponSuggestionCard.getCardName());
 					//ControlGUI.showResponse(disproveCard);
+=======
+					Card disproveCard = board.handleSuggestion(suggestion, temp2);
+					//check if there are no cards that can disprove the suggestion
+					if(disproveCard == null) {
+						ControlGUI.showResponse("Cannot disprove");
+					}
+					else {
+						String disproveCardName = disproveCard.getCardName();
+						ControlGUI.showResponse(disproveCardName);
+					}
+					String guess = personSuggestion + " in the " + selectedRoomName + " with the " + weaponSuggestion;
+					ControlGUI.showGuess(guess);
+>>>>>>> 3df78e31fae9a7655e0f136a893fb2a1129e881a
 					dispose();
 				}
 			}
