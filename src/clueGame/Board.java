@@ -16,7 +16,6 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -48,7 +47,6 @@ public class Board extends JPanel{
 	private Player currentPlayer;
 	private Player currentPlayerBeforeMove;
 	private int playerIndex;
-	private String accuserName;
 	
 	private Set<Card> answer; //stores a randomly selected player, weapon and room
 	
@@ -596,7 +594,8 @@ public class Board extends JPanel{
 		//goes through each player and draws them
 		for(Player p : players) {
 			p.draw(g);
-		}	
+		}
+		
 		
 	}
 	
@@ -652,7 +651,6 @@ public class Board extends JPanel{
 							String roomName = legend.get(cell.getInitial());
 							String personName = currentPlayerBeforeMove.getPlayerName();
 							SuggestionWindow sg = new SuggestionWindow(roomName, personName);
-							System.out.println(disproveCardName);
 							sg.setVisible(true);
 						}
 						currentPlayer = players.get(playerIndex % players.size()); //update the current player and call repaint to get rid of highlighted tiles
