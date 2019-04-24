@@ -64,6 +64,10 @@ public class ClueGame extends JFrame{
 		return item;
 	}
 	
+	static void exitGame() {
+		System.exit(0);
+	}
+	
 	private JMenuItem createDetectiveNotesItem() {
 		JMenuItem item = new JMenuItem("Detective Notes");
 		class MenuItemListener implements ActionListener {
