@@ -27,6 +27,7 @@ public class ControlGUI extends JPanel implements MouseListener {
 	static JTextField dieRoll;
 	static JTextField name;
 	static JTextField response;
+	//static JTextField guess;
 	
 	public ControlGUI() {
 		
@@ -120,9 +121,13 @@ public class ControlGUI extends JPanel implements MouseListener {
 		dieRoll.setText(String.valueOf(roll));
 	}
 	
-	public static void showResponse(String suggestionDisproveCard) {
-		response.setText(suggestionDisproveCard);
+	public static void showResponse(Card suggestionDisproveCard) {
+		response.setText(suggestionDisproveCard.getCardName());
 	}
+	
+//	public static void showGuess(String personGuess, String roomGuess, String weaponGuess) {
+//		guess.setText(personGuess + " in the " + roomGuess + " with the " + weaponGuess);
+//	}
 	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -156,4 +161,5 @@ public class ControlGUI extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {}
+
 }

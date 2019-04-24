@@ -21,7 +21,11 @@ public class SuggestionWindow extends JFrame{
 	private guessDialog dialog;
 	private Board board;
 	private String selectedRoomName;
-	private String accuserName;
+	private static String personSuggestion;
+	private static String weaponSuggestion;
+	private String personName;
+	
+	private static String disproveCardName;
 	private JComboBox<String> personBox;
 	private JComboBox<String> weaponBox;
 	
@@ -30,7 +34,7 @@ public class SuggestionWindow extends JFrame{
 		setTitle("Suggestion");
 		setSize(250, 200);
 		this.selectedRoomName = roomName;
-		this.accuserName = personName;
+		this.personName = personName;
 		board = Board.getInstance();
 		dialog = new guessDialog();
 	}
@@ -138,10 +142,10 @@ public class SuggestionWindow extends JFrame{
 					Player temp2 = null;
 					//setting all cards that were grabbed from suggestion window to be checked with handleSuggestion()
 					for(Card c: board.getCardList()) {
-						if(c.getCardName().equals(personSuggestion)) {
+						if(c.getCardName().equals(SuggestionWindow.getPersonSuggestion())) {
 							personSuggestionCard = c;
 						}
-						else if(c.getCardName().equals(weaponSuggestion)) {
+						else if(c.getCardName().equals(SuggestionWindow.getWeaponSuggestion())) {
 							weaponSuggestionCard = c;
 						}
 						else if(c.getCardName().equals(selectedRoomName)) {
@@ -161,9 +165,10 @@ public class SuggestionWindow extends JFrame{
 						}
 					}
 					Solution suggestion = new Solution(personSuggestionCard, roomSuggestionCard, weaponSuggestionCard);
-					Card disproveCard = board.handleSuggestion(suggestion, temp2);
+					Card disproveCard = handleSuggestion(suggestion, temp2);
 					String disproveCardName = disproveCard.getCardName();
-					System.out.println(disproveCardName);
+					//ControlGUI.showGuess(personSuggestionCard.getCardName(), roomSuggestionCard.getCardName(), weaponSuggestionCard.getCardName());
+					//ControlGUI.showResponse(disproveCard);
 					dispose();
 				}
 			}
@@ -184,5 +189,17 @@ public class SuggestionWindow extends JFrame{
 		});
 		panel.add(makeCancel);
 		return panel;
+	}
+	
+	public static String getCard() {
+		return disproveCardName;
+	}
+	
+	public static String getPersonSuggestion() {
+		return personSuggestion;
+	}
+	
+	public static String getWeaponSuggestion() {
+		return weaponSuggestion;
 	}
 }
