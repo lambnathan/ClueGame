@@ -75,7 +75,12 @@ public class ControlGUI extends JPanel implements MouseListener {
 							}
 							//if player clicks next player before completing turn
 							else {
-								JOptionPane.showMessageDialog(null, "You must select a tile to move to first!", "Error", JOptionPane.ERROR_MESSAGE);
+								if(Board.getInstance().getPlayerHasLost()) {
+									Board.getInstance().makeMove();
+								}
+								else {
+									JOptionPane.showMessageDialog(null, "You must select a tile to move to first!", "Error", JOptionPane.ERROR_MESSAGE);
+								}
 							}
 						}
 					}

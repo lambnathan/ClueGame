@@ -54,7 +54,7 @@ public class ComputerPlayer extends Player {
 
 	public void makeAccusation() {
 		//computer player makes correct accusation
-		System.out.println(playerName + "accusing " + accusation.getPersonName() + " in the " + accusation.getRoomName() + " with the " + accusation.getWeaponName());
+		//System.out.println(playerName + "accusing " + accusation.getPersonName() + " in the " + accusation.getRoomName() + " with the " + accusation.getWeaponName());
 		if(Board.getInstance().checkAccusation(accusation)) {
 			JOptionPane.showMessageDialog(null, playerName + " is the winner!", "Winner", JOptionPane.INFORMATION_MESSAGE);
 			ClueGame.exitGame();

@@ -242,18 +242,18 @@ public class SuggestionWindow extends JFrame{
 								board.makeMove();
 							}											
 //----------------------------------------------------------------------------------------------------------------------------------------------------	
-						//ONLY FOR TESTING TO SEE IF WORKING CORRECTLY
-						Set<Card> answer = board.getAnswer();
-						for(Card c: answer) {
-							System.out.println("Current answer: " + c.getCardName());
-						}							
-						//if the player is correct let them know and end game, otherwise they are done playing
-						if(isCorrect) {
-							System.out.println("You did it!");
-						}
-						else {
-							System.out.println("Wrong.");
-						}
+//						//ONLY FOR TESTING TO SEE IF WORKING CORRECTLY
+//						Set<Card> answer = board.getAnswer();
+//						for(Card c: answer) {
+//							System.out.println("Current answer: " + c.getCardName());
+//						}							
+//						//if the player is correct let them know and end game, otherwise they are done playing
+//						if(isCorrect) {
+//							System.out.println("You did it!");
+//						}
+//						else {
+//							System.out.println("Wrong.");
+//						}
 //----------------------------------------------------------------------------------------------------------------------------------------------------					
 												
 					}

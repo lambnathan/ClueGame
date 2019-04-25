@@ -642,7 +642,7 @@ public class Board extends JPanel{
 					}
 					//card to disprove in players hand
 					else if(disproveCard == null) {
-						System.out.println("null");
+						//do nothing
 					}
 					else {
 						for(Player p: players) {
