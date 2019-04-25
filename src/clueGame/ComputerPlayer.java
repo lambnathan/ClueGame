@@ -6,6 +6,9 @@ import java.awt.Color;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+
+import javax.swing.JOptionPane;
+
 import java.util.ArrayList;
 
 public class ComputerPlayer extends Player {
@@ -13,11 +16,17 @@ public class ComputerPlayer extends Player {
 	private Set<Character> visitedRooms;
 
 	private Set<Card> seenCards; //keeps track of cards that players have used to disprove suggestions/accusations
+	
+	private boolean shouldMakeAccusation = false;
+	
+	private Solution accusation = null;
 
 	public ComputerPlayer(String playerName, int row, int column, Color color) {
 		super(playerName, row, column, color);
 		visitedRooms = new HashSet<>();
 		seenCards = new HashSet<>();
+		
+		
 	}
 
 	/*
@@ -43,8 +52,29 @@ public class ComputerPlayer extends Player {
 		visitedRooms.add(c);
 	}
 
-	public Solution makeAccusation() {
-		return null;		
+	public void makeAccusation() {
+		//computer player makes correct accusation
+		System.out.println(playerName + "accusing " + accusation.getPersonName() + " in the " + accusation.getRoomName() + " with the " + accusation.getWeaponName());
+		if(Board.getInstance().checkAccusation(accusation)) {
+			JOptionPane.showMessageDialog(null, playerName + " is the winner!", "Winner", JOptionPane.INFORMATION_MESSAGE);
+			ClueGame.exitGame();
+		}
+		else {
+			//should never make an accusation if they are not sure
+			System.out.println("ERROR");
+		}
+	}
+	
+	public void setAccusation(Solution s) {
+		accusation = s;
+	}
+	
+	public void shouldAccuse() {
+		shouldMakeAccusation = true;
+	}
+	
+	public boolean getShouldAccuse() {
+		return shouldMakeAccusation;
 	}
 
 	public Set<Card> getSeenCards() {
@@ -70,21 +100,23 @@ public class ComputerPlayer extends Player {
 				}
 			}
 		}
+		for(Card c: board.getAnswer()) {
+			if(!(seenCards.contains(c)) && !(this.getPlayerCards().contains(c))) {
+				if(c.getCardType() == CardType.PERSON) {
+					persons.add(c);
+				}
+				else if(c.getCardType() == CardType.WEAPON) {
+					weapons.add(c);
+				}
+			}
+		}
 		Random rand = new Random();
-		if(weapons.isEmpty()) {
-			weaponGuess = null;
-		}
-		else if(persons.isEmpty()) {
-			personGuess = null;
-		}
-		else {
-			weaponGuess = weapons.get(rand.nextInt(weapons.size()));
-			personGuess = persons.get(rand.nextInt(persons.size()));
-		}
-		Solution sol = new Solution(personGuess, roomGuess, weaponGuess);
-
-		return sol;
+		weaponGuess = weapons.get(rand.nextInt(weapons.size()));
+		personGuess = persons.get(rand.nextInt(persons.size()));
+		Solution s = new Solution(personGuess, roomGuess, weaponGuess);
+		return s;
 	}
+	
 	
 	//testing only
 	public void clearCards() {

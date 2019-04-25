@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class Player {
-	private String playerName;
+	protected String playerName;
 	private int row;
 	private int column;
 	private Color color;

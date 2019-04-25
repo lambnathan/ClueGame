@@ -66,22 +66,40 @@ public class ControlGUI extends JPanel implements MouseListener {
 		JButton makeAccusation = new JButton("Make accusation");
 		nextPlayer.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(e.getButton() == MouseEvent.BUTTON1) {
-					if(Board.getInstance().getIsPlayerMoved()) {
-						Board.getInstance().makeMove();
+				Thread hilo = new Thread(new Runnable() {
+					@Override
+					public void run() {
+						if(e.getButton() == MouseEvent.BUTTON1) {
+							if(Board.getInstance().getIsPlayerMoved()) {
+								Board.getInstance().makeMove();
+							}
+							//if player clicks next player before completing turn
+							else {
+								JOptionPane.showMessageDialog(null, "You must select a tile to move to first!", "Error", JOptionPane.ERROR_MESSAGE);
+							}
+						}
 					}
-					//if player clicks next player before completing turn
-					else {
-						JOptionPane.showMessageDialog(null, "You must select a tile to move to first!", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-				}
+				});
+				hilo.start();
+
+				
 			}
 		});
 		makeAccusation.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getButton() == MouseEvent.BUTTON1) {
-					SuggestionWindow accuseWindow = new SuggestionWindow(true);
-					accuseWindow.setVisible(true);
+					if(!Board.getInstance().getPlayerHasLost()) {
+						if(!Board.getInstance().getIsPlayerMoved()) {
+							SuggestionWindow accuseWindow = new SuggestionWindow(true);
+							accuseWindow.setVisible(true);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "You have already moved for this turn.", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "You failed your accusation, you can't make another!", "Error", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});	

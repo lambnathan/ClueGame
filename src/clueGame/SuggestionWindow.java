@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class SuggestionWindow extends JFrame{
@@ -25,7 +26,6 @@ public class SuggestionWindow extends JFrame{
 	private JComboBox<String> personBox;
 	private JComboBox<String> weaponBox;
 	private JComboBox<String> roomBox;
-	private static boolean isAllowedToAccuse = true;
 	private boolean isAccusation = false;
 	
 	public SuggestionWindow(String roomName, String personName) {
@@ -159,7 +159,7 @@ public class SuggestionWindow extends JFrame{
 		makeSuggestion.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getButton() == MouseEvent.BUTTON1) {
-					board.repaint();
+					//board.repaint();
 					String roomSuggestion = roomBox.getSelectedItem().toString();
 					String personSuggestion = personBox.getSelectedItem().toString();
 					String weaponSuggestion = weaponBox.getSelectedItem().toString();
@@ -230,17 +230,16 @@ public class SuggestionWindow extends JFrame{
 					if(isAccusation) { //if the accusation is correct, inform player and close game
 						boolean isCorrect = board.checkAccusation(suggestion);						
 							if(isCorrect) {
-								AccusationSplash win = new AccusationSplash(isCorrect);
-								win.setVisible(true);
+								JOptionPane.showMessageDialog(null, "You did it! You have won the game, now closing.", "Winner", JOptionPane.INFORMATION_MESSAGE);
 								dispose();
 								ClueGame.exitGame();
 							}
 							else { //if the accusation is incorrect, inform player and continue game without them
-								AccusationSplash lose = new AccusationSplash(isCorrect);
-								isAllowedToAccuse = false; //only allow one accusation per game
-								lose.setVisible(true);
-								board.setCanPlayerMoved(false);
-								dispose();							 
+								JOptionPane.showMessageDialog(null, "You are incorrect! You can no longer help in this game, it will continue without you.", "You lost!", JOptionPane.INFORMATION_MESSAGE);
+								board.setPlayerHasLost(true);
+								dispose();
+								//stops player from being able to move after failing an accusation. Automatically goes to next player(Colonel Mustard)
+								board.makeMove();
 							}											
 //----------------------------------------------------------------------------------------------------------------------------------------------------	
 						//ONLY FOR TESTING TO SEE IF WORKING CORRECTLY
@@ -292,9 +291,5 @@ public class SuggestionWindow extends JFrame{
 		});
 		panel.add(makeCancel);
 		return panel;
-	}
-	
-	public static boolean getIsAllowedToAccuse() {
-		return isAllowedToAccuse;
 	}
 }

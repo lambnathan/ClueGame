@@ -47,7 +47,7 @@ public class Board extends JPanel{
 	private Player currentPlayer;
 	private Player currentPlayerBeforeMove;
 	private int playerIndex;
-	private boolean canPlayerMove = true;
+	private boolean playerHasLost = false;
 	
 	private Set<Card> answer; //stores a randomly selected player, weapon and room
 	
@@ -603,43 +603,67 @@ public class Board extends JPanel{
 	//gets called whenever the "Next Player" button is clicked
 	public void makeMove() {
 		currentPlayer = players.get(playerIndex % players.size()); //current player is set to the playerIndex
-		currentPlayerBeforeMove = players.get(playerIndex % players.size()); //current player is set to the playerIndex
+		//currentPlayerBeforeMove = players.get(playerIndex % players.size()); //current player is set to the playerIndex
 		isPlayerMoved = false; //keeps track if a player has completed their turn
 		int diceRoll = getDiceRoll();
 		if(currentPlayer instanceof HumanPlayer) {
 			//logic for stopping player from being able to move if they have failed the accusation
-			if(canPlayerMove) {
+			if(!playerHasLost) {
 				calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
 				repaint(); //shows highlighted options
 			}
 			else {
 				isPlayerMoved = true;
+				playerIndex++;
+				ControlGUI.showTurn("Skip Miss Scarlet (Lost)", 0);
+				return;
 			}
 	
 		}
 		else if (currentPlayer instanceof ComputerPlayer) {
-			calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
-			BoardCell cellToMoveTo = ((ComputerPlayer) currentPlayer).pickLocation(targets);
-			currentPlayer.setLocation(cellToMoveTo.getRow(), cellToMoveTo.getColumn());
-			if(getCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).isDoorway()) {
-				Solution computerSuggestion = ((ComputerPlayer) currentPlayer).createSuggestion(this);
-				String computerGuess = computerSuggestion.getPersonName() + " in the " + computerSuggestion.getRoomName() + " with the " + computerSuggestion.getWeaponName();
-				ControlGUI.showGuess(computerGuess);
-				Card disproveCard = handleSuggestion(computerSuggestion, currentPlayerBeforeMove);
-				//check if there are no cards that can disprove the suggestion
-				if(disproveCard == null) {
-					ControlGUI.showResponse("Cannot disprove");
-				}
-				else {
-					String disproveCardName = disproveCard.getCardName();
-					ControlGUI.showResponse(disproveCardName);
-				}
+			//check if the computer should make a suggestion; else move on the board
+			if(((ComputerPlayer) currentPlayer).getShouldAccuse()) {
+				((ComputerPlayer) currentPlayer).makeAccusation();
 			}
-			isPlayerMoved = true;
-			repaint();	//calls repaint to show updated computer player locations
+			else {
+				calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), diceRoll);
+				BoardCell cellToMoveTo = ((ComputerPlayer) currentPlayer).pickLocation(targets);
+				currentPlayer.setLocation(cellToMoveTo.getRow(), cellToMoveTo.getColumn());
+				if(getCellAt(currentPlayer.getRow(), currentPlayer.getColumn()).isDoorway()) {
+					Solution computerSuggestion = ((ComputerPlayer) currentPlayer).createSuggestion(this);
+					String computerGuess = computerSuggestion.getPersonName() + " in the " + computerSuggestion.getRoomName() + " with the " + computerSuggestion.getWeaponName();
+					ControlGUI.showGuess(computerGuess);
+					Card disproveCard = handleSuggestion(computerSuggestion, currentPlayer);
+					//check if there are no cards that can disprove the suggestion
+					if(disproveCard == null && !currentPlayer.getPlayerCards().contains(computerSuggestion.getPerson()) && !currentPlayer.getPlayerCards().contains(computerSuggestion.getRoom()) && !currentPlayer.getPlayerCards().contains(computerSuggestion.getWeapon())) {
+						ControlGUI.showResponse("No cards to disprove suggestion");
+						((ComputerPlayer) currentPlayer).setAccusation(computerSuggestion);
+						((ComputerPlayer) currentPlayer).shouldAccuse();
+					}
+					//card to disprove in players hand
+					else if(disproveCard == null) {
+						System.out.println("null");
+					}
+					else {
+						for(Player p: players) {
+							//add the card that disproves the suggestion to each players list of seen cards
+							if(p instanceof ComputerPlayer) {
+								((ComputerPlayer)p).addSeenCard(disproveCard);
+							}
+						}
+						String disproveCardName;
+						disproveCardName = disproveCard.getCardName();
+						ControlGUI.showResponse(disproveCardName);
+					}
+				}
+				isPlayerMoved = true;
+				repaint();	//calls repaint to show updated computer player locations
+			}
 		}
 		ControlGUI.showTurn(currentPlayer.getPlayerName(), diceRoll); //fills in dialog boxes in control gui		
-		playerIndex++; //moves to next player index
+		if(playerHasLost) {
+			playerIndex++; //moves to next player index
+		}
 	} 
 	
 	//mouse listener for the board
@@ -647,7 +671,7 @@ public class Board extends JPanel{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if(currentPlayer instanceof HumanPlayer) { //only detects mouse clicks for human players
+			if(currentPlayer instanceof HumanPlayer && !playerHasLost) { //only detects mouse clicks for human players
 				boolean clickedValidTile = false;
 				for(BoardCell cell : targets) {
 					//creates new rectangle that is the size of the cell, with the origin in the upper left
@@ -657,7 +681,7 @@ public class Board extends JPanel{
 						currentPlayer.setLocation(cell.getRow(), cell.getColumn()); //move player to selected tile
 						if(cell.isDoorway()) {
 							String roomName = legend.get(cell.getInitial());
-							String personName = currentPlayerBeforeMove.getPlayerName();
+							String personName = currentPlayer.getPlayerName();
 							SuggestionWindow sg = new SuggestionWindow(roomName, personName);
 							sg.setVisible(true);
 						}
@@ -665,9 +689,6 @@ public class Board extends JPanel{
 						repaint();
 						isPlayerMoved = true; //player has moved
 						break;
-					}
-					else {
-						continue;
 					}
 				}
 				//if the player did not select a valid cell
@@ -736,7 +757,11 @@ public class Board extends JPanel{
 		return answer;
 	}	
 	
-	public void setCanPlayerMoved(boolean g) {
-		this.canPlayerMove = g;
+	public boolean getPlayerHasLost() {
+		return playerHasLost;
+	}
+	
+	public void setPlayerHasLost(boolean g) {
+		this.playerHasLost = g;
 	}
 }
