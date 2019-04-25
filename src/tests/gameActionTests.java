@@ -305,7 +305,7 @@ public class gameActionTests {
 		human.clearCards();
 		accuser.addCard(green);
 		human.addCard(conservatory);
-		assertEquals(board.handleSuggestion(s, otherAccuser), green);
+		assertEquals(board.handleSuggestion(s, human), green);
 		
 		//test a suggestion that two computer player can disprove, and the first in the list disporves it
 		accuser.clearCards();
@@ -313,7 +313,7 @@ public class gameActionTests {
 		otherAccuser.clearCards();
 		accuser.addCard(green);
 		otherAccuser.addCard(conservatory);
-		assertEquals(board.handleSuggestion(s, human), conservatory);
+		assertEquals(board.handleSuggestion(s, accuser), conservatory);
 	}
 	
 	@Test

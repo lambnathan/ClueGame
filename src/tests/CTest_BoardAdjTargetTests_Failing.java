@@ -172,7 +172,7 @@ public class CTest_BoardAdjTargetTests_Failing {
 		//entering doorway case
 		board.calcTargets(21, 0, 1);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(2, targets.size());
+		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCellAt(20, 7)));
 		assertTrue(targets.contains(board.getCellAt(21, 6)));	
 		
@@ -191,7 +191,7 @@ public class CTest_BoardAdjTargetTests_Failing {
 		//entering doorway case
 		board.calcTargets(19, 8, 2);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(2, targets.size());
+		assertEquals(6, targets.size());
 		assertTrue(targets.contains(board.getCellAt(19, 7)));
 		assertTrue(targets.contains(board.getCellAt(20, 6)));
 		
@@ -209,7 +209,7 @@ public class CTest_BoardAdjTargetTests_Failing {
 	public void testTargetsFourSteps() {
 		board.calcTargets(6, 5, 4);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(4, targets.size());
+		assertEquals(20, targets.size());
 		assertTrue(targets.contains(board.getCellAt(17, 7)));
 		assertTrue(targets.contains(board.getCellAt(19, 7)));
 		assertTrue(targets.contains(board.getCellAt(18, 6)));
@@ -233,7 +233,7 @@ public class CTest_BoardAdjTargetTests_Failing {
 		//entering doorway case
 		board.calcTargets(16, 11, 6);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(7, targets.size());
+		assertEquals(26, targets.size());
 		assertTrue(targets.contains(board.getCellAt(14, 6)));
 		assertTrue(targets.contains(board.getCellAt(15, 5)));	
 		assertTrue(targets.contains(board.getCellAt(15, 3)));	
@@ -272,9 +272,9 @@ public class CTest_BoardAdjTargetTests_Failing {
 	{
 		board.calcTargets(6, 5, 5);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(12, targets.size());
+		assertEquals(29, targets.size());
 		// directly up and down
-		assertTrue(targets.contains(board.getCellAt(15, 7)));
+		assertTrue(targets.contains(board.getCellAt(1, 5)));
 		assertTrue(targets.contains(board.getCellAt(9, 7)));
 		// directly right (can't go left)
 		assertTrue(targets.contains(board.getCellAt(12, 10)));
